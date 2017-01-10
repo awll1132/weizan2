@@ -1,0 +1,63 @@
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                时间设置
+            </div>
+            <div class="panel-body table-responsive">
+                <div class="alert-new">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="color:#ff0000;">预约时间设置</label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+		 				<label class="radio-inline"><input type="radio" name="is_time" value="0" {if empty($activity) || $activity['is_time'] == 0} checked="checked"{/if} onclick="$('#time').show();$('#times').hide();" /> 普通时间</label>
+		 				<label class="radio-inline"><input type="radio" name="is_time" value="2" {if empty($activity) || $activity['is_time'] == 2} checked="checked"{/if} onclick="$('#times').show();$('#time').hide();" /> 时间段预约人数限制</label>
+                		<label class="radio-inline"><input type="radio" name="is_time" value="1" {if $activity['is_time'] == 1} checked="checked"{/if} onclick="$('#time').hide();$('#times').hide();" /> 关闭(我要自己设置)</label>
+                    </div>
+                </div>
+			<div id="times"{if $activity['is_time'] == 1 || $activity['is_time'] == 0} style="display:none"{/if}>
+			 	<div class="form-group">
+			 		<label class="col-xs-12 col-sm-3 col-md-2 control-label">预约时间段</label>
+			 		<div class="col-xs-12 col-sm-9">
+						<span class="help-block">选中表示可预约</span>
+				 		<input type="hidden" name="srvtime" class="srvtime" value="{php echo htmlspecialchars($activity['srvtime'])}">
+			 		</div>
+			 	</div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">可预约天数范围</label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+                    	<input type="text" class="form-control" name="day" value="{$activity['day']}" /><span class="input-group-addon">/天。如果设置6天并周六周日不选中，那么1、2、3、4、5、8日可预约，6、7日是周六周日自动排除</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label" style="color:#ff0000;">时间显示方式</label>
+                    <div class="col-xs-12 col-sm-9 input-group">
+		 				<label class="radio-inline"><input type="radio" name="timelist" value="1" {if $activity['timelist'] == 1} checked="checked"{/if} /> 九宫格</label>
+                		<label class="radio-inline"><input type="radio" name="timelist" value="0" {if $activity['timelist'] == 0} checked="checked"{/if} /> 列表</label>
+                    </div>
+                </div>
+					<div id="remove">
+						<div id="remove-tpl">
+						{if !empty($remove)}
+						    {loop $remove $f}
+                <div class="form-group remove-item">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">排除的日期</label>
+                   <div class="col-sm-9 col-xs-4 col-md-3">
+							<input type="text" name="remove[]" class="form-control" value="{$f}" readonly/>
+                    </div>
+					<div class="col-sm-9 col-xs-4 col-md-3" style="padding-top:6px">
+						<a href="javascript:;" onclick="delhouritem(this);"><i class="fa fa-times-circle" title="删除日期"> </i></a>
+					</div>	
+                </div>
+						    {/loop}
+						{/if}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+						<div class="col-sm-9 col-xs-9 col-md-9 input-group">
+							<a href="javascript:;" id="remove-add" class="btn btn-success"><i class="fa fa-plus-circle"></i> 添加排除的日期</a>
+							<div class="help-block">每添加一个只限填写一个日期，1-9日前面需加0，如：01，排除的日期前台不可预约</div>
+						</div>
+					</div>
+			</div>
+		</div>
+		</div>
+		</div>
