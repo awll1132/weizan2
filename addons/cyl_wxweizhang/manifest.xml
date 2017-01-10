@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[微信文章采集器]]></name>
+		<identifie><![CDATA[cyl_wxweizhang]]></identifie>
+		<version><![CDATA[5.9.8]]></version>
+		<type><![CDATA[other]]></type>
+		<ability><![CDATA[可查询微信分类的最新精选文章，以及微信权威、高流量的公众号。]]></ability>
+		<description><![CDATA[可查询微信分类的最新精选文章，以及微信权威、高流量的公众号。]]></description>
+		<author><![CDATA[鬼狐源码网]]></author>
+		<url><![CDATA[http://www.guifox.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="分类管理" do="category" state="" direct="false" />
+			<entry title="文章管理" do="article" state="" direct="false" />
+			<entry title="留言管理" do="message" state="" direct="false" />
+			<entry title="提现管理" do="tixian" state="" direct="false" />
+			<entry title="悬赏记录" do="shang" state="" direct="false" />
+			<entry title="广告管理" do="gg" state="" direct="false" />
+		</menu>
+		<home>
+			<entry title="首页" do="index" state="" direct="false" />
+		</home>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_article` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `rid` int(10) unsigned NOT NULL,
+  `kid` int(10) unsigned NOT NULL,
+  `iscommend` tinyint(1) NOT NULL,
+  `ishot` tinyint(1) unsigned NOT NULL,
+  `pcate` int(10) unsigned NOT NULL,
+  `ccate` int(10) unsigned NOT NULL,
+  `template` varchar(300) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  `incontent` tinyint(1) NOT NULL,
+  `source` varchar(255) NOT NULL,
+  `author` varchar(50) NOT NULL,
+  `displayorder` int(10) unsigned NOT NULL,
+  `linkurl` varchar(500) NOT NULL,
+  `createtime` int(10) unsigned NOT NULL,
+  `click` int(10) unsigned NOT NULL,
+  `ly` int(20) NOT NULL DEFAULT '0',
+  `type` varchar(10) NOT NULL,
+  `credit` varchar(255) NOT NULL,
+  `sourcelink` varchar(255) NOT NULL,
+  `sharelink` varchar(255) NOT NULL,
+  `articlegg` varchar(255) NOT NULL,
+  `articlelink` varchar(255) NOT NULL,
+  `articledsfgg` text NOT NULL,
+  `pic` text NOT NULL,
+  `uid` varchar(25) NOT NULL DEFAULT '',
+  `status` int(2) NOT NULL DEFAULT '1',
+  `zongjia` varchar(255) NOT NULL DEFAULT '',
+  `jiage` varchar(255) NOT NULL DEFAULT '',
+  `jifen` int(2) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `idx_iscommend` (`iscommend`),
+  KEY `idx_ishot` (`ishot`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_article_gg` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `thumb` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL,
+  `openid` varchar(255) NOT NULL,
+  `uniacid` int(11) NOT NULL,
+  `time` varchar(25) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `zongjia` varchar(25) NOT NULL,
+  `jiage` varchar(25) NOT NULL,
+  `status` int(2) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_article_share` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(25) NOT NULL,
+  `openid` varchar(255) NOT NULL,
+  `uid` varchar(25) NOT NULL,
+  `article_id` int(11) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `member_uid` varchar(25) NOT NULL,
+  `time` varchar(25) NOT NULL,
+  `sharenum` int(10) NOT NULL,
+  `credit_value` varchar(25) NOT NULL,
+  `formuid` varchar(255) NOT NULL,
+  `action` varchar(25) NOT NULL,
+  `amount` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_category` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `nid` int(10) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `parentid` int(10) unsigned NOT NULL,
+  `displayorder` tinyint(3) unsigned NOT NULL,
+  `enabled` tinyint(1) unsigned NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `styleid` int(10) unsigned NOT NULL,
+  `linkurl` varchar(500) NOT NULL,
+  `ishomepage` tinyint(1) NOT NULL,
+  `icontype` tinyint(1) unsigned NOT NULL,
+  `css` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_message` (
+  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+  `article_id` int(20) NOT NULL,
+  `uniacid` int(20) NOT NULL,
+  `openid` varchar(255) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `huifu` text NOT NULL,
+  `time` varchar(255) NOT NULL,
+  `status` int(2) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_shang` (
+  `id` int(20) unsigned NOT NULL AUTO_INCREMENT,
+  `article_id` int(20) NOT NULL,
+  `uniacid` int(20) NOT NULL,
+  `openid` varchar(255) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
+  `fee` varchar(20) NOT NULL,
+  `time` varchar(255) NOT NULL,
+  `status` int(2) NOT NULL,
+  `tid` varchar(25) NOT NULL DEFAULT '',
+  `uid` varchar(25) NOT NULL DEFAULT '',
+  `memberuid` varchar(25) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_styles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `templateid` int(10) unsigned NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_styles_vars` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) unsigned NOT NULL,
+  `templateid` int(10) unsigned NOT NULL,
+  `styleid` int(10) unsigned NOT NULL,
+  `variable` varchar(50) NOT NULL,
+  `content` text NOT NULL,
+  `description` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_templates` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `title` varchar(30) NOT NULL,
+  `version` varchar(64) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `author` varchar(50) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `sections` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cyl_wxwenzhang_tixian` (
+  `id` int(2) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(25) NOT NULL,
+  `title` varchar(25) NOT NULL,
+  `wxh` varchar(25) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `openid` varchar(255) NOT NULL,
+  `amount` varchar(25) NOT NULL,
+  `uid` varchar(25) NOT NULL,
+  `createtime` varchar(255) NOT NULL,
+  `status` int(2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_article`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_article_gg`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_article_share`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_category`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_message`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_shang`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_styles`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_styles_vars`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_templates`;
+DROP TABLE IF EXISTS `ims_cyl_wxwenzhang_tixian`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>
