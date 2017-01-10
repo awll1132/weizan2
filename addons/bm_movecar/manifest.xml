@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.guifox.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[码上挪车]]></name>
+		<identifie><![CDATA[bm_movecar]]></identifie>
+		<version><![CDATA[4.0]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[码上挪车]]></ability>
+		<description><![CDATA[码上挪车]]></description>
+		<author><![CDATA[鬼狐源码社区]]></author>
+		<url><![CDATA[http://www.guifox.Com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<rule>
+			<entry title="挪车记录" do="move" state="" direct="false" />
+			<entry title="车辆记录" do="car" state="" direct="false" />
+			<entry title="用户记录" do="member" state="" direct="false" />
+		</rule>
+		<menu>
+			<entry title="幻灯片管理" do="adv" state="" direct="false" />
+			<entry title="广告管理" do="adver" state="" direct="false" />
+		</menu>
+		<home call="gethometiles">
+		</home>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `bm_movecar_adv`;
+DROP TABLE IF EXISTS `bm_movecar_adver`;
+DROP TABLE IF EXISTS `bm_movecar_carlist`;
+DROP TABLE IF EXISTS `bm_movecar_member`;
+DROP TABLE IF EXISTS `bm_movecar_moved`;
+DROP TABLE IF EXISTS `bm_movecar_reply`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

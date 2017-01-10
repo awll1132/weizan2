@@ -1,0 +1,589 @@
+<script language="JavaScript" type="text/javascript" src="{$shouquanurl}"></script>
+<input type="hidden" name="reply_id" value="{$reply['id']}" />
+<input type="hidden" name="qrcode" value="{$reply['qrcode']}" />
+<script type="text/javascript">
+	$(function () {
+		window.optionchanged = false;
+		$('#myTab a').click(function (e) {
+			e.preventDefault();//阻止a链接的跳转行为
+			$(this).tab('show');//显示当前选中的链接及关联的content
+		})
+	});
+</script>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        参数设置
+    </div>
+	<div class="panel-body">
+		<ul class="nav nav-tabs" id="myTab">
+			<li class="active" ><a href="#tab_basic">基础设置</a></li>
+			<li><a href="#tab_des">登记规则</a></li>
+			<li><a href="#tab_param">挪车规则</a></li>
+			<li><a href="#tab_option">模板消息设置</a></li>
+			<li><a href="#tab_other">短信语音设置</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab_basic">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 直接访问URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="urlmouth" class="form-control" placeholder="" name="urlmouth" value="{$_W['siteroot']}app/{php echo $this->createmobileurl('home',array('rid' => $rid))}" readonly>
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 绑定车牌URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="urlmouth" class="form-control" placeholder="" name="urlmouth" value="{$_W['siteroot']}app/{php echo $this->createmobileurl('bindcar',array('rid' => $rid))}" readonly>
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 关键字回复标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="title" class="form-control" placeholder="" name="title" value="{$reply['title']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 关键字回复内容</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="desc" class="form-control" placeholder="" name="desc" value="{$reply['desc']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 是否显示商家名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_name' {if $reply['is_name']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_name' {if $reply['is_name']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">是否在模板消息中用商家名称替代公众号名称。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 商家名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="storename" class="form-control" placeholder="" name="storename" value="{$reply['storename']}">
+						<span class="help-block">发送模板消息时显示商家名称时有效。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 商家电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="tel" class="form-control" placeholder="" name="tel" value="{$reply['tel']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 关键字回复封面</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('picurl',$reply['picurl']);}
+						<span class="help-block">首页顶部图片</span>
+					</div>
+				</div>		
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 二维码</label>
+					<div class="col-sm-9 col-xs-12">
+						<img src='{$reply['qrcode']}' style='width:150px;height:150px;padding1px;border:1px solid #ccc' />
+						<span class="help-block">首次保存关键字时无二维码生成，请编辑关键字并保存后，右键点击上面的二维码保存即可，记得要保存才生效哦！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 重新生成二维码</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='recreate' checked>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='recreate'>是
+						</label>
+						<span class="help-block">选择"是"将重新生成二维码，旧二维码仍有效</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> Logo</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('logo',$reply['logo']);}
+						<span class="help-block">Logo</span>
+					</div>
+				</div>	
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> banner</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('banner',$reply['banner']);}
+						<span class="help-block">banner</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 微信页面标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="headtitle" class="form-control" placeholder="" name="headtitle" value="{$reply['headtitle']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 广告按钮URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="advurl1" class="form-control" placeholder="" name="advurl1" value="{$reply['advurl1']}">
+						<span class="help-block">点击广告按钮跳转URL</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 广告按钮文字</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="advtitle1" class="form-control" placeholder="" name="advtitle1" value="{$reply['advtitle1']}">
+						<span class="help-block">广告按钮自定义文字</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 成功提交后跳转URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="urly" class="form-control" placeholder="" name="urly" value="{$reply['urly']}">
+						<span class="help-block">成功提交后跳转URL</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 成功提交提示语</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="memo" class="form-control" placeholder="" name="memo" value="{$reply['memo']}">
+						<span class="help-block">成功提交后提示语</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 开始时间</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_date('starttime',$reply['starttime'],true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 未开始提示语</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="memo1" class="form-control" placeholder="" name="memo1" value="{$reply['memo1']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 未开始跳转URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="url1" class="form-control" placeholder="" name="url1" value="{$reply['url1']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 结束时间</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_date('endtime',$reply['endtime'],true);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 已结束提示语</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="memo2" class="form-control" placeholder="" name="memo2" value="{$reply['memo2']}">
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 已结束跳转URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="url2" class="form-control" placeholder="" name="url2" value="{$reply['url2']}">
+						<span class="help-block"></span>
+					</div>
+				</div>				
+			</div>
+			<div class="tab-pane" id="tab_des">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 可登记车牌数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="car_enable" class="form-control" placeholder="" name="car_enable" value="{$reply['car_enable']}">
+						<span class="help-block">同一微信用户可以登记的车牌数。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 登记强制关注</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='pictype' {if $reply['pictype']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='pictype' {if $reply['pictype']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">登记车辆信息时是否强制关注公众号。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 登记是否需要审核</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_check' {if $reply['is_check']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_check' {if $reply['is_check']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">车牌登记是否需要后台审核后才生效。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 引导关注URL</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="urlx" class="form-control" placeholder="" name="urlx" value="{$reply['urlx']}">
+						<span class="help-block">仅在启用强制关注时有效，未关注用户自动跳转到引导关注页！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 默认车牌省份</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="province" class="form-control" placeholder="" name="province" value="{$reply['province']}">
+						<span class="help-block">例如：输入苏，微信上省份缩写默认显示的就是苏！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 登记需短信验证</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_sms_car' {if $reply['is_sms_car']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_sms_car' {if $reply['is_sms_car']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">用户在平台登记车辆时，填写的手机号是否需要通过短信验证！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 登记是必须否填车牌</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_carno' {if $reply['is_carno']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_carno' {if $reply['is_carno']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">用户在平台登记车辆时，是否必须填写车牌号！如果车辆验证方式选择了车牌，此处请选择是！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 登记是否必须填手机</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_mobile' {if $reply['is_mobile']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_mobile' {if $reply['is_mobile']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">用户在平台登记车辆时，是否必须填写手机号！如果挪车希望通过短信、语音、通话通知车主，此处请选择是！</span>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" id="tab_param">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 车辆验证方式</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='verify_type' {if $reply['verify_type']=='0'}checked{/if}>车牌
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='verify_type' {if $reply['verify_type']=='1'}checked{/if}>识别码
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' value='2' name='verify_type' {if $reply['verify_type']=='2'}checked{/if}>车牌+识别码
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' value='3' name='verify_type' {if $reply['verify_type']=='3'}checked{/if}>车牌 或 识别码
+						</label>
+						<span class="help-block">申请挪车时需要验证哪些输入项目。</span>
+					</div>
+				</div>			
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车间隔时间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="int_minutes" class="form-control" placeholder="" name="int_minutes" value="{$reply['int_minutes']}">
+						<span class="help-block">同一微信用户每次通过平台申请挪车需要间隔时间，单位：分。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 允许挪车次数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="int_times" class="form-control" placeholder="" name="int_times" value="{$reply['int_times']}">
+						<span class="help-block">同一微信用户每天可以通过平台申请同一辆车的挪车次数。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车强制关注</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='pictype1' {if $reply['pictype1']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='pictype1' {if $reply['pictype1']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">提交挪车请求时是否强制关注公众号</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车是否上传照片</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_thumb' {if $reply['is_thumb']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_thumb' {if $reply['is_thumb']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 是否使用七牛</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_qiniu' {if $reply['is_qiniu']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_qiniu' {if $reply['is_qiniu']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">仅在启用挪车上传照片时有效，选择图片上传空间！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> AK</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="qiniu_ak" class="form-control" placeholder="" name="qiniu_ak" value="{$reply['qiniu_ak']}">
+						<span class="help-block">仅在启用挪车上传照片并启用七牛时有效</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> SK</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="qiniu_sk" class="form-control" placeholder="" name="qiniu_sk" value="{$reply['qiniu_sk']}">
+						<span class="help-block">仅在启用挪车上传照片并启用七牛时有效</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 存储空间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="qiniu_bt" class="form-control" placeholder="" name="qiniu_bt" value="{$reply['qiniu_bt']}">
+						<span class="help-block">仅在启用挪车上传照片并启用七牛时有效</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 测试域名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="qiniu_dm" class="form-control" placeholder="" name="qiniu_dm" value="{$reply['qiniu_dm']}">
+						<span class="help-block">仅在启用挪车上传照片并启用七牛时有效</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车是否获取位置</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_lbs' {if $reply['is_lbs']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_lbs' {if $reply['is_lbs']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> AK</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="ak" class="form-control" placeholder="" name="ak" value="{$reply['ak']}">
+						<span class="help-block">启用挪车获取位置需要先正确填写您的地图接口AK！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车需短信验证</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_sms_move' {if $reply['is_sms_move']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_sms_move' {if $reply['is_sms_move']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">用户在平台申请挪车时，填写的手机号是否需要通过短信验证！</span>
+					</div>
+				</div>				
+			</div>
+			<div class="tab-pane" id="tab_option">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 模板消息ID</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="templateid" class="form-control" placeholder="" name="templateid" value="{$reply['templateid']}">
+						<span class="help-block">OPENTM207020601，车辆消息提醒，IT科技 - 互联网|电子商务</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 管理员Openid</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="openid" class="form-control" placeholder="" name="openid" value="{$reply['openid']}">
+						<span class="help-block"></span>
+					</div>
+				</div>		
+			</div>
+			<div class="tab-pane" id="tab_other">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 是否语音呼叫</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_call' {if $reply['is_call']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_call' {if $reply['is_call']=='1'}checked{/if}>是
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 子帐号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="subAccountSid" class="form-control" placeholder="" name="subAccountSid" value="{$reply['subAccountSid']}">
+						<span class="help-block">子帐号</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 子帐号Token</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="subAccountToken" class="form-control" placeholder="" name="subAccountToken" value="{$reply['subAccountToken']}">
+						<span class="help-block">子帐号Token</span>
+					</div>
+				</div>		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> VoIP帐号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="voIPAccount" class="form-control" placeholder="" name="voIPAccount" value="{$reply['voIPAccount']}">
+						<span class="help-block">VoIP帐号</span>
+					</div>
+				</div>		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> VoIP密码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="voIPPassword" class="form-control" placeholder="" name="voIPPassword" value="{$reply['voIPPassword']}">
+						<span class="help-block">VoIP密码</span>
+					</div>
+				</div>		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 应用Id</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="appId" class="form-control" placeholder="" name="appId" value="{$reply['appId']}">
+						<span class="help-block">应用Id</span>
+					</div>
+				</div>		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> serverIP</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="serverIP" class="form-control" placeholder="" name="serverIP" value="{$reply['serverIP']}">
+						<span class="help-block">serverIP</span>
+					</div>
+				</div>		<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 请求端口</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="serverPort" class="form-control" placeholder="" name="serverPort" value="{$reply['serverPort']}">
+						<span class="help-block">请求端口</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 是否语音通知</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_voice_move' {if $reply['is_voice_move']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_voice_move' {if $reply['is_voice_move']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">挪车信息是否通过自动语音电话呼叫通知车主！</span>
+					</div>
+				</div>				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 是否短信通知</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='is_sms' {if $reply['is_sms']=='0'}checked{/if}>否
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='is_sms' {if $reply['is_sms']=='1'}checked{/if}>是
+						</label>
+						<span class="help-block">挪车信息是否通过手机短信通知车主！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 短信类型</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' value='0' name='smstype' {if $reply['smstype']=='0'}checked{/if}>同创凌凯
+						</label> 
+						<label class='radio-inline'>
+							<input type='radio' value='1' name='smstype' {if $reply['smstype']=='1'}checked{/if}>阿里大鱼
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 用户</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="corpid" class="form-control" placeholder="" name="corpid" value="{$reply['corpid']}">
+						<span class="help-block">短信平台选择同创凌凯时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 密码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="pwd" class="form-control" placeholder="" name="pwd" value="{$reply['pwd']}">
+						<span class="help-block">短信平台选择同创凌凯时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> AppKey</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="appkey" class="form-control" placeholder="" name="appkey" value="{$reply['appkey']}">
+						<span class="help-block">短信平台选择阿里大鱼时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> AppSecret</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="secretKey" class="form-control" placeholder="" name="secretKey" value="{$reply['secretKey']}">
+						<span class="help-block">短信平台选择阿里大鱼时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车语音模板</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="voice_move" class="form-control" placeholder="" name="voice_move" value="{$reply['voice_move']}">
+						<span class="help-block">开启挪车语音提醒时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车语音主叫号码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="voicenumber" class="form-control" placeholder="" name="voicenumber" value="{$reply['voicenumber']}">
+						<span class="help-block">开启挪车语音提醒时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车短信签名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="smssignname" class="form-control" placeholder="" name="smssignname" value="{$reply['smssignname']}">
+						<span class="help-block">短信平台选择阿里大鱼时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 挪车短信模板</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="smstemplate" class="form-control" placeholder="" name="smstemplate" value="{$reply['smstemplate']}">
+						<span class="help-block">短信平台选择阿里大鱼时有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 手机号验证短信签名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="sms_car_sign" class="form-control" placeholder="" name="sms_car_sign" value="{$reply['sms_car_sign']}">
+						<span class="help-block">短信平台选择阿里大鱼时、手机号需短信验证有效！</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 手机号验证短信模板</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id="sms_car" class="form-control" placeholder="" name="sms_car" value="{$reply['sms_car']}">
+						<span class="help-block">短信平台选择阿里大鱼时、手机号需短信验证有效！</span>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>	
+</div><!---www.guifox.com-->

@@ -1,0 +1,114 @@
+{template 'common/header'}
+<style>
+.sub-search input,.sub-search select{margin-bottom:0;}
+</style>
+<ul class="nav nav-tabs">
+  <li {if $op == 'display'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('member', array('id' => $id ,'op' => 'display'))}">用户记录</a>
+  </li>
+  <li {if $op == 'edit'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('member', array('id' => $id ,'op' => 'edit'))}">信息编辑</a>
+  </li>
+</ul>
+{if $op == 'display'}
+    <div class="main">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body">
+				<form action="" class="form-horizontal" method="post">
+					<input type="hidden" name="rid" value="{$rid}">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">昵称</label>
+						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-6">
+							<input class="form-control" name="username" id="" type="text" value="{$_GPC['username']}" placeholder="填写粉丝昵称">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">时间</label>
+						<div class="col-sm-4 col-xs-12">
+							{php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d', $starttime),'endtime'=>date('Y-m-d', $endtime)));}
+						</div>
+						<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1">
+							<button class="btn btn-default" type="submit"><i class="fa fa-search"></i> 搜索</button>
+						</div>
+					</div>					
+				</form>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<h4 class="sub-title">详细数据  |  用户数量:{$total}</h4>
+				<form action="" method="post" onsubmit="">
+					<div class="sub-content">
+						<table class="table table-hover">
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<td style="width:10%;text-align:center;" >编号</td>	
+									<td style="width:10%;text-align:center;" >昵称</td>
+									<td style="width:25%;text-align:center;" >Openid</td>
+									<td style="width:10%;text-align:center;" >称呼</td>
+									<td style="width:10%;text-align:center;" >电话</td>
+									<td style="width:25%;text-align:center;" >登记时间</td>
+									<td style="width:10%;text-align:center;" >操作</td>
+								</tr>
+								{loop $list $row}
+								<tr>
+									<td style="text-align:center;" >{$row['id']}</td>	
+									<td style="text-align:center;" >{$row['username']}</td>
+									<td style="text-align:center;" >{$row['from_user']}</td>
+									<td style="text-align:center;" >{$row['title']}</td>
+									<td style="text-align:center;" >{$row['mobile']}</td>
+									<td style="text-align:center;" >{php echo date("Y-m-d H:i:s" , $row['time_reg'] );}</td>
+									<td style="text-align:center;" >
+										<a href="{php echo $this->createWebUrl('member',array('id' => $id , 'mid' => $row['id'] , 'op' => 'post'))}">编辑</a></br>
+										<a href="{php echo $this->createWebUrl('member',array('id' => $id , 'mid' => $row['id'] , 'op' => 'delete'))}">删除</a>
+									</td>
+								</tr>
+								{/loop}
+							</tbody>
+						</table>
+						<table class="table">
+							<tr>
+								<td>
+									<input type="hidden" name="token" value="{$_W['token']}" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+				{$pager}
+			</div>
+		</div>
+    </div>
+{elseif $op == 'post'}
+<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data" onsubmit="return formcheck()">
+	<input type="hidden" name="id" value="{$id}">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			用户信息编辑
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">称呼</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="title" id="title"  class="form-control" value="{$item['title']}">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">电话</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="mobile" id="mobile"  class="form-control" value="{$item['mobile']}">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+		<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+</form>
+{/if}
+{template 'common/footer'}<!---www.guifox.com-->

@@ -1,0 +1,67 @@
+<html data-dpr="1" style="font-size: 54px;">
+<head lang="en">
+<meta charset="UTF-8">
+<title>扫码支付</title>
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-touch-fullscreen" content="yes">
+<script src="../addons/bm_payx/template/img/flexible.js"></script>
+<link rel="stylesheet" href="../addons/bm_payx/template/img/wechatpay.css">
+<style>
+.disabled{background-color: #dcdcdc;}
+</style>
+</head>
+<body style="font-size: 12px;">
+<form method="post" id="Form" action="">
+	<div id="wrap">
+		<div id="front">
+			<header>
+			<div class="logo">
+				<img src="{$_W['attachurl']}/{$reply['logo']}">
+				<h1>{$reply['title']}</h1>
+				<h2>{$reply['product']}</h2>
+			</div>
+			</header>		
+			<section>
+			<div class="amount active">
+				<span>金额</span>
+				<p>
+				{if (($qrits == 1) || ($reply['openid']==$from_user))}
+					¥ <span id="amount"></span>
+					<input type="hidden" name="qrmoney" id="qrmoney" value="" readonly="readonly"/>
+				{else}
+					¥ <span id="amount1">{$reply['qrmoney']}</span>
+					<input type="hidden" name="qrmoney" id="qrmoney" value="{$reply['qrmoney']}" readonly="readonly"/>
+				{/if}
+				</p>
+			</div>
+			<h3><span>{$reply['desc']}</span></h3>
+			</section>
+			<footer>
+			<div id="keyBoard" class="show-trans show">
+				<i data-str="1">1</i><i data-str="2">2</i><i data-str="3">3</i><i data-str="del"><img src="../addons/bm_payx/template/img/backspace.png"></i>
+				<input type="submit" name="submit" id="submit" value="支付" style="float: right;
+	height: 5.4rem;
+	line-height: 1.2;
+	background-color: #33C51F;
+	color: #fff;
+	font-size: 0.6rem;
+	width: 2.5rem;
+	-webkit-appearance:none;
+	border-radius: 0;">
+				<i data-str="4">4</i><i data-str="5">5</i><i data-str="6" class="no-right">6</i>
+				<i data-str="7">7</i><i data-str="8">8</i><i data-str="9" class="no-right">9</i>
+				<i data-str="hide"><img src="../addons/bm_payx/template/img/hide_keypad.png"></i><i data-str="0">0</i><i data-str="." class="no-right"><span>.</span></i>
+			</div>
+			</footer>
+		</div>
+	</div>
+	<input type="hidden" name="token" value="{$_W['token']}" />
+	<input type="hidden" name="op" id="op" value="post">
+</form>
+<div id="loading">
+</div>
+	<script src="../addons/bm_payx/template/img/zepto.min.js"></script>
+	<script src="../addons/bm_payx/template/img/key.js"></script>
+</body>
+</html>

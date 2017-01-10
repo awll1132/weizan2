@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>
+            {$reply['headtitle']}
+        </title>
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/movecar_css.css" />
+        <script type="text/javascript" src="../addons/bm_movecar/template/img/zepto_template.js"></script>
+        <script src="../addons/bm_movecar/template/img/movecar_js.js" type="text/javascript"></script>
+		<script language="javascript" src="../addons/bm_movecar/template/img/touchslider.min.js"></script>
+		<script language="javascript" src="../addons/bm_movecar/template/img/swipe.js"></script>		
+		<link type="text/css" rel="stylesheet" href="../addons/bm_movecar/template/img/style.css?{TIMESTAMP}">
+		<link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/menu.css" media="all">  
+    </head>
+    <body style="margin:0;padding:0;">
+<div id="banner_box" class="box_swipe" style='width:100%;height:200px;'>
+	<ul>
+		{loop $advs $adv}
+		<li>
+			<a href="{if empty($adv['link'])}#{else}{$adv['link']}{/if}">
+				<img src="{php echo tomedia($adv['thumb']);}" title="{$adv['advname']}" style='width:100%;height:200px;'/>
+			</a>
+		</li>
+		{/loop}
+	</ul>
+</div>
+<script>
+	$(function() {
+		new Swipe($('#banner_box')[0], {
+			speed:500,
+			auto:3000,
+			callback: function(){
+				var lis = $(this.element).next("ol").children();
+				lis.removeClass("on").eq(this.index).addClass("on");
+			}
+		});
+	});
+</script>
+		<div class="weui_cells_title">
+            输入以下信息，立即呼叫车主速来挪车
+        </div>
+        <div class="weui_cells_title">
+        </div>
+		<form method="post" id="Form" action="" enctype="multipart/form-data">
+        <div class="weui_cells weui_cells_form form_box">
+			<input class="weui_input post_class" type="hidden" id="is_lbs" name="is_lbs" value="{$reply['is_lbs']}" readonly />
+			{if $reply['is_lbs'] == 1}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        位 置
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="tel" id="address" name="address" placeholder="请设置允许微信获取位置。" value="" readonly />
+                </div>
+            </div>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={$reply['ak']}"></script>  
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+<script type="text/javascript">
+var map = new BMap.Map("allmap");  
+var longitude, latitude;  
+navigator.geolocation.getCurrentPosition(function (position) {  
+    longitude = position.coords.longitude;  
+    latitude = position.coords.latitude;  
+});  
+setTimeout(function () {  
+    var gpsPoint = new BMap.Point(longitude, latitude);  
+    BMap.Convertor.translate(gpsPoint, 0, function (point) {  
+        var geoc = new BMap.Geocoder();  
+        geoc.getLocation(point, function (rs) {  
+            var addComp = rs.addressComponents;  
+            //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);  
+			document.getElementById("address").value=addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber;
+        });  
+    });  
+}, 3000);  
+</script>			
+			{/if}	
+			{if (($reply['verify_type'] == 0)||($reply['verify_type'] == 2)||($reply['verify_type'] == 3))}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        <span class="city_name">
+                            <font id="city_name">
+                                {$reply['province']}
+                            </font>
+                            <i class="caret">
+                            </i>
+                        </span>
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="text" value="" id="callcarNum" name="callcarNum" maxlength="6" placeholder="请输入车牌号" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" />
+                </div>
+            </div>
+            <input class="weui_input post_class" type="hidden" value="{$reply['province']}" id="bindprovince" name="bindprovince" />
+			{/if}
+			<input class="weui_input post_class" type="hidden" value="{$reply['verify_type']}" id="verify_type" name="verify_type" />
+			{if (($reply['verify_type'] == 1)||($reply['verify_type'] == 2)||($reply['verify_type'] == 3))}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        编 号
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="tel" id="userid" name="userid" placeholder="请输入车辆识别编号"  value="" />
+                </div>
+            </div>
+			{/if}
+			{if ($reply['verify_type'] == 3)}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label" style="width:100%;color:red;">
+                        温馨提示：您可以输入车牌号或者车辆识别码，通知车主尽快挪车！
+                    </label>
+                </div>
+            </div>
+			{/if}			
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        手 机
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="tel" id="totel" name="totel" placeholder="输入您的手机以便车主联系您"  value="{$member['mobile']}" />
+                </div>
+            </div>
+			<input class="weui_input post_class" type="hidden" value="{$reply['is_thumb']}" id="is_thumb" name="is_thumb" />
+			{if $reply['is_thumb'] == 1}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        照 片
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+					<input type="file" name="doc" id="doc" class="weui_input post_class" accept="image/png,image/jpeg" onchange="javascript:setImagePreview();">
+					<p><div id="localImag"><img id="preview" width=-1 height=-1 style="diplay:none" /></div></p>
+					<p id="firjs"></p>
+                </div>
+            </div>
+<script>
+/*
+var _URL = window.URL || window.webkitURL;
+$('#doc').bind('change', function () {
+	if ((file = this.files[0])) {
+		img = new Image();
+		img.onload = function () {
+			alert(this.width + " " + this.height);
+		};
+		img.src = _URL.createObjectURL(file);
+	}
+});
+*/
+function setImagePreview() {
+	var docObj=document.getElementById("doc");
+	var imgObjPreview=document.getElementById("preview");
+	filesize = docObj.files[0].size/1024/1024;
+	if (filesize>1) {
+		var hehe = document.getElementById("firjs");
+		hehe.innerText = "当前图片文件大小是"+filesize.toFixed(2) + "MB，建议文件不超过1M，以免因文件过大造成上传失败！";	
+	} else {
+		var hehe = document.getElementById("firjs");
+		hehe.innerText = "";	
+	
+	}
+	if(docObj.files && docObj.files[0]){
+		//火狐下，直接设img属性
+		imgObjPreview.style.display = 'block';
+		imgObjPreview.style.width = '200px';
+		imgObjPreview.style.height = '120px';                    
+		//imgObjPreview.src = docObj.files[0].getAsDataURL();
+		
+		//火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式  
+		imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+	}else{
+		//IE下，使用滤镜
+		docObj.select();
+		var imgSrc = document.selection.createRange().text;
+		var localImagId = document.getElementById("localImag");
+		//必须设置初始大小
+		localImagId.style.width = "200px";
+		localImagId.style.height = "120px";
+		//图片异常的捕捉，防止用户修改后缀来伪造图片
+		try{
+			localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+			localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+		}catch(e){
+			alert("您上传的图片格式不正确，请重新选择!");
+			return false;
+		}
+		imgObjPreview.style.display = 'none';
+		document.selection.empty();
+	}
+	return true;
+}
+</script>
+			{/if}
+			{if (($reply['is_sms'] == 1)&&($reply['is_sms_move'] == 1))}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        验 证
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="tel" id="code" name="code" placeholder="输入验证码"  value="" style="width:50%" />
+					{if (($reply['is_sms'] == 1)&&($reply['is_sms_move'] == 1))}
+					<button onclick="sendVerifyCode();" type="button" id="verifyCodeBtn" style="background-color: #04be02;color: #fff;    box-sizing: border-box;
+    text-align: center;text-decoration: none;line-height: 2.33333333;border-radius: 5px;border-width: 0;margin-left: auto;
+    margin-right: auto;    padding-left: 2px;
+    padding-right: 2px;font-size: 12px;">验证码</button>
+					{/if}
+                </div>
+            </div>
+			{if (!empty($member['mobile']))}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label" style="width:100%;color:red;">
+                        温馨提示：您的手机号已验证过，如果没更换新手机号码，您无需再次提交验证码！
+                    </label>
+                </div>
+            </div>
+			{/if}
+			{/if}
+        </div>
+        <div class="weui_cells_title">
+        </div>
+		<!--
+		{if (($reply['is_sms'] == 1)&&($reply['is_sms_move'] == 1))}
+		<div class="bd spacing weui_btn_area">
+			<button onclick="sendVerifyCode();" type="button" id="verifyCodeBtn" class="weui_input post_class">点我获取短信验证码</button>
+		</div>		
+		{/if}
+		-->
+        <div class="bd spacing weui_btn_area">
+			<input type="submit" name="submit" id="submit" value="速来挪车" onclick="return check();" class="weui_btn weui_btn_primary" />			
+        </div>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="rid" id="rid" value="{$rid}" />
+			<input type="hidden" name="op" id="op" value="post">
+		</form>		
+		<div class="weui_cells weui_cells_form form_box" style='margin-top:5;padding: 0px 0px;'>
+		</div>
+		{loop $advers $adver}
+		<div class="weui_cells weui_cells_form form_box" style='margin-top:0;padding: 0px 0px;'>
+            <div class="weui_cell" style='padding: 0px 5px;    background-color: rgba(47, 51, 49, 0.1);'>
+				<a href="{$adver['link']}">
+				<div class="adv-body pay-code" >		
+					<div class="adv">
+						<div class="info" style='padding: 0px 0px;margin: 0px 0px;'>
+							<table style='border-spacing: 0px;'>
+							<tbody>
+							<tr>
+								<th>
+									<img style='width:80px;height:60px;margin-top:5px;' src="{$_W['attachurl']}/{$adver['thumb']}">
+								</th>
+								<td style='padding-left:8px;color:blue;'>
+									{$adver['advname']}
+								</td>
+							</tr>
+							</tbody>
+							</table>
+						</div>
+					</div>		
+				</div>
+				</a>
+            </div>
+        </div>
+		{/loop}
+        <div>
+            <div class="weui_btn_area" style="">
+                <p style="text-align:center;">
+                    <span style="color:#999999;line-height:1.5;">
+                        咨询热线：<a href="tel:{$reply['tel']}">{$reply['tel']}</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="weui_dialog_alert" id="dialog2" style="display: none;opacity: 0;">
+            <div class="weui_mask">
+            </div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd">
+                    <strong class="weui_dialog_title">
+                        温馨提示
+                    </strong>
+                </div>
+                <div class="weui_dialog_bd">
+                    <p id="succ_info">
+                    </p>
+                    <p>
+                        已通向对方发送挪车通知。
+                    </p>
+                </div>
+                <div class="weui_dialog_ft">
+                    <a href="javascript:;" class="weui_btn_dialog primary" id="close_dialog">
+                        关闭
+                    </a>
+                </div>
+            </div>
+        </div>
+        <script id="city_list_tpl" type="text/html">
+            <div class = "weui_dialog_alert"id = "dialog_city"style = "display: none;opacity: 0;" > <div class = "weui_mask" > </div><div class="weui_dialog"><div class="weui_dialog_hd"><strong class="weui_dialog_title">请选择</strong > </div><div class="weui_dialog_bd dialog_city_list"><% for(i=0;i<city_list.length;i++){ %><span><font><%=city_list[i]%></font > </span><%}%></div > <div class = ""style = "clear: both;" > </div><div class="weui_dialog_ft" style="clear: both;margin-top: 15px;"><a href="javascript:;" class="weui_btn_dialog primary" id="close_dialog">关闭</a > </div></div > </div>
+        </script>
+
+        <script type="text/javascript">
+            $(function() {
+                var root_new = new root_event();
+                root_new.main();
+                FastClick.attach(document.body);
+            });
+        </script>
+		<script>
+		function check() {			
+			var totel = document.getElementById("totel").value;			
+			var is_lbs = document.getElementById("is_lbs").value;
+			var verify_type = document.getElementById("verify_type").value;
+			var is_thumb = document.getElementById("is_thumb").value;
+			//alert(verify_type);
+			//return false;
+			if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(totel)) {  
+				alert("请正确填写您的手机!"); 
+				document.getElementById('totel').focus();		
+				return false;  
+			}
+			if (verify_type==0)	{
+				var callcarNum = document.getElementById("callcarNum").value;
+				var bindprovince = document.getElementById("bindprovince").value;
+				if (callcarNum.length!=6) {  
+					alert("请正确填写您的车牌号，例如A12345!"); 
+					document.getElementById('callcarNum').focus();		
+					return false;  
+				}
+				if (bindprovince=='') {  
+					alert("请选择您的车牌缩写!"); 
+					document.getElementById('bindprovince').focus();		
+					return false;  
+				}
+			}
+			if (verify_type==1)
+			{
+				var userid = document.getElementById("userid").value;
+				if (userid.length!=6) {  
+					alert("请正确填写车辆识别编号!"); 
+					document.getElementById('userid').focus();		
+					return false;  
+				}
+			}	
+			if (is_thumb==1)
+			{
+				var doc = document.getElementById("doc").value;
+				if (doc=='') {  
+					alert("请选择现场车辆照片!"); 
+					document.getElementById('doc').focus();		
+					return false;  
+				}
+			}
+			//alert(is_thumb);
+			if (verify_type==2) {
+				var callcarNum = document.getElementById("callcarNum").value;
+				var bindprovince = document.getElementById("bindprovince").value;
+				var userid = document.getElementById("userid").value;
+				if (callcarNum.length!=6) {  
+					alert("请正确填写您的车牌号，例如A12345!"); 
+					document.getElementById('callcarNum').focus();		
+					return false;  
+				}
+				if (bindprovince=='') {  
+					alert("请选择您的车牌缩写!"); 
+					document.getElementById('bindprovince').focus();		
+					return false;  
+				}
+				if (userid.length!=6) {  
+					alert("请正确填写车辆识别编号!"); 
+					document.getElementById('userid').focus();		
+					return false;  
+				}
+			}
+			if (verify_type==3) {
+				var callcarNum = document.getElementById("callcarNum").value;
+				var bindprovince = document.getElementById("bindprovince").value;
+				var userid = document.getElementById("userid").value;
+				if ((userid.length!=6)&&(callcarNum.length!=6)&&(bindprovince=='')) {
+					alert("请正确填写车辆识别编号!"); 
+					document.getElementById('userid').focus();		
+					return false;
+				} else {
+					if (userid.length==6) {
+
+					} else if (callcarNum.length!=6) {
+						alert("请正确填写您的车牌号，例如A12345!"); 
+						document.getElementById('callcarNum').focus();
+						return false;
+					} else {
+						if (bindprovince=='') {
+							alert("请选择您的车牌缩写!");
+							document.getElementById('bindprovince').focus();
+							return false;  
+						}
+					}
+				}
+			}
+			if (is_lbs==1) {  
+				var address = document.getElementById("address").value;
+				if (address=='') {
+					alert("正在获取您的位置，请稍候!"); 
+					document.getElementById('address').focus();		
+					return false; 
+				}
+			}
+			return true; 
+		}
+		function sendVerifyCode() {
+			var totel = document.getElementById("totel").value;
+			var rid = document.getElementById("rid").value;
+			if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(totel))
+			{  
+				alert("请正确填写您的手机!"); 
+				document.getElementById('totel').focus();		
+				return false;  
+			}
+			$('#verifyCodeBtn').addClass('active');
+			$('#verifyCodeBtn').attr('disabled', true);
+			var countdown = 60;
+			timer = setInterval(function(){
+				$('#verifyCodeBtn').html(countdown--);
+				if (countdown == 0) {
+					$('#verifyCodeBtn').removeClass('active');
+					$('#verifyCodeBtn').html('重新发送');
+					clearInterval(timer);
+					$('#verifyCodeBtn').attr('disabled', false);
+					$('#verifyCodeBtn').removeAttr("disabled");
+				}
+			},1000);
+			$.getJSON("{php echo $this->createMobileUrl('verifycode', array('rid' => $rid,'from_user' => $from_user))}&mobile="+totel+"&type=verify", function(s){
+				if (s.message==999) {					
+					$('#verifyCodeBtn').removeClass('active');
+					$('#verifyCodeBtn').html('验证短信已发送');
+					clearInterval(timer);
+				} else {
+					if (s.message==9) {					
+						$('#verifyCodeBtn').removeClass('active');
+						$('#verifyCodeBtn').html('短信次数达上限');
+						clearInterval(timer);
+					} else {
+						$('#verifyCodeBtn').removeClass('active');
+						$('#verifyCodeBtn').html('重新发送');
+						clearInterval(timer);
+						$('#verifyCodeBtn').attr('disabled', false);
+						$('#verifyCodeBtn').removeAttr("disabled");					
+					}
+				}
+			});
+		}		
+		</script>		
+<div class="nav4">
+	<nav>
+		<div id="nav4_ul" class="nav_4">
+			<ul class="box">
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('home',array('rid' => $rid))}" class=""><span>首页</span></a>
+				</li>			
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('bindcar',array('rid' => $rid))}" class=""><span>车辆绑定</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('mycar',array('rid' => $rid))}" class=""><span>我的车牌</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('movecar',array('rid' => $rid))}" class=""><span>我的信息</span></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div id="nav4_masklayer" class="masklayer_div">&nbsp;</div>
+</div>		
+    </body>
+</html><!---www.guifox.com-->

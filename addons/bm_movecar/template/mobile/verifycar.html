@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>
+            {$reply['headtitle']}
+        </title>
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/movecar_css.css" />
+        <script type="text/javascript" src="../addons/bm_movecar/template/img/zepto_template.js">
+        </script>
+        <script src="../addons/bm_movecar/template/img/movecar_js.js" type="text/javascript" charset="utf-8">
+        </script>		
+<script language="javascript" src="../addons/bm_movecar/template/img/touchslider.min.js"></script>
+<script language="javascript" src="../addons/bm_movecar/template/img/swipe.js"></script>		
+<link type="text/css" rel="stylesheet" href="../addons/bm_movecar/template/img/style.css?{TIMESTAMP}">	
+<link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/menu.css" media="all"> 	
+    </head>
+    <body style="margin:0;padding:0;">
+<div id="banner_box" class="box_swipe" style='width:100%;height:200px;'>
+	<ul>
+		{loop $advs $adv}
+		<li>
+			<a href="{if empty($adv['link'])}#{else}{$adv['link']}{/if}">
+				<img src="{php echo tomedia($adv['thumb']);}" title="{$adv['advname']}" style='width:100%;'/>
+			</a>
+		</li>
+		{/loop}
+	</ul>
+</div>
+<script>
+	$(function() {
+		new Swipe($('#banner_box')[0], {
+			speed:500,
+			auto:3000,
+			callback: function(){
+				var lis = $(this.element).next("ol").children();
+				lis.removeClass("on").eq(this.index).addClass("on");
+			}
+		});
+	});
+</script>
+        <div class="weui_cells_title">
+            车辆登记信息审核
+        </div>
+        <div class="weui_cells_title">
+        </div>
+        <div class="weui_cells weui_cells_form form_box">
+			{if (($reply['verify_type'] == 1)||($reply['verify_type'] == 2)||($reply['verify_type'] == 3))}
+			<div class="weui_cell"style="border-bottom: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        编号
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$car['userid']}
+                </div>
+            </div>
+			{/if}
+			<div class="weui_cell"style="border-bottom: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        {$car['province']}
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$car['number']}
+                </div>
+            </div>
+			<div class="weui_cell"style="border-bottom: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        状态
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+					{if ($car['status']==0)}
+						审核中
+					{elseif ($car['status']==1)}
+						已审核通过
+					{elseif ($car['status']==9)}
+						已停用
+					{/if}                    
+                </div>
+            </div>
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+					{if ($car['status']==0)}
+					<a onclick="return confirm('审核通过此车牌信息，确定码？'); return false;" href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('verifycar',array('rid' => $rid,'op'=>'check','status'=>1,'carid'=>$carid));}" >
+                        <span style="color:green">通过</span>
+					</a>
+					{/if}
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    绑定时间：{php echo date("Y-m-d" , $car['time_reg'] );}
+                </div>
+            </div>
+        </div>
+    </body>
+</html><!---www.guifox.com-->

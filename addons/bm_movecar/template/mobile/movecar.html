@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>
+            {$reply['headtitle']}
+        </title>
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/movecar_css.css" />
+        <script type="text/javascript" src="../addons/bm_movecar/template/img/zepto_template.js">
+        </script>
+        <script src="../addons/bm_movecar/template/img/movecar_js.js" type="text/javascript" charset="utf-8">
+        </script>		
+<script language="javascript" src="../addons/bm_movecar/template/img/touchslider.min.js"></script>
+<script language="javascript" src="../addons/bm_movecar/template/img/swipe.js"></script>		
+<link type="text/css" rel="stylesheet" href="../addons/bm_movecar/template/img/style.css?{TIMESTAMP}">
+<link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/menu.css" media="all"> 
+    </head>
+    <body style="margin:0;padding:0;">
+<div id="banner_box" class="box_swipe" style='width:100%;height:200px;'>
+	<ul>
+		{loop $advs $adv}
+		<li>
+			<a href="{if empty($adv['link'])}#{else}{$adv['link']}{/if}">
+				<img src="{php echo tomedia($adv['thumb']);}" title="{$adv['advname']}" style='width:100%;'/>
+			</a>
+		</li>
+		{/loop}
+	</ul>
+</div>
+<script>
+	$(function() {
+		new Swipe($('#banner_box')[0], {
+			speed:500,
+			auto:3000,
+			callback: function(){
+				var lis = $(this.element).next("ol").children();
+				lis.removeClass("on").eq(this.index).addClass("on");
+			}
+		});
+	});
+</script>
+        <div class="weui_cells_title">
+            挪车信息
+        </div>
+        <div class="weui_cells_title">
+        </div>
+		{if (!empty($id))}
+        <div class="weui_cells weui_cells_form form_box">
+			<div class="weui_cell"style="border-bottom: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        {$row['province']}
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$row['number']}
+                </div>
+            </div>
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+						电话
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <a href="tel:{$row['mobile']}">{$row['mobile']}</a>
+                </div>
+            </div>
+			{if $reply['is_thumb'] == 1}
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+						地址
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <a href="tel:{$row['mobile']}">{$row['address']}</a>
+                </div>
+            </div>
+			{/if}
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+						时间
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {php echo date("Y-m-d H:i:s" , $row['time_call'] );}
+                </div>
+            </div>
+			{if $reply['is_thumb'] == 1}
+			<div class="weui_cell" style="border-top: 0;">
+				{if $reply['is_thumb'] == 1}
+				<img src="{php echo $row['thumb'];}" width="100%">
+				{else}
+				<img src="{php echo $_W['siteroot'].'/'.$row['thumb'];}" width="100%">
+				{/if}
+            </div>
+			{/if}
+        </div>
+		{else}
+			{loop $rows $row}
+        <div class="weui_cells weui_cells_form form_box">
+			<div class="weui_cell"style="border-bottom: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        {$row['province']}
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$row['number']}
+                </div>
+            </div>
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+						电话
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <a href="tel:{$row['mobile']}">{$row['mobile']}</a>
+                </div>
+            </div>
+			{if $reply['is_thumb'] == 1}
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+						地址
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <a href="tel:{$row['mobile']}">{$row['address']}</a>
+                </div>
+            </div>
+			{/if}
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+						时间
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {php echo date("Y-m-d H:i:s" , $row['time_call'] );}
+                </div>
+            </div>
+			{if $reply['is_thumb'] == 1}
+			<div class="weui_cell" style="border-top: 0;">
+				{if $reply['is_thumb'] == 1}
+				<img src="{php echo $row['thumb'];}" width="100%">
+				{else}
+				<img src="{php echo $_W['siteroot'].'/'.$row['thumb'];}" width="100%">
+				{/if}
+            </div>
+			{/if}
+        </div>			
+			{/loop}
+		{/if}
+        <div>
+            <div class="weui_btn_area" style="">
+                <p style="text-align:center;">
+                    <span style="color:#999999;line-height:1.5;">
+                        咨询热线：<a href="tel:{$reply['tel']}">{$reply['tel']}</a>
+                    </span>
+                </p>
+            </div>
+        </div>
+        </div>
+<div class="nav4">
+	<nav>
+		<div id="nav4_ul" class="nav_4">
+			<ul class="box">
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('home',array('rid' => $rid))}" class=""><span>首页</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('bindcar',array('rid' => $rid))}" class=""><span>绑定车牌</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('mycar',array('rid' => $rid))}" class=""><span>我的车牌</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('movecar',array('rid' => $rid))}" class=""><span>我的信息</span></a>
+				</li>				
+			</ul>
+		</div>
+	</nav>
+	<div id="nav4_masklayer" class="masklayer_div">&nbsp;</div>
+</div>		
+    </body>
+</html><!---www.guifox.com-->

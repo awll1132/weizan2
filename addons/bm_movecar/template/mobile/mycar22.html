@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>
+            我的车辆信息
+        </title>
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/movecar_css.css" />
+        <style type="text/css">
+            img{ max-width: 100%; }
+        </style>
+    </head>
+    <body>
+        <img src="http://hm.baidu.com/hm.gif?si=ff8c31aa33cfd42f791daf61788c0167&amp;et=0&amp;nv=1&amp;st=1&amp;v=wap-0-0.2&amp;rnd=1186298942"
+        width="0" height="0" style="display:none;" />
+        <div class="pic1" style="position:relative">
+			{if empty($reply['banner'])}
+			<img src="../addons/bm_movecar/template/img/20160612152847_15320.jpg" />			
+			{else}
+            <img src="{$_W['attachurl']}{$reply['banner']}" />
+			{/if}
+        </div>
+        <div style="position:absolute;top:4.2rem;right:0;">
+            <img src="{$_W['attachurl']}{$reply['qrcode']}" style="width:6rem;padding-right:0.6rem;" />
+        </div>
+        <div class="weui_cells_title">
+            已经绑定的车牌
+        </div>
+        <div class="weui_cells_title">
+        </div>
+		{loop $list $row}
+        <div class="weui_cells weui_cells_form form_box">
+			<div class="weui_cell"style="border-bottom: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        {$row['province']}
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {$row['number']}
+                </div>
+            </div>
+			<div class="weui_cell" style="border-top: 0;">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+					<a onclick="return confirm('删除操作不可恢复，确定码？'); return false;" href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('mycar',array('op' => 'delete','rid' => $rid,'id'=>$row['id']));}" >
+                        删
+					</a>
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    绑定时间：{php echo date("Y-m-d" , $row['time_reg'] );}
+                </div>
+            </div>
+        </div>
+		{/loop}
+        <div class="bd spacing weui_btn_area">
+            <a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('home',array('rid' => $rid));}" class="weui_btn weui_btn_primary" id="call_carer_button">
+				返回
+            </a>
+        </div>
+        <div>
+            <div class="weui_btn_area" style="">
+                <p style="text-align:center;">
+                    <span style="color:#999999;line-height:1.5;">
+                        咨询热线：{$reply['tel']}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </body>
+</html><!---www.guifox.com-->

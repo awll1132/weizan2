@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>
+            {$reply['headtitle']}
+        </title>
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/movecar_css.css" />
+		<link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/menu.css" media="all">  
+        <script type="text/javascript" src="../addons/bm_movecar/template/img/zepto_template.js">
+        </script>
+        <script src="../addons/bm_movecar/template/img/movecar_js.js" type="text/javascript" charset="utf-8">
+        </script>		
+        <script type="text/javascript">
+            var Init = {
+                appurl: "/weixin/index.php",
+                who: "351"
+            }
+        </script>
+    </head>    
+    <body>
+        <img src="http://hm.baidu.com/hm.gif?si=ff8c31aa33cfd42f791daf61788c0167&amp;et=0&amp;nv=0&amp;st=4&amp;lt=1465884177&amp;su=http%3A%2F%2Fshop351.xinweiyun.com%2Fweixin%2Findex.php%2Fmovecar%2Findex%2Fsid%2FMzUx&amp;v=wap-0-0.2&amp;rnd=1057753047"
+        width="0" height="0" style="display:none;" />
+        <div id="infocontent">
+            <div class="weui_cells_title">
+                输入以下信息绑定您的车牌号。
+            </div>
+			<form method="post" id="Form" action="">
+            <div class="weui_cells weui_cells_form form_box">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label">
+                            编号
+                        </label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input post_class" type="text" name="car_code" id="car_code" value="{$car_code}" readonly />
+                    </div>
+                </div>
+				{if ($reply['is_carno'] == 1)}
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label">
+                            <span class="city_name">
+                                <font id="city_name">
+                                    {$reply['province']}
+                                </font>
+                                <i class="caret">
+                                </i>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input post_class" type="text" id="bindcarNum" name="bindcarNum" maxlength="6" placeholder="请输入车牌号" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')"/>
+                        <input class="weui_input post_class" type="hidden" value="{$reply['province']}" id="bindprovince" name="bindprovince" />
+						<input class="weui_input post_class" type="hidden" value="{$reply['is_carno']}" id="is_carno" name="is_carno" />
+                    </div>
+                </div>
+				{/if}
+				{if ($reply['is_mobile'] == 1)}
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label">
+                            电 话
+                        </label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input post_class" type="tel" id="bindtel" name="bindtel" placeholder="请输入您的联系电话" value="{$member['mobile']}" />
+						<input class="weui_input post_class" type="hidden" value="{$reply['is_mobile']}" id="is_mobile" name="is_mobile" />
+                    </div>
+                </div>
+				{/if}
+                <div class="weui_cell">
+                    <div class="weui_cell_hd">
+                        <label class="weui_label">
+                            称 呼
+                        </label>
+                    </div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input post_class" type="text" id="bindtruename" name="bindtruename" placeholder="请输入您的姓名、称呼"  value="{$member['title']}" />
+                    </div>
+                </div>
+				{if (($reply['is_sms'] == 1)&&($reply['is_sms_car'] == 1))}
+				<div class="weui_cell">
+					<div class="weui_cell_hd">
+						<label class="weui_label">
+							验 证
+						</label>
+					</div>
+					<div class="weui_cell_bd weui_cell_primary">
+						<input class="weui_input post_class" type="tel" id="verifycode" name="verifycode" placeholder="输入验证码" style="width:50%" value="" />
+			{if (($reply['is_sms'] == 1)&&($reply['is_sms_car'] == 1))}
+					<button onclick="sendVerifyCode();" type="button" id="verifyCodeBtn" style="background-color: #04be02;color: #fff;    box-sizing: border-box;
+    text-align: center;text-decoration: none;line-height: 2.33333333;border-radius: 5px;border-width: 0;margin-left: auto;
+    margin-right: auto;    padding-left: 2px;
+    padding-right: 2px;font-size: 12px;">验证码</button>
+			{/if}						
+					</div>
+				</div>
+				{/if}				
+                <input type="hidden" class="post_class" name="bind_type" id="bind_type" value="0" />
+            </div>
+            <div class="weui_cells_title">
+            </div>
+            <div class="bd spacing weui_btn_area">
+				<input type="submit" name="submit" id="submit" value="立即绑定我的车牌"class="weui_btn weui_btn_primary" onclick="return check();" />			
+            </div>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+				<input type="hidden" name="rid" id="rid" value="{$rid}">
+				<input type="hidden" name="op" id="op" value="post">
+			</form>			
+        </div>
+        <div class="weui_dialog_alert" id="dialog2">
+            <div class="weui_mask">
+            </div>
+            <div class="weui_dialog">
+                <!--<div class="weui_dialog_hd"><strong class="weui_dialog_title">请选择</strong></div>-->
+                <div class="weui_dialog_bd">
+                    <div class="" style="padding: 20px 0;text-align: center;">
+                        请先选择以下的方式
+                    </div>
+                    <!--a href="javascript:;" class="active_btn active_way_click" way="0">
+                        <p class="tit">
+                            激活挪车二维码
+                        </p>
+                        <p class="dec">
+                            如您已拥有挪车二维码编号，请点击这里
+                        </p>
+                    </a-->
+                    <a href="javascript:;" class="active_btn active_way_click" way="1">
+                        <p class="tit">
+                            登记车辆信息
+                        </p>
+                        <p class="dec">
+                            填写您的资料
+                        </p>
+                    </a>
+                    <div class="" style="height: 50px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script id="city_list_tpl" type="text/html">
+            <div class = "weui_dialog_alert"id = "dialog_city"style = "display: none;opacity: 0;" > <div class = "weui_mask" > </div><div class="weui_dialog"><div class="weui_dialog_hd"><strong class="weui_dialog_title">请选择</strong > </div><div class="weui_dialog_bd dialog_city_list"><% for(i=0;i<city_list.length;i++){ %><span><font><%=city_list[i]%></font > </span><%}%></div > <div class = ""style = "clear: both;" > </div><div class="weui_dialog_ft" style="clear: both;margin-top: 15px;"><a href="javascript:;" class="weui_btn_dialog primary" id="close_dialog">关闭</a > </div></div > </div>
+        </script>
+        <script id="bind_succ_tpl" type="text/html">
+            <div class = "msg" > <div class = "weui_msg" > <div class = "weui_icon_area" > <i class = "weui_icon_success weui_icon_msg" > </i></div > <div class = "weui_text_area" > <h2 class = "weui_msg_title" > 操作成功 < /h2><p class="weui_msg_desc"><%=info%></p > </div></div > </div>
+        </script>
+        <script type="text/javascript">
+            $(function() {
+
+                var bindcarnum_new = new bindcarnum_event();
+                bindcarnum_new.main();
+                FastClick.attach(document.body);
+            });
+        </script>
+		<script>
+		function check() {
+			var bindtruename = document.getElementById("bindtruename").value;
+			var bindtel = document.getElementById("bindtel").value;
+			var bindcarNum = document.getElementById("bindcarNum").value;
+			var bindprovince = document.getElementById("bindprovince").value;
+			var is_carno = document.getElementById("is_carno").value;
+			var is_mobile = document.getElementById("is_mobile").value;
+			//alert(bindcarNum.length);
+			//return false;
+			if (bindtruename=='') //
+			{  
+				alert("请填写您的称呼!"); 
+				document.getElementById('bindtruename').focus();		
+				return false;  
+			}
+			if (is_mobile==1) {
+			if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(bindtel)) //
+			{  
+				alert("请正确填写您的手机!"); 
+				document.getElementById('bindtel').focus();		
+				return false;  
+			}
+			}
+			if (is_carno==1) {
+				if (bindcarNum.length!=6) //
+				{  
+					alert("请正确填写您的车牌号，例如A12345!"); 
+					document.getElementById('bindcarNum').focus();		
+					return false;  
+				}
+				if (bindprovince=='') //
+				{  
+					alert("请选择您的车牌缩写!"); 
+					document.getElementById('bindprovince').focus();		
+					return false;  
+				}
+			}
+			return true; 
+		}
+		function sendVerifyCode() {
+			var totel = document.getElementById("bindtel").value;
+			var rid = document.getElementById("rid").value;
+			if(!/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/i.test(totel))
+			{  
+				alert("请正确填写您的手机!"); 
+				document.getElementById('bindtel').focus();		
+				return false;  
+			}
+			$('#verifyCodeBtn').addClass('active');
+			$('#verifyCodeBtn').attr('disabled', true);
+			var countdown = 60;
+			timer = setInterval(function(){
+				$('#verifyCodeBtn').html(countdown--);
+				if (countdown == 0) {
+					$('#verifyCodeBtn').removeClass('active');
+					$('#verifyCodeBtn').html('重新发送');
+					clearInterval(timer);
+					$('#verifyCodeBtn').attr('disabled', false);
+					$('#verifyCodeBtn').removeAttr("disabled");
+				}
+			},1000);
+			$.getJSON("{php echo $this->createMobileUrl('verifycode', array('rid' => $rid,'from_user' => $from_user))}&mobile="+totel+"&type=verify", function(s){
+				if (s.message==999) {					
+					$('#verifyCodeBtn').removeClass('active');
+					$('#verifyCodeBtn').html('验证短信已发送');
+					clearInterval(timer);
+				} else {
+					if (s.message==9) {					
+						$('#verifyCodeBtn').removeClass('active');
+						$('#verifyCodeBtn').html('短信次数达上限');
+						clearInterval(timer);
+					} else {
+						$('#verifyCodeBtn').removeClass('active');
+						$('#verifyCodeBtn').html('重新发送');
+						clearInterval(timer);
+						$('#verifyCodeBtn').attr('disabled', false);
+						$('#verifyCodeBtn').removeAttr("disabled");					
+					}
+				}
+			});
+		}				
+		</script>	
+        </div>
+<div class="nav4">
+	<nav>
+		<div id="nav4_ul" class="nav_4">
+			<ul class="box">
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('home',array('rid' => $rid))}" class=""><span>首页</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('bindcar',array('rid' => $rid))}" class=""><span>绑定车牌</span></a>
+				</li>				
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('mycar',array('rid' => $rid))}" class=""><span>我的车牌</span></a>
+				</li>
+				<li>
+					<a href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('movecar',array('rid' => $rid))}" class=""><span>我的信息</span></a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div id="nav4_masklayer" class="masklayer_div">&nbsp;</div>
+</div>		
+    </body>
+</html><!---www.guifox.com-->

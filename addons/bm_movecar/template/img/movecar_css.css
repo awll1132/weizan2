@@ -1,0 +1,73 @@
+  .city_name{
+  	position: absolute;
+  	background: #04BE02;
+  	height: 34px;
+  	line-height: 34px;
+  	top: 5px;
+  	color: #fff;
+  	text-align: center;
+	width: 50px;
+	border-radius: 2px;
+  }	
+	.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+.dialog_city_list{
+	text-align: left;
+}
+.dialog_city_list span{
+	
+  	height: 34px;
+  	line-height: 34px;
+  	color: #fff;
+  	text-align: center;
+  	color: #fff;
+  	width: 20%;
+  	float: left;
+  	margin-bottom: 10px;
+  	font-size: 16px;
+  	
+}
+.dialog_city_list span font{
+	margin: 5px;
+	background: #04BE02;
+	display: block;
+}
+
+	.active_btn{
+		display: block;
+		border-radius: 5px;
+		border: 1px dotted #51C332;
+		margin-bottom: 15px;
+		color: #51C332;
+		padding: 10px 0;
+		
+	}
+	.active_btn .tit{
+		font-weight: bold;
+		font-size: 16px;
+		padding:0 0 5px 0;
+	}
+	.active_btn .dec{
+		color: #ccc;
+		font-size: 12px;
+	}
+	
+.pic1 img{
+	max-width: 100%;
+}
+
+
+
+
+
+
+
+

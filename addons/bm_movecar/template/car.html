@@ -1,0 +1,171 @@
+{template 'common/header'}
+<style>
+.sub-search input,.sub-search select{margin-bottom:0;}
+</style>
+<ul class="nav nav-tabs">
+  <li {if $op == 'display'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('car', array('id' => $id ,'op' => 'display'))}">车辆记录</a>
+  </li>
+  <li {if $op == 'edit'}class="active"{/if}>
+    <a href="{php echo $this->createWebUrl('car', array('id' => $id ,'op' => 'edit'))}">信息编辑</a>
+  </li>
+</ul>
+{if $op == 'display'}
+    <div class="main">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body">
+				<form action="" class="form-horizontal" method="get">
+					<input type="hidden" name="c" value="site" />
+					<input type="hidden" name="a" value="entry" />
+					<input type="hidden" name="m" value="bm_movecar" />
+					<input type="hidden" name="do" value="car" />				
+					<input type="hidden" name="id" value="{$id}">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">车主昵称</label>
+						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-3">
+							<input class="form-control" name="username" id="username" type="text" value="{$_GPC['username']}" placeholder="填写粉丝昵称">
+						</div>
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">车主手机</label>
+						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-3">
+							<input class="form-control" name="mobile" id="mobile" type="text" value="{$_GPC['mobile']}" placeholder="填写车主手机">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-2 control-label">登记时间</label>
+						<div class="col-sm-4 col-xs-12">
+							{php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d', $starttime),'endtime'=>date('Y-m-d', $endtime)));}
+						</div>
+						<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1">
+							<button class="btn btn-default" type="submit"><i class="fa fa-search"></i> 搜索</button>
+						</div>
+						<div class="col-xs-12 col-sm-2 col-md-1 col-lg-1">
+							<button class="btn btn-default" type="submit" id="xls" name="xls" value="xls"><i class="fa fa-search"></i> 导出</button>
+						</div>						
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				<h4 class="sub-title">详细数据  |  登记车辆:{$total}</h4>
+				<form action="" method="post" onsubmit="">
+					<div class="sub-content">
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<td style="width:10%;text-align:center;" >编号</br>识别码&nbsp;</td>	
+									<td style="width:25%;text-align:center;" >昵称</br>Openid</td>
+									<td style="width:15%;text-align:center;" >缩写</br>车牌</td>
+									<td style="width:20%;text-align:center;" >称呼</br>电话</td>
+									<td style="width:25%;text-align:center;" >状态</br>登记时间</td>
+									<td style="width:10%;text-align:center;" >操作</td>
+								</tr>
+								{loop $list $row}
+								<tr>
+									<td style="text-align:center;" >
+									{$row['id']}
+									</br>
+									{$row['userid']}
+									</td>
+									<td style="text-align:center;" >{$row['username']}</br>{$row['from_user']}</td>
+									<td style="text-align:center;" >{$row['province']}</br>{$row['number']}</td>
+									<td style="text-align:center;" >{$row['title']}</br>{$row['mobile']}</td>
+									<td style="text-align:center;" >
+									{if ($row['status']==0)}
+										<span class="label label-info">未审核</span>
+									{elseif ($row['status']==1)}
+										<span class="label label-success">正常</span>
+									{elseif ($row['status']==9)}
+										<span class="label label-warning">停用</span>
+									{/if}
+									</br>
+									{php echo date("Y-m-d H:i:s" , $row['time_reg'] );}</td>
+									<td style="text-align:center;" >
+										<a href="{php echo $this->createWebUrl('car',array('id' => $id , 'mid' => $row['id'] , 'op' => 'post'))}">编辑</a></br>
+										<a href="{php echo $this->createWebUrl('car',array('id' => $id , 'mid' => $row['id'] , 'op' => 'delete'))}">删除</a>
+									</td>
+								</tr>
+								{/loop}
+							</tbody>
+						</table>
+						<table class="table">
+							<tr>
+								<td>
+									<input type="hidden" name="token" value="{$_W['token']}" />
+								</td>
+							</tr>
+						</table>
+					</div>
+				</form>
+				{$pager}
+			</div>
+		</div>
+    </div>
+{elseif $op == 'post'}
+<form action="" class="form-horizontal form" method="post" enctype="multipart/form-data" onsubmit="return formcheck()">
+	<input type="hidden" name="id" value="{$id}">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			车辆信息编辑
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">缩写</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="province" id="province"  class="form-control" value="{$item['province']}">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">车牌</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="number" id="number"  class="form-control" value="{$item['number']}">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">识别码</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="userid" id="userid"  class="form-control" value="{$item['userid']}">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">称呼</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="title" id="title"  class="form-control" value="{$item['title']}">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">电话</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="mobile" id="mobile"  class="form-control" value="{$item['mobile']}">
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+				<div class="col-sm-9 col-xs-12">
+					<select class='form-control' id='status' name='status'>
+						<option value='0' {if $item['status'] == 0}selected{/if}>未审核</option>
+						<option value='1' {if $item['status'] == 1}selected{/if}>正常</option>
+						<option value='9' {if $item['status'] == 9}selected{/if}>删除</option>
+					</select>
+				</div>
+			</div>
+		</div>		
+	</div>
+	<div class="form-group col-sm-12">
+		<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+		<input type="hidden" name="token" value="{$_W['token']}" />
+	</div>
+</form>
+{/if}
+{template 'common/footer'}<!---www.guifox.com-->

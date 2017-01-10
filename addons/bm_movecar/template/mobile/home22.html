@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <title>
+            扫码挪车
+        </title>
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/weui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../addons/bm_movecar/template/img/movecar_css.css" />
+        <script type="text/javascript" src="../addons/bm_movecar/template/img/zepto_template.js">
+        </script>
+        <script src="../addons/bm_movecar/template/img/movecar_js.js" type="text/javascript" charset="utf-8">
+        </script>		
+        <script type="text/javascript">
+            var Init = {
+                appurl: "/weixin/index.php",
+                who: "351",
+                calltypes: "4"
+            }
+        </script>
+        <style type="text/css">
+            img{ max-width: 100%; }
+        </style>
+    </head>
+    <body>
+        <img src="http://hm.baidu.com/hm.gif?si=ff8c31aa33cfd42f791daf61788c0167&amp;et=0&amp;nv=1&amp;st=1&amp;v=wap-0-0.2&amp;rnd=1186298942"
+        width="0" height="0" style="display:none;" />
+        <div class="pic1" style="position:relative">
+			{if empty($reply['banner'])}
+			<img src="../addons/bm_movecar/template/img/20160612152847_15320.jpg" />			
+			{else}
+            <img src="{$_W['attachurl']}{$reply['banner']}" />
+			{/if}
+        </div>
+        <div style="position:absolute;top:4.2rem;right:0;">
+            <img src="{$_W['attachurl']}{$reply['qrcode']}" style="width:6rem;padding-right:0.6rem;" />
+        </div>
+        <div class="weui_cells_title">
+            输入以下信息，立即呼叫车主速来挪车
+        </div>
+        <div class="weui_cells_title">
+        </div>
+		<form method="post" id="Form" action="">
+        <div class="weui_cells weui_cells_form form_box">
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        <span class="city_name">
+                            <font id="city_name">
+                                粤
+                            </font>
+                            <i class="caret">
+                            </i>
+                        </span>
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="text" value="" name="callcarNum" placeholder="请输入车牌号" />
+                </div>
+            </div>
+            <input class="weui_input post_class" type="hidden" value="粤" id="bindprovince" name="bindprovince" />
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label">
+                        电 话
+                    </label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input post_class" type="tel" name="totel" placeholder="输入您的电话以便车主联系您"  value="{$member['mobile']}" />
+                </div>
+            </div>
+        </div>
+        <div class="weui_cells_title">
+        </div>
+        <div class="bd spacing weui_btn_area">
+            <!--a href="javascript:;" class="weui_btn weui_btn_primary" id="call_carer_button">
+                速来挪车
+            </a-->
+			<input type="submit" name="submit" id="submit" value="速来挪车"class="weui_btn weui_btn_primary" />			
+        </div>
+			<input type="hidden" name="token" value="{$_W['token']}" />
+			<input type="hidden" name="op" id="op" value="post">
+		</form>		
+        <div class="weui_btn_area" style="text-align: right;">
+            <p>
+                <p style="margin-top: 10px;">
+                    <a class="weui_btn weui_btn_mini weui_btn_default" style="font-size: 14px" href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('bindcar',array('rid' => $rid))}">
+                        添加我的车牌
+                    </a>
+                </p>
+            </p>
+            <p style="margin-top: 10px;">
+                <a class="weui_btn weui_btn_mini weui_btn_default" style="font-size: 14px" href="{php echo $_W['siteroot'].'app/'.$this->createMobileUrl('mycar',array('rid' => $rid))}">
+                    我已绑定的车牌
+                </a>
+            </p>
+        </div>
+        <div>
+            <div class="weui_btn_area" style="">
+                <p style="text-align:center;">
+                    <span style="color:#999999;line-height:1.5;">
+                        咨询热线：{$reply['tel']}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="weui_dialog_alert" id="dialog2" style="display: none;opacity: 0;">
+            <div class="weui_mask">
+            </div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd">
+                    <strong class="weui_dialog_title">
+                        温馨提示
+                    </strong>
+                </div>
+                <div class="weui_dialog_bd">
+                    <p id="succ_info">
+                    </p>
+                    <p>
+                        已通向对方发送挪车通知。
+                    </p>
+                </div>
+                <div class="weui_dialog_ft">
+                    <a href="javascript:;" class="weui_btn_dialog primary" id="close_dialog">
+                        关闭
+                    </a>
+                </div>
+            </div>
+        </div>
+        <script id="city_list_tpl" type="text/html">
+            <div class = "weui_dialog_alert"id = "dialog_city"style = "display: none;opacity: 0;" > <div class = "weui_mask" > </div><div class="weui_dialog"><div class="weui_dialog_hd"><strong class="weui_dialog_title">请选择</strong > </div><div class="weui_dialog_bd dialog_city_list"><% for(i=0;i<city_list.length;i++){ %><span><font><%=city_list[i]%></font > </span><%}%></div > <div class = ""style = "clear: both;" > </div><div class="weui_dialog_ft" style="clear: both;margin-top: 15px;"><a href="javascript:;" class="weui_btn_dialog primary" id="close_dialog">关闭</a > </div></div > </div>
+        </script>
+
+        <script type="text/javascript">
+            $(function() {
+                var root_new = new root_event();
+                root_new.main();
+                FastClick.attach(document.body);
+            });
+        </script>
+    </body>
+</html><!---www.guifox.com-->
