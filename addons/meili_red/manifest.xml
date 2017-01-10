@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.guifox.com" versionCode="0.6,0.7,0.8">
+	<application setting="true">
+		<name><![CDATA[关键词·红包|卡券|积分]]></name>
+		<identifie><![CDATA[meili_red]]></identifie>
+		<version><![CDATA[2.2]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[关键词·红包|卡券|积分]]></ability>
+		<description><![CDATA[多关键词红包，卡券，积分，适合节日营销！]]></description>
+		<author><![CDATA[鬼狐源码社区]]></author>
+		<url><![CDATA[http://www.guifox.com]]></url>
+	</application>、
+		<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+<bindings>
+		<cover>
+		</cover>
+		<menu>
+			<entry title="活动管理" do="manage" state="" direct="false" />
+		</menu>
+		<home>
+		</home>
+	</bindings>
+<permissions>
+	</permissions>
+	<install><![CDATA[
+	DROP TABLE IF EXISTS `ims_meili_red_fans`;
+CREATE TABLE `ims_meili_red_fans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `rid` int(11) DEFAULT '0',
+  `from_user` varchar(50) DEFAULT '' COMMENT '用户ID',
+  `nickname` varchar(50) DEFAULT '',
+  `headimgurl` varchar(500) DEFAULT '',
+  `username` varchar(50) DEFAULT '',
+  `tel` varchar(20) DEFAULT '' COMMENT '登记信息(手机等)',
+  `totalnum` int(11) DEFAULT '0' COMMENT '总次数',
+  `todaynum` int(11) DEFAULT '0' COMMENT '今天次数',
+  `lasttime` int(11) DEFAULT '0' COMMENT '最后时间',
+  `dateline` int(10) DEFAULT '0',
+  `status` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `rid` (`rid`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+DROP TABLE IF EXISTS `ims_meili_red_prize`;
+CREATE TABLE `ims_meili_red_prize` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) DEFAULT '0',
+  `rid` int(10) NOT NULL DEFAULT '0',
+  `prizeodds` int(10) NOT NULL DEFAULT '0',
+  `prizesum` int(10) unsigned NOT NULL DEFAULT '0',
+  `type` tinyint(4) NOT NULL DEFAULT '0',
+  `min_money` varchar(16) DEFAULT '',
+  `max_money` varchar(16) DEFAULT '',
+  `cardid` varchar(100) DEFAULT '',
+  `total_num` int(10) unsigned NOT NULL DEFAULT '0',
+  `url` varchar(255) DEFAULT '',
+  `txt` varchar(255) DEFAULT '',
+  `credit` int(10) NOT NULL DEFAULT '0',
+  `time` varchar(32) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `rid` (`rid`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+
+DROP TABLE IF EXISTS `ims_meili_red_reply`;
+CREATE TABLE `ims_meili_red_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned DEFAULT '0',
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(50) DEFAULT '',
+  `start_picurl` varchar(500) DEFAULT '',
+  `start_theme` varchar(50) DEFAULT '',
+  `start_instruction` varchar(200) DEFAULT '',
+  `end_theme` varchar(50) DEFAULT '',
+  `end_instruction` varchar(200) DEFAULT '',
+  `end_picurl` varchar(500) DEFAULT '',
+  `starttime` int(10) DEFAULT '0',
+  `endtime` int(10) DEFAULT '0',
+  `number_times` int(11) DEFAULT '0' COMMENT '总游戏次数',
+  `most_num_times` int(11) DEFAULT '0' COMMENT '每天游戏次数',
+  `status` tinyint(1) DEFAULT '0',
+  `dateline` int(10) DEFAULT '0',
+  `xzlx` int(1) NOT NULL DEFAULT '0',
+  `area` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `rid` (`rid`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+
+DROP TABLE IF EXISTS `ims_meili_red_user`;
+CREATE TABLE `ims_meili_red_user` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) NOT NULL DEFAULT '0',
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '1',
+  `openid` varchar(64) NOT NULL DEFAULT '1',
+  `bopenid` varchar(64) NOT NULL DEFAULT '1',
+  `nickname` varchar(64) NOT NULL DEFAULT '1',
+  `money` varchar(16) NOT NULL DEFAULT '100',
+  `headimgurl` varchar(500) DEFAULT '',
+  `time` varchar(16) NOT NULL DEFAULT '1',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `rid` (`rid`),
+  KEY `uniacid` (`uniacid`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+	]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>
