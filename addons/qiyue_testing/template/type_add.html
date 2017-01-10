@@ -1,0 +1,54 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('manage');}">测试管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('manage',array('id'=>$id,'po'=>'add'));}">题库管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('type');}">分类管理</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl('type',array('op'=>'add'));}">{if $id}修改{else}添加{/if}分类</a></li>
+</ul>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" onsubmit="return check(this)">
+	<input type="hidden" name="id" value="{$item['id']}" />
+        <div class="panel panel-info">
+        	<div class="panel-heading">分类详细设置</div>
+            <div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">排序</label>
+					<div class="col-sm-5 col-xs-12 col-lg-3">
+						<input type="text" name="add[myorder]" class="form-control" value="{$item['myorder']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">分类名称</label>
+					<div class="col-sm-5 col-xs-12 col-lg-3">
+						<input type="text" name="add[typename]" class="form-control" value="{$item['typename']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">分类描述</label>
+					<div class="col-sm-5 col-xs-12">
+						<textarea name="add[summary]" class="form-control" rows="4" cols="70">{$item['summary']}</textarea>
+					</div>
+				</div>
+		        <hr>
+		        <div class="form-group mt10">
+		            <div class="col-sm-offset-2 col-lg-offset-2 col-sm-6">
+		                <button type="submit" class="btn btn-primary col-lg-4" name="submit" value="提交">提交</button>
+					<input type="hidden" name="token" value="{$_W['token']}" />
+		            </div>
+		        </div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+<!--
+	function check(form) {
+		if (!form['typename'].value) {
+			message('请输入分类名称！', '', 'error');
+			return false;
+		}
+	}
+
+//-->
+</script>
+{template 'common/footer'}

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <title>{$item['title']}</title>
+    <link rel="stylesheet" type="text/css" href="{APP_PUBLIC}template/mobile/survey/survey.css?v=1.5">
+    <script>var require = { urlArgs: 'v={php echo date('YmdH');}' };</script>
+    <script type="text/javascript">
+        // jssdk config 对象
+        jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {jsApiList:[]};
+        // 是否启用调试
+        jssdkconfig.debug = false;
+        // 注册接口
+        jssdkconfig.jsApiList = [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo'
+        ];
+        jsApiList = [];
+    </script>
+   </head>
+<body>
+<div class="window">
+    <!-- <div class="stamp"></div> -->
+    <div class="banner"><a href="{$item['setting']['banner_link']}"><img src="{$item['setting']['banner']}" style="width:100%;"></a></div>
+    <div class="page-loading-mask"></div>
+    <div class="pages">
+        <div class="page home">
+            <div class="page-content">
+                <h1 style="display: none;">{$item['title']}</h1>
+                <div class="start"><div><span> 开始 </span></div></div>
+            </div>
+        </div>
+        <div class="page result">
+            <div class="page-content">
+                <div class="score">
+                    <b>60</b>
+                    <span>你的<i>geek</i>指数</span>
+                </div>
+                <div class="sharetext"><span>分享后可查看答案</span></div> 
+                <div class="conclusion"></div> 
+                <p class="discription"></p>
+                <ul class="options">
+                    <li><span class="share">给好友看看</span></li>
+                    <li>再玩一次</li>
+                    <li>点击进入微信公众号</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="share_overmask">
+        <div class="share_arrow"></div>
+        <div class="share_words"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    var baseUrl = 'http://' + window.location.host + '/app/?c=entry&m={php echo $this->modulename;}&i={$_W['weid']}&id={$item['id']}';
+    var result_score, result_summary, result_conclusion;
+    window.page_config = {
+        "subject":{$item['subject']},
+        "result":{$item['result']},
+        "share":{php echo json_encode($_share);},
+        "show_score":{$item['show_score']},
+        "index":{"name":"愤怒"},
+        "appid":"{$_W['account']['key']}",
+        "weixin":{
+            "username":"",
+            "nickname":"{$_W['account']['name']}",
+            "openid":"{$_W['openid']}",
+            "follow_url":"{$item['setting']['follow_url']}"
+        },
+        "style":{ "color":"#37b9a1", "cover":"{$item['setting']['cover']}", "color_action":"#108872", "color_result":"#E84C36","button_img":"{$item['setting']['button_img']}"},
+        "next":{$item['next']}
+    };
+</script>
+<script type="text/javascript" src="{APP_PUBLIC}template/mobile/js/require.js" charset="UTF-8"></script>
+<script type="text/javascript" src="{APP_PUBLIC}template/mobile/survey/survey.js?v=1.4" charset="UTF-8"></script>
+<span style="display:none;">{$_W['setting']['copyright']['statcode']}</span>
+</body>
+</html>

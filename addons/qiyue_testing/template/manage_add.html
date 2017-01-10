@@ -1,0 +1,143 @@
+{template 'common/header'}
+<div class="main">
+    <ul class="nav nav-tabs">
+        <li><a href="{php echo $this->createWebUrl('manage');}">测试管理</a></li>
+        <li class="active"><a href="{php echo $this->createWebUrl('post');}">{if $item['id']}编辑{else}添加{/if}测试</a></li>
+        {if $_W['isfounder']==1}
+            <li><a href="{php echo $this->createWebUrl('type');}">分类管理</a></li>
+        {/if}
+    </ul>
+    <form action="" class="form-horizontal form" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{$_GPC['id']}">
+        <div class="panel panel-info">
+            <div class="panel-heading">分类详细设置</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label"> <span class="text-danger">*</span> 标题</label>
+                    <div class="col-sm-8 col-xs-12 col-lg-8">
+                        <input type="text" id="title" name="add[title]" class="form-control" value="{$item['title']}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">请选择分类</label>
+                    <div class="col-sm-5 col-xs-12 col-lg-3">
+                        <select class="form-control" name="add[typeid]" id="typeid">
+                            <option value="0">请选择分类</option>
+                            {loop $types $t}
+                            <option value="{$t['id']}"{if $t['id']==$item['typeid']} selected{/if}>{$t[typename]}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">是否显示分数</label>
+                    <div class="col-sm-5 col-xs-12">
+                        <label class="radio-inline">
+                            <input type="radio" name="add[show_score]" class="from-control" value="0"{if $item['show_score'] == 0} checked="checked"{/if}> 否
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="add[show_score]" class="from-control" value="1"{if $item['show_score'] == 1} checked="checked"{/if}> 是
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">测试简介</label>
+                    <div class="col-sm-5 col-xs-12 col-lg-6">
+                        <textarea name="add[smalltext]" class="form-control" rows="5" cols="70">{$item['smalltext']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">更多设置</label>
+                    <div class="col-sm-5 col-xs-12">
+                        <label class="radio-inline">
+                            <input type="radio" name="isset" id="isset" class="from-control" value="0"{if $item['isset'] == 0} checked="checked"{/if}> 否
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="isset" id="isset" class="from-control" value="1"{if $item['isset'] == 1} checked="checked"{/if}> 是
+                        </label>
+                    </div>
+                </div>
+                <div class="isset-params{if $item['isset'] == 0} hide{/if}">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">封面图片</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            {php echo tpl_form_field_image('cover',$item['setting']['cover']);}
+                            <span class="help-block">图片尺寸建议：640*960。</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">banner图片</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            {php echo tpl_form_field_image('banner',$item['setting']['banner']);}
+                            <span class="help-block">图片尺寸建议：640*300。</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">banner图片链接</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            <input type="text" id="banner_url" class="form-control" name="setting[banner_link]" value="{$item['setting']['banner_link']}">
+                            <span class="help-block">顶部banner图片链接</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">按钮图片</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            {php echo tpl_form_field_image('button_img',$item['setting']['button_img']);}
+                            <span class="help-block">开始按钮图片，png格式背景透明为佳，尺寸 200*200</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">分享图片</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            {php echo tpl_form_field_image('share_icon',$item['setting']['share_icon']);}
+                            <span class="help-block">开始按钮图片，png格式背景透明为佳，尺寸 200*200</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">分享链接</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            <input type="text" id="share_url" class="form-control" name="setting[share_url]" value="{$item['setting']['share_url']}">
+                            <div class="help-block">用户分享出去的链接，可以是其它活动或广告等素材的链接，为空则分享当前页。</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">分享后跳转链接</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            <input type="text" id="share_back" class="form-control" name="setting[share_back]" value="{$item['setting']['share_back']}">
+                            <div class="help-block">用户分享后跳转的链接，如果不填则是分享受后才可以看到答案。</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">引导关注链接</label>
+                        <div class="col-sm-8 col-xs-12 col-lg-8">
+                            <input type="text" id="follow_url" class="form-control" name="setting[follow_url]" value="{$item['setting']['follow_url']}">
+                            <div class="help-block">建议做一条引导关注的图文素材。例：<a href="http://mp.weixin.qq.com/s?__biz=MjM5ODU0NzQ0Mg==&mid=200074867&idx=1&sn=5a529a8cf2369731f535d5f3885d140e#rd" target="_black">点击查看</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group mt10">
+                    <div class="col-sm-offset-2 col-lg-offset-2 col-sm-6">
+                        <button type="submit" class="btn btn-primary col-lg-4" name="submit" value="提交">下一步，设置题库</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+<script type="text/javascript">
+    require(['bootstrap'],function($){
+        $("input[name=isset]").change(function() {
+            if(this.checked) {
+                if($(this).val() == '1') {
+                    $('.isset-params').removeClass('hide');
+                }
+                else {
+                    $('.isset-params').addClass('hide');
+                }
+            }
+        }); 
+    });
+</script>
+{template 'common/footer'}

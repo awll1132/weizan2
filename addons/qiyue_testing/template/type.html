@@ -1,0 +1,71 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('manage');}">测试管理</a></li>
+    <li><a href="{php echo $this->createWebUrl('manage',array('id'=>$id,'po'=>'add'));}">题库管理</a></li>
+    <li class="active"><a href="{php echo $this->createWebUrl('type');}">分类管理</a></li>
+</ul>
+<div class="main">
+    
+    <a href="{php echo $this->createWebUrl('type',array('op'=>'add'));}" class="btn btn-primary" style="margin-bottom: 15px;"><i class="icon-edit"></i> 添加分类</a>
+    <form class="form-horizontal form" action="" method="post" onsubmit="return formcheck(this)">
+        <input name="weid" type="hidden" value="{$_W['weid']}">
+        <input type="hidden" name="id" value="{$_GPC['id']}" />
+        <input type="hidden" name="result[range_start][]">
+        <div class="panel panel-info">
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead class="navbar-inner">
+                        <tr>
+                            <th class="row-hover">分类名称</th>
+                            <th class="row-hover">分类描述</th>
+                            <th class="">访问</th>
+                            <th class="">题量</th>
+                            <th class="col-gl-2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="status-items">
+    {loop $list $item}
+                        <tr data-id="{$item['id']}">
+                            <td>{$item['typename']}</td>
+                            <td>{$item['summary']}</td>
+                            <td>{$item['viewnum']}</td>
+                            <td>{$item['titlenum']}</td>
+                            <td>
+                                <a href="{php echo $this->createWebUrl('manage',array('op'=>'add','typeid'=>$item['id']));}" data-toggle="tooltip" data-placement="top" title="添加测试" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i></a>
+                                <a href="{php echo $this->createWebUrl('type',array('op'=>'add','id'=>$item['id']));}" data-toggle="tooltip" data-placement="top" title="编辑分类" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                                <a onclick="QIYUE.delete(this);" href="javascript:;" data-toggle="tooltip" data-placement="top" title="删除分类" class="btn btn-default"><i class="glyphicon glyphicon-trash"></i></a>
+                            </td>
+                        </tr>
+    {/loop}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script type="text/javascript">
+    var QIYUE = {
+        jsonUrl: "{php echo $this->createWebUrl($do)}",
+        delete: function(_this){
+            if(!confirm('此操作不可恢复，确认吗？')) return false;
+            var $this = $(_this).parent().parent();
+            var id = $this.attr('data-id');
+            if(!id) return false;
+            $.post(this.jsonUrl, {"op":"delete","id":id}, function(msg){
+                var _obj = JSON.parse(msg);
+                if(_obj.message.state==0){
+                    $this.remove();
+                }
+            });
+        }
+    }
+    require(['bootstrap'],function($){
+        $('.btn').hover(function(){
+            $(this).tooltip('show');
+        },function(){
+            $(this).tooltip('hide');
+        });
+    });
+</script>
+{template 'common/footer'}

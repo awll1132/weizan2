@@ -1,0 +1,92 @@
+{template 'common/header'}
+<div class="main">
+    <ul class="nav nav-tabs">
+        <li><a href="{php echo $this->createWebUrl('manage');}">地方话管理</a></li>
+        <li class="active"><a href="{php echo $this->createWebUrl('manage',array('id'=>$id,'po'=>'add'));}">评分规则</a></li>
+        {if $_W['isfounder']==1}
+            <li><a href="{php echo $this->createWebUrl('type');}">分类管理</a></li>
+        {/if}
+    </ul>
+    <div class="alert alert-warning">说明：要计算1-60，60-80，80-100个区间的得分，只需要填写60､80､100，系统会自动补全并计算区间分数。具体请 <a href="#" onclick="scoretxtCase();">查看示例</a></div>
+    <form class="form-horizontal form" action="" method="post" onsubmit="return formcheck(this)">
+        <input type="hidden" name="id" value="{$_GPC['id']}" />
+        <div class="panel panel-info">
+            <div class="panel-heading">《{$item['title']}》评分规则</div>
+            <div class="panel-body">
+               <table class="table table-hover">
+                    <thead class="navbar-inner">
+                        <tr>
+                            <th class="col-lg-2">评分</th>
+                            <th class="col-lg-3">评语</th>
+                            <th class="row-hover">简评</th>
+                            <th class="col-lg-1">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="status-items"></tbody>
+                    <tr>
+                        <td colspan="4">
+                            <a href="javascript:;" onclick="addStatusItem()" class="btn btn-link"><i class="glyphicon glyphicon-plus"></i> 添加新问题</a>
+                        </td>
+                    </tr>
+                </table>
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-primary btn-block" name="submit" value="提交">提交题库</button>
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    var _TextArray = new Array();
+        _TextArray[0] = '60::::::还没级格::::::哇哦！能考出如此惊天地、泣鬼神的分数，可见本人是多么的不一般。';
+        _TextArray[1] = '80::::::刚好级格::::::继续努把力。';
+        _TextArray[2] = '100::::::学霸::::::继续保持，老师看好你哟！';
+
+    var data = {$item['result']};
+
+    for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        addStatusItem(item['range_end'],item['conclusion'],item['summary']);
+    };
+
+    function scoretxtCase(){
+        $('#db-items>tr').remove();
+        if($('#db-items>tr').length==0){
+            for (var i = 0; i < _TextArray.length; i++) {
+                var text = _TextArray[i];
+                var att = text.split('::::::');
+                addStatusItem(att[0],att[1],att[2]);
+            };
+        }
+    }
+    
+    function drop_confirm(msg, url){
+        if(confirm(msg)){
+            window.location = url;
+        }
+    }
+    function addStatusItem(range_end,conclusion,summary) {
+        range_end = range_end || '';
+        conclusion = conclusion || '';
+        summary = summary || '';
+        var html = '' +
+                '<tr>' +
+                    '<td><div class="input-group"><input type="text" class="form-control" name="result[range_end][]" value="'+range_end+'" /><span class="input-group-addon">分</span></div></td>' +
+                    '<td><input type="text" class="form-control" name="result[conclusion][]" value="'+conclusion+'" /></td>'+
+                    '<td><textarea class="form-control" name="result[summary][]" rows="2">'+summary+'</textarea></td>' +
+                    '<td><a href="javascript:;" onclick="$(this).parent().parent().remove();" class="btn btn-small" title="删除此条目"><i class="glyphicon glyphicon-trash"></i></a> <span class="glyphicon glyphicon-move"></span></td>' +
+                '</tr>';
+        $('#status-items').append(html);
+    }
+    require(['bootstrap', 'jquery.ui'],function($,ui){
+        $('#status-items').sortable({
+            cursor: "move",
+            items: "tr",
+            handle:'span',
+            opacity: 0.6,
+            // revert: false
+        });
+    });
+</script>
+{template 'common/footer'}
