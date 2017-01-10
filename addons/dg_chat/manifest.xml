@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.guifox.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[直播教室-微课神器]]></name>
+		<identifie><![CDATA[dg_chat]]></identifie>
+		<version><![CDATA[2.2.9]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[直播教室-微课神器]]></ability>
+		<description><![CDATA[直播教室-微课神器]]></description>
+		<author><![CDATA[鬼狐源码网]]></author>
+		<url><![CDATA[http://www.guifox.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+	<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="教室入口" do="room" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="支付设置" do="pay_setting" state="" direct="false" />
+			<entry title="管理员设置" do="manager_setting" state="" direct="false" />
+			<entry title="计划任务设置" do="chat_taskset" state="" direct="false" />
+			<entry title="直播间管理" do="chat_manage" state="" direct="false" />
+			<entry title="话题管理" do="topic_manage" state="" direct="false" />
+			<entry title="财务结算" do="chat_payment" state="" direct="false" />
+			<entry title="直播间参数" do="im_setting" state="" direct="false" />
+			<entry title="首页幻灯片" do="banner_manage" state="" direct="false" />
+			</menu>
+	</bindings>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

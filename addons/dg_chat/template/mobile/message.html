@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/live.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/css/style_new.css" />
+		<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<title>{$chat_room['room_name']}</title>
+		<style type="text/css">
+		 .tMain{
+		    top: 0rem;
+            bottom: 1.2rem;
+		    position: absolute;
+		    overflow: scroll;
+		    overflow-x: hidden;
+		    width:100%; 
+		    -webkit-overflow-scrolling: touch;
+		 }		 
+		</style>
+		{php echo register_jssdk();}
+		<script type="text/javascript">
+		var chat_url="{php echo $this->createMobileUrl('chat')}";
+		   wx.ready(function () {
+			    sharedata = {
+			        title: "{$sharedata['title']}",
+			        desc: "{$sharedata['desc']}",
+			        link: "{$sharedata['link']}",
+			        imgUrl: "{$sharedata['imgUrl']}",
+			        success:function(){}
+			    };
+			    wx.onMenuShareAppMessage(sharedata);
+			    wx.onMenuShareTimeline(sharedata);
+			});
+		   
+		   
+		   var t=5;//设定跳转的时间 
+		   setInterval("refer()",1000); //启动1秒定时 
+		   function refer(){  
+		       if(t==0){ 
+		           location="{$index_url}"; //#设定跳转的链接地址 
+		       } 
+		       $("#show").text(t+"秒后跳转到首页！"); // 显示倒计时 
+		       t--; // 计数器递减 
+		   } 		   
+		</script>
+		
+	</head>
+
+	<body>	
+		
+	<div class="tMain">
+		
+		<div style="width:100%;margin-top:100px;text-align:center;">
+		   <div style="font-size:1.6rem;font-size: 1.6rem;font-weight:bold;width:100%;text-align:center">该话题已经被禁用</div>
+		   <div style="width:100%;text-align:center;margin-top:20px;color:red;padding:3px;" id="show"></div>
+		</div>
+		
+	</div>
+	
+<div class="menu_wkBox back_box">
+    <a href="{$index_url}" class="menu_boxFl menu_home on">首页</a>
+    {if $is_manager}
+	   <a href="{$chat_url}" class="menu_boxFl menu_live">直播间</a>
+	{/if}
+	<a href="{$mychat_url}" class="menu_boxFl menu_mine">我的</a>
+</div>
+	
+	
+	</body>
+
+</html>

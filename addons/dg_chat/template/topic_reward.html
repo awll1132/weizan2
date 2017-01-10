@@ -1,0 +1,62 @@
+{template 'common/header'}
+<style type="text/css">
+.table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+  white-space:normal;
+}
+</style>
+
+
+<ul class="nav nav-tabs">
+<li><a href="{php echo $this->createWebUrl('topic_manage')}">话题管理</a></li>
+{if $_GPC['from']=='pay'}
+	<li {if $_GPC['do'] == 'topic_pay'}class="active"{/if}><a href="{php echo $this->createWebUrl('topic_pay',array('topic_id'=>$_GPC['topic_id']))}">付费统计</a></li>
+{else}
+    <li {if $_GPC['do'] == 'topic_joins'}class="active"{/if}><a href="{php echo $this->createWebUrl('topic_joins',array('topic_id'=>$_GPC['topic_id']))}">报名统计</a></li>
+{/if}
+
+	<li {if $_GPC['do'] == 'topic_reward'}class="active"{/if}><a href="{php echo $this->createWebUrl('topic_reward',array('topic_id'=>$_GPC['topic_id']))}">赞赏统计</a></li></ul>
+<div class="main">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">	
+			<div class="row-fluid">
+				<div class="span8 control-group">
+					共计 <span style="color:red;">{$total}</span> 条数据，收入 <span style="color:red;">{$total_money}</span> 元
+				</div>
+			</div>
+		</div>
+		<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+				<th style="width:100px;">赞赏人头像</th>
+					<th>赞赏人昵称</th>
+					<th align="center" style="width:100px;">赞赏金额</th>
+						<th style="width:100px;">被赞赏人头像</th>
+					<th>被赞赏人昵称</th>
+					<th align="center" style="width:300px;">微信交易号</th>
+					<th align="center">支付时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $records $row}
+				<tr>
+				<td><img alt="" src="{$row['avatar']}" width='auto' style="max-width:50px; max-height:50px;" height='auto'></td>
+					<td>{$row['nickname']}</td>
+					<td>{$row['pay_money']}</td>
+					
+					<td><img alt="" src="{$row['toavatar']}" width='auto' style="max-width:50px; max-height:50px;" height='auto'></td>
+					<td>{$row['tonickname']}</td>
+					
+					<td>{$row['transaction_id']}
+					<td>{php echo date('Y/m/d H:i:s', $row['pay_time']);}
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+	</div>
+	</div>
+	{$pager}
+</div>
+
+{template 'common/footer'}
