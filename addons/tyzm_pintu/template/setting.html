@@ -1,0 +1,25 @@
+{template 'common/header'}
+<form id="reply-form" class="form-horizontal form"  method="post" enctype="multipart/form-data">
+<div class="panel panel-success">
+
+	<div class="panel-heading">
+		参数设置
+	</div>
+
+	<div class="panel-body">
+		<div class="form-group">
+				  <label class="col-xs-12 col-sm-3 col-md-2 control-label">地区接口apikey</label>
+				  <div class="col-sm-9">
+					<input class="form-control" type="text" value="{$settings['baiduapikey']}" class="span2" name="baiduapikey">
+					<div class="help-block">设置地区限制时，请至”<a href="http://apistore.baidu.com/astore/usercenter" target="_blank" >百度apistore</a>“获取apikey，注册按照引导获取apikey填到上面即可。<a href="http://apistore.baidu.com/astore/usercenter" target="_blank">点击获取</a></div>
+				  </div>
+				</div>	
+		</div>
+</div>
+<div class="form-group">		
+<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>			
+<div class="col-sm-4"><input name="submit" type="submit" value="保存" class="btn btn-success btn-block" />				<input type="hidden" name="token" value="{$_W['token']}" />			
+</div>		
+</div>	
+</div></form>
+{template 'common/footer'}

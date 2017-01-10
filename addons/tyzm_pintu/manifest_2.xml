@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6,0.7">
+	<application setting="true">
+		<name><![CDATA[【掌泡】助力拼图]]></name>
+		<identifie><![CDATA[tyzm_pintu]]></identifie>
+		<version><![CDATA[2.2.3]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[助力拼图，让大家一起玩！]]></ability>
+		<description><![CDATA[助力拼图，让大家一起玩！]]></description>
+		<author><![CDATA[懒人淘]]></author>
+		<url><![CDATA[http://lanrentao.taobao.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="活动管理" do="manage" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[
+	
+CREATE TABLE IF NOT EXISTS `ims_tyzm_pintu_reply` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(100) DEFAULT '',
+  `thumb` varchar(255) DEFAULT '' COMMENT '封面',
+  `description` varchar(255) DEFAULT '',
+  `starttime` int(10) DEFAULT '0',
+  `endtime` int(10) DEFAULT '0',
+  `bgimg` varchar(255) DEFAULT '' COMMENT '背景图片',
+  `bgcolor` varchar(255) DEFAULT '' COMMENT '背景颜色',
+  `startimg`  varchar(255) COMMENT '首页图片',
+  `eventrule` mediumtext COMMENT '活动规则',
+  `awardmsg` mediumtext COMMENT '奖品介绍',
+  `pingtubig1` varchar(255) DEFAULT '' COMMENT '大拼图1',
+  `pingtubig2` varchar(255) DEFAULT '' COMMENT '大拼图2',
+  `pingtubig3` varchar(255) DEFAULT '' COMMENT '大拼图3',
+  `pingtubig4` varchar(255) DEFAULT '' COMMENT '大拼图4',
+  `pingtubig5` varchar(255) DEFAULT '' COMMENT '大拼图5',
+  `pingtubig6` varchar(255) DEFAULT '' COMMENT '大拼图6',
+  `follow` tinyint(1) DEFAULT '0' COMMENT '是否需要关注',
+  `followjoin` tinyint(1) NOT NULL DEFAULT '0',
+  `awardtotal` int(10) NOT NULL DEFAULT '0',
+  `probability` int(2) NOT NULL DEFAULT '0',
+  `isreg` int(2) NOT NULL DEFAULT '0',
+  `mutualjoin` tinyint(4) DEFAULT '0',
+  `rankingnum` int(10) NOT NULL DEFAULT '0',
+  `area` varchar(100) DEFAULT '0' COMMENT '地区限制',
+  `status` tinyint(1) DEFAULT '0',
+  `usepwd` varchar(6) NOT NULL COMMENT '前台核销密码',
+  `ptdata` mediumtext COMMENT '拼图设置',
+  `admodel` mediumtext COMMENT '广告内容',
+  `shareimg` varchar(255) DEFAULT '' COMMENT '分享图标',
+  `sharetitle` varchar(100) DEFAULT '' COMMENT '分享标题',
+  `sharedesc` varchar(300) DEFAULT '' COMMENT '分享简介',
+  `createtime` int(10) DEFAULT '0' COMMENT '时间',
+  PRIMARY KEY (`id`),
+  KEY `indx_rid` (`rid`),
+  KEY `indx_uniacid` (`uniacid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+--
+-- 表的结构 `ims_tyzm_pintu_userdata`
+--
+
+CREATE TABLE IF NOT EXISTS `ims_tyzm_pintu_userdata` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `tid` int(10) unsigned NOT NULL DEFAULT '0',
+  `rid` int(10) unsigned NOT NULL DEFAULT '0',
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '0' COMMENT '用户openid',
+  `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '微信头像',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '微信昵称',
+  `pttype` tinyint(1) DEFAULT '0' COMMENT '拼图类型',
+  `user_ip` varchar(15) NOT NULL COMMENT '客户端ip',
+  `mobile` varchar(11) DEFAULT NULL,
+  `name` varchar(10) DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0' COMMENT '拼图状态',
+  `formatdata` varchar(255) NOT NULL,
+  `finishnum` int(1) NOT NULL DEFAULT '0' COMMENT '完成数量',
+  `finishtime` int(10) DEFAULT '0' COMMENT '完成时间',
+  `isexchange` int(1) DEFAULT NULL,
+  `createtime` int(10) DEFAULT '0' COMMENT '时间',
+  PRIMARY KEY (`id`),
+  KEY `indx_rid` (`rid`),
+  KEY `indx_uniacid` (`uniacid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE IF NOT EXISTS `ims_tyzm_pintu_fansdata`(
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) DEFAULT '0',
+  `openid` varchar(50) NOT NULL DEFAULT '0' COMMENT '用户openid',
+  `createtime` int(10) DEFAULT '0' COMMENT '时间',
+  PRIMARY KEY (`id`),
+  KEY `indx_openid` (`openid`),
+  KEY `indx_uniacid` (`uniacid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+	
+	]]></install>
+	<uninstall><![CDATA[
+	drop table if exists ims_tyzm_pintu_userdata;	drop table if exists ims_tyzm_pintu_reply; drop table if exists ims_tyzm_pintu_fansdata;
+	]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>
