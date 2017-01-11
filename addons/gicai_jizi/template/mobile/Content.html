@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en"><head>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<title>{$account['title']}</title>
+ 
+<link rel="stylesheet" href="../addons/{$_GPC['m']}/public/style/weui.css"/>
+<link rel="stylesheet" href="../addons/{$_GPC['m']}/public/style/weui2.css"/>
+<style>
+body{ background:{$account['color']};padding-top:40px;}
+.timeline{ color:#ffbb46 !important;}
+.timeline p{color:#ffbb46 !important; font-size:16px;}
+.guize{background:#e25446; color:#ffbb46; position:absolute; left:0px;top:0px;border-radius:0px 0px 15px 0px;padding:5px; border-bottom:1px #fcba3f solid; border-right:1px #fcba3f solid }
+.guize a{ color:#ffbb46; text-decoration:none;}
+.guizez{background:#e25446; color:#ffbb46; position:absolute; right:0px;top:0px;border-radius:0px 0px 0px 15px;padding:5px; border-bottom:1px #fcba3f solid; border-left:1px #fcba3f solid }
+.guizez a{ color:#ffbb46; text-decoration:none;}
+#wrapper {
+	position: relative;
+	width:100%;
+	height: 88%;
+	overflow: hidden;
+ 
+
+	/* Prevent native touch events on Windows */
+	-ms-touch-action: none;
+
+	/* Prevent the callout on tap-hold and text selection */
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	/* Prevent text resize on orientation change, useful for web-apps */
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+#scroller {
+	position: absolute;
+
+	/* Prevent elements to be highlighted on tap */
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+
+	/* Put the scroller into the HW Compositing layer right from the start */
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+}
+</style>
+
+{php echo register_jssdk();}
+<script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+
+<script src="../addons/{$_GPC['m']}/public/js/build/iscroll.js"></script>
+<script type="text/javascript">
+var myScroll;
+function loaded () {
+	myScroll = new IScroll('#wrapper');
+}
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+</script>
+ 
+<script>
+wx.ready(function () {
+	sharedata = {
+		title: "{$account['fxtitle']}",
+		desc: "{$account['description']}",
+		link: "{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}",
+		imgUrl:"{php echo tomedia($account['fximg'])}",
+		success: function(){
+			 
+		},
+		cancel: function(){
+			alert('不要取消分享啊，分享出去让大家一起帮你！。');
+		}
+	};
+	wx.onMenuShareAppMessage(sharedata);
+});
+</script>
+
+</head>
+<body onload="loaded()">
+<div class="guize"><a href="{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}">返回活动</a></div>
+<div class="guizez"><a href="{php echo $this->mobileurls($this->createmobileUrl('Ranking',array('id'=>$_GPC['id'])),'app');}">赠送记录</a></div>
+<div id="wrapper">
+	<div id="scroller" class="timeline">
+		{php echo html_entity_decode($account['content'], ENT_QUOTES)}
+	</div>
+</div>
+<div style="color:#CCC; text-align:center; font-size:10px; line-height:30px; bottom:0px;width:120px;margin:30px 0px 0px -60px;position:absolute; left:50%;right:50%; overflow: auto; ">
+    <a href="http://www.ilvle.com/" style="color:#CCC;">{$account['footercopy']}</a>
+</div>
+</body>
+</html>

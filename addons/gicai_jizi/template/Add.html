@@ -1,0 +1,389 @@
+{template 'common/header'}
+<div class="main">
+	
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="{php echo $this->createWebUrl('List');}" aria-controls="home" role="tab">活动列表</a></li>
+        <li role="presentation" class="active" ><a href="#" aria-controls="home" role="tab">添加活动</a></li>
+    </ul>
+    
+	<form action="" method="post" class="form-horizontal form" id="setting-form" onsubmit="return validForm();">
+		<div class="panel panel-default">
+			<div class="panel-heading">添加活动</div>
+			<div class="panel-body">
+            
+            	<div class="form-group" style="display:none;">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">站点外链</label>
+					<div class="col-sm-8">
+						<a href="{php echo $this->mobileurls($this->createmobileUrl('Index'),'app');}" class="btn btn-default btn-sm" target="_blank">管理入口</a>
+					</div>
+				</div>
+                
+                
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">活动标题</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[title]" id="title" class="form-control" value="店庆咻一咻 集齐五福 赢取丰厚大礼" />
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">分享标题</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[fxtitle]" id="fxtitle" class="form-control" value="店庆咻一咻 集齐五福 赢取丰厚大礼" />
+					</div>
+				</div>
+                 
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">分享描述</label>
+					<div class="col-sm-8">
+						<textarea style="height:80px;" class="form-control" cols="70" name="data[description]" autocomplete="off">小伙伴们福来啦，快来咻走你的福气吧。</textarea>
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">分享图标</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[fximg]');}
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">关注二维码</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[eqcode]');}
+					</div>
+				</div>
+                
+                
+                  
+                <style>
+                .gicai_jizi_list{ height:auto;}
+				.gicai_jizi_list ul{padding:0px;margin:0px 0px 0px 15px;clear:both;overflow:hidden;}
+				.gicai_jizi_list ul li{  float:left;height:auto; line-height:35px; text-decoration:none; list-style-type:none; text-align:center;margin-right:10px;margin-bottom:5px;}
+				.gicai_jizi_list .img-thumbnail{ display:none;}
+                </style>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" >奖品选项</label>
+					<div class="col-sm-10" style="padding:0px;margin:0px;">
+						<div class="gicai_jizi_list" style="padding:0px;margin:0px;">
+                        	<ul>
+                            	<li style="width:60px;">编号</li><li style="width:80px;">字名称</li><li style="width:80px;">数量</li><li style="width:80px;">卡片名称</li><li style="width:80px;">几率</li><li style="width:240px;">封面图</li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">1</li>
+                                <li style="width:80px;"><input type="text" name="data[zi1]" id="zi1" class="form-control" style="width:100%;" value="家" /></li>
+                                <li style="width:80px;"><input type="text" name="data[sl1]" id="" class="form-control" style="width:100%;" value="无限制" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[kn1]" id="kn1" class="form-control" style="width:100%;" value="家园卡" /></li>
+                                <li style="width:80px;"><input type="text" name="data[jl1]" id="jl1" class="form-control" style="width:100%;" value="10"/></li>
+                                <li style="width:240px;">{php echo tpl_form_field_image('data[lg1]');}</li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">2</li>
+                                <li style="width:80px;"><input type="text" name="data[zi2]" id="zi2" class="form-control" style="width:100%;" value="和" /></li>
+                                <li style="width:80px;"><input type="text" name="data[sl2]" id="" class="form-control" style="width:100%;" value="无限制" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[kn2]" id="kn2" class="form-control" style="width:100%;" value="和气卡" /></li>
+                                <li style="width:80px;"><input type="text" name="data[jl2]" id="jl2" class="form-control" style="width:100%;" value="10"/></li>
+                                <li style="width:240px;">{php echo tpl_form_field_image('data[lg2]');}</li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">3</li>
+                                <li style="width:80px;"><input type="text" name="data[zi3]" id="zi3" class="form-control" style="width:100%;" value="万" /></li>
+                                <li style="width:80px;"><input type="text" name="data[sl3]" id="" class="form-control" style="width:100%;" value="无限制" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[kn3]" id="kn3" class="form-control" style="width:100%;" value="万岁卡" /></li>
+                                <li style="width:80px;"><input type="text" name="data[jl3]" id="jl3" class="form-control" style="width:100%;" value="10"/></li>
+                                <li style="width:240px;">{php echo tpl_form_field_image('data[lg3]');}</li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">4</li>
+                                <li style="width:80px;"><input type="text" name="data[zi4]" id="zi4" class="form-control" style="width:100%;" value="事" /></li>
+                                <li style="width:80px;"><input type="text" name="data[sl4]" id="" class="form-control" style="width:100%;" value="无限制" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[kn4]" id="kn4" class="form-control" style="width:100%;" value="好事卡" /></li>
+                                <li style="width:80px;"><input type="text" name="data[jl4]" id="jl4" class="form-control" style="width:100%;" value="10"/></li>
+                                <li style="width:240px;">{php echo tpl_form_field_image('data[lg4]');}</li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px; color:#900">5</li>
+                                <li style="width:80px;"><input type="text" name="data[zi5]" id="zi5" class="form-control" style="width:100%;" value="兴" /></li>
+                                <li style="width:80px;"><input type="text" name="data[sl5]" id="sl5" class="form-control" style="width:100%;" value="200" /></li>
+                                <li style="width:80px;"><input type="text" name="data[kn5]" id="kn5" class="form-control" style="width:100%;" value="兴盛卡" /></li>
+                                <li style="width:80px;"><input type="text" name="data[jl5]" id="jl5" class="form-control" style="width:100%;" value="10"/></li>
+                                <li style="width:240px;">{php echo tpl_form_field_image('data[lg5]');}</li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">咻一咻：</li>
+                                <li>{php echo tpl_form_field_date('data[xyxtime]', '', true);}<span style="color:#900;">注：指定时间开始咻一咻，才能获得到第五个字。</span></li>
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">提示：</li>
+                                <li>字符一个字为最佳,几率越大,出现的几率越小。数量决定最终中奖名额。</li>
+                            </ul>
+                            
+                             
+                        </div>
+					</div>
+				</div>
+                
+                 
+                
+                
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">背景颜色</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_color('data[color]','#200c31');}
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">预计活动人数</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[totals]" id="totals" class="form-control" placeholder="这个人数与几率有着密切关系，详情看使用说明！"  />
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">初始数量</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[numbers]" id="numbers" class="form-control" value="2" />
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">开始时间</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_date('data[startime]', '', true);}
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">结束时间</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_date('data[endtime]', '', true);}
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">兑奖口令</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[passwords]" id="passwords" class="form-control" />
+					</div>
+				</div>
+                
+                 
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">版权信息</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[footercopy]" id="footercopy" class="form-control" value="微信平台" />
+					</div>
+				</div>
+                 
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">活动内容</label>
+					<div class="col-sm-8">
+						{php echo tpl_ueditor('data[content]',$account['content']);}
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input name="submit" type="submit" value="添加" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+});
+function validForm(){
+	if ($("#title").val()=='') {
+		Tip = $("#title");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#fxtitle").val()=='') {
+		Tip = $("#fxtitle");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#description").val()=='') {
+		Tip = $("#description");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi1").val()=='') {
+		Tip = $("#zi1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi2").val()=='') {
+		Tip = $("#jz2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi3").val()=='') {
+		Tip = $("#jz3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi4").val()=='') {
+		Tip = $("#jz4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi5").val()=='') {
+		Tip = $("#jz5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#sl5").val()=='') {
+		Tip = $("#sl5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn1").val()=='') {
+		Tip = $("#kn1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn2").val()=='') {
+		Tip = $("#kn2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn3").val()=='') {
+		Tip = $("#kn3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn4").val()=='') {
+		Tip = $("#kn4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn5").val()=='') {
+		Tip = $("#kn5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#sl5").val()=='') {
+		Tip = $("#sl5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl1").val()=='') {
+		Tip = $("#jl1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl2").val()=='') {
+		Tip = $("#jl2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl3").val()=='') {
+		Tip = $("#jl3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl4").val()=='') {
+		Tip = $("#jl4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl5").val()=='') {
+		Tip = $("#jl5");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#lg1").val()=='') {
+		Tip = $("#lg1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg2").val()=='') {
+		Tip = $("#lg2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg3").val()=='') {
+		Tip = $("#lg3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg4").val()=='') {
+		Tip = $("#lg4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg5").val()=='') {
+		Tip = $("#lg5");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#color").val()=='') {
+		Tip = $("#color");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#totals").val()=='') {
+		Tip = $("#totals");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#numbers").val()=='') {
+		Tip = $("#numbers");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#startime").val()=='') {
+		Tip = $("#startime");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#endtime").val()=='') {
+		Tip = $("#endtime");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#passwords").val()=='') {
+		Tip = $("#passwords");
+		Tip.focus();
+		return false;	
+	}
+	
+	
+	 
+	
+	if ($("#footercopy").val()=='') {
+		Tip = $("#footercopy");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#content").val()=='') {
+		Tip = $("#content");
+		Tip.focus();
+		return false;	
+	}
+	return true;
+}
+</script>
+ 
+
+
+{template 'common/footer'}

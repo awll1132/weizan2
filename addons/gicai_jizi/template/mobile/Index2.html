@@ -1,0 +1,384 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<title>{$account['title']}</title>
+<link href="../addons/{$_GPC['m']}/public/css/sequence-theme.mono.css" rel="stylesheet" media="all">
+<link rel="stylesheet" href="../addons/{$_GPC['m']}/public/style/weui.css"/>
+<link rel="stylesheet" href="../addons/{$_GPC['m']}/public/style/weui2.css"/>
+{php echo register_jssdk();}
+<script src="../addons/{$_GPC['m']}/public/js/prefixfree.min.js"></script>
+ 
+<script>
+wx.ready(function () {
+	sharedata = {
+		title: "{$account['fxtitle']}",
+		desc: "{$account['description']}",
+		link: "{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}",
+		imgUrl:"{php echo tomedia($account['fximg'])}",
+		success: function(){
+			 
+		},
+		cancel: function(){
+			alert('不要取消分享啊，分享出去让大家一起帮你！。');
+		}
+	};
+	wx.onMenuShareAppMessage(sharedata);
+});
+</script>
+<style>
+body{font-family: "microsoft yahei";}
+body { margin: 0;padding: 0; background:{$account['color']};}
+.guize{background:#e25446; color:#ffbb46; position:absolute;  right:0px;top:0px;border-radius:0px 0px 0px 15px;padding:5px; border-bottom:1px #fcba3f solid; border-left:1px #fcba3f solid }
+
+.userids{  color:#ffbb46; position:absolute; left:0px;top:0px; padding:5px;  }
+
+.guize a{ color:#ffbb46; text-decoration:none;}
+#container {position: relative; height: 100% !important; width: 100%; overflow: hidden;}
+.dot {height: 120px;width: 120px;border-radius: 100%;z-index: 0;background:#e22833;animation: sploosh 3s ease-out;-webkit-animation: sploosh 1s ease-out;-moz-animation: sploosh 1s ease-out;-webkit-animation-iteration-count: infinite;-moz-animation-iteration-count: infinite;animation-iteration-count: infinite;}
+@keyframes sploosh {0% {box-shadow: 0 0 0 0px rgba(226,40,51, 0.7);background: rgba(226,40,51, 0.7);}
+100% {box-shadow: 0 0 0 80px rgba(226,40,51, 0);background: rgba(226,40,51, 0);}}
+img.desaturate { -webkit-filter: grayscale(100%); filter: grayscale(100%); }  
+li.lisaturat{ -webkit-filter: grayscale(100%); filter: grayscale(100%); } 
+.weui_input{ border:1px #e2e2e2 solid;width:80%;height:35px;padding-left:5px;}
+.frasjws { -webkit-filter: grayscale(100%); filter: grayscale(100%); } 
+</style>
+ 
+</head>
+<body>
+<?php
+	$arrimg = array($UserInfo['zi1'],$UserInfo['zi2'],$UserInfo['zi3'],$UserInfo['zi4'],$UserInfo['zi5']);
+?>
+ 
+<div id="sequence" class="seq {if $UserInfo['state']=='1'}frasjws{/if}">
+	<div style=" color:#e5b561;">
+		<h2 style="padding-top:30px;margin:0px;" >{$account['title']}</h2>
+        
+		<div id="fnTimeCountDown" data-end="{php echo date('Y/m/d H:i:s',$account['xyxtime'])}">
+        	{if $setting['data_'.$_GPC['id']]['sl5']>=1}
+            距离咻一咻还有 
+            <span class="day">00</span>天
+            <span class="hour">00</span>时
+            <span class="mini">00</span>分
+            <span class="sec">00</span>秒
+            <span class="hm" style="display:none;">000</span>
+            {else}
+            本轮结束！请关注下一轮的抽奖时间！
+            {/if}
+        </div>
+    
+        
+        <div id="fnTimeCountFen" style="display:none;">还有【<span id="sl5v">{php echo $setting['data_'.$_GPC['id']]['sl5']*99-88;}</span>】份礼品，快来抢吧。</div>
+    </div>
+    <div class="userids">ID:{$UserInfo['id']}</div>
+    <div class="guize">
+	<a href="{php echo $this->mobileurls($this->createmobileUrl('Content',array('id'=>$_GPC['id'])),'app');}">活动规则</a> | 
+	<a href="{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}">咻一咻</a>
+	</div>
+ 	<ul class="seq-canvas" id="zslm">
+	 	{loop $listdata $key $item}
+		<li class="seq-step{php echo $key+1} seq-valign seq-in">
+			<div class="seq-vcenter" style="position:relative;">
+				<img data-seq class="seq-feature {if $arrimg[$key]<1}desaturate{/if}" src="{if $item['lg']}{php echo tomedia($item['lg'])}{else}../addons/gicai_jizi/public/picture/fuka.jpg{/if}" alt="{$item['kn']}" width="420" {if $arrimg[$key]<1} {else} onClick="getzi({php echo $key+1});"{/if} />
+				
+			</div>
+		</li>
+        {/loop}
+	</ul>
+	<fieldset class="seq-nav" aria-label="Slider buttons" aria-controls="sequence">
+	 <ul role="navigation" aria-label="Pagination" class="seq-pagination">
+        {loop $listdata $key $item}
+         
+        <li class="{if $arrimg[$key]<1}lisaturat{/if}" id="idis_{php echo $key+1}">
+            <i class="is_{php echo $key+1}">{$arrimg[$key]}</i>
+            <a href="#step{php echo $key+1}" rel="step{php echo $key+1}" title="{$item['kn']}" >
+                {$item['zi']}
+            </a>
+        </li>
+        {/loop}
+         
+    </ul>
+	</fieldset>
+</div>
+<div style="color:#CCC; text-align:center; font-size:10px; line-height:30px; bottom:0px;width:120px;margin:30px 0px 0px -60px;position:absolute; left:50%;right:50%; overflow: auto; ">
+    <a href="/" style="color:#CCC;">@ {$account['footercopy']}</a>
+</div>
+<script src="../addons/{$_GPC['m']}/public/js/zepto.min.js"></script>
+<script src="../addons/{$_GPC['m']}/public/js/hammer.min.js"></script>
+<script src="../addons/{$_GPC['m']}/public/js/sequence.min.js"></script>
+<script src="../addons/{$_GPC['m']}/public/js/sequence-theme.mono.js"></script>
+ 
+ 
+<script type="text/javascript">
+    $.extend($.fn,{
+        fnTimeCountDown:function(d){
+            this.each(function(){
+                var $this = $(this);
+                var o = {
+                    hm: $this.find(".hm"),
+                    sec: $this.find(".sec"),
+                    mini: $this.find(".mini"),
+                    hour: $this.find(".hour"),
+                    day: $this.find(".day"),
+                    month:$this.find(".month"),
+                    year: $this.find(".year")
+                };
+                var f = {
+                    haomiao: function(n){
+                        if(n < 10)return "00" + n.toString();
+                        if(n < 100)return "0" + n.toString();
+                        return n.toString();
+                    },
+                    zero: function(n){
+                        var _n = parseInt(n, 10);//解析字符串,返回整数
+                        if(_n > 0){
+                            if(_n <= 9){
+                                _n = "0" + _n
+                            }
+                            return String(_n);
+                        }else{
+                            return "00";
+                        }
+                    },
+                    dv: function(){
+                        //d = d || Date.UTC(2050, 0, 1); //如果未定义时间，则我们设定倒计时日期是2050年1月1日
+                        var _d = $this.data("end") || d;
+                        var now = new Date(),
+                            endDate = new Date(_d);
+                        //现在将来秒差值
+                        //alert(future.getTimezoneOffset());
+                        var dur = (endDate - now.getTime()) / 1000 , mss = endDate - now.getTime() ,pms = {
+                            hm:"000",
+                            sec: "00",
+                            mini: "00",
+                            hour: "00",
+                            day: "00",
+                            month: "00",
+                            year: "0"
+                        };
+                        if(mss > 0){
+                            pms.hm = f.haomiao(mss % 1000);
+                            pms.sec = f.zero(dur % 60);
+                            pms.mini = Math.floor((dur / 60)) > 0? f.zero(Math.floor((dur / 60)) % 60) : "00";
+                            pms.hour = Math.floor((dur / 3600)) > 0? f.zero(Math.floor((dur / 3600)) % 24) : "00";
+                            pms.day = Math.floor((dur / 86400)) > 0? f.zero(Math.floor((dur / 86400)) % 30) : "00";
+                            //月份，以实际平均每月秒数计算
+                            pms.month = Math.floor((dur / 2629744)) > 0? f.zero(Math.floor((dur / 2629744)) % 12) : "00";
+                            //年份，按按回归年365天5时48分46秒算
+                            pms.year = Math.floor((dur / 31556926)) > 0? Math.floor((dur / 31556926)) : "0";
+                        }else{
+                            pms.year=pms.month=pms.day=pms.hour=pms.mini=pms.sec="00";
+                            pms.hm = "000";
+							{if $setting['data_'.$_GPC['id']]['sl5']>=1}
+								//$(".xyx").show();
+								$("#zslm").show();
+								$("#fnTimeCountFen").show();
+								$("#fnTimeCountDown").hide();
+							{/if}
+                            return;
+                        }
+                        return pms;
+                    },
+                    ui: function(){
+                        if(o.hm){
+                            o.hm.html(f.dv().hm);
+                        }
+                        if(o.sec){
+                            o.sec.html(f.dv().sec);
+                        }
+                        if(o.mini){
+                            o.mini.html(f.dv().mini);
+                        }
+                        if(o.hour){
+                            o.hour.html(f.dv().hour);
+                        }
+                        if(o.day){
+                            o.day.html(f.dv().day);
+                        }
+                        if(o.month){
+                            o.month.html(f.dv().month);
+                        }
+                        if(o.year){
+                            o.year.html(f.dv().year);
+                        }
+                        setTimeout(f.ui, 1);
+                    }
+                };
+                f.ui();
+            });
+        }
+    });
+	 
+</script>
+ 
+<script type="text/javascript">
+ //   $("#fnTimeCountDown").fnTimeCountDown();
+</script>
+
+<script>
+	 
+
+
+	function getzi(zi){
+		$.confirm("<input value='' class='weui_input' id='AjaxGetZi' type='tel' placeholder='输入对方ID'>", "您的游戏ID:{$UserInfo['id']}<br>你确定要送给朋友福？", function(s) {
+ 
+			$.ajax({ 
+				url : '{php echo $this->createMobileUrl("AjaxGetZi",array("id"=>$_GPC["id"]));}', 
+				data:"&uid="+$("#AjaxGetZi").val()+"&zid="+zi, 
+				cache : false, 
+				async : true, 
+				type : "GET",
+				success : function (data){ 
+					var obj = $.parseJSON(data);
+		 			if(obj.result=='10002'){
+						 
+						$.alert(obj.Messages, "系统提示！",function(){
+							window.location.href="{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}";
+						}); 
+					}else{
+					 	$.alert(obj.Messages);
+					}
+				} 
+		  	}); 
+		}, function() {
+			//取消操作
+		});
+	}
+	var vasrss ;
+	$(".dot").one("click",function(){
+		rsess();
+	});
+	 
+	function rsess(){
+		vasrss = setInterval(function () { 
+			 
+			$.ajax({ 
+				url : '{php echo $this->createMobileUrl("Level",array("id"=>$_GPC["id"]));}',  
+				cache : false, 
+				async : true, 
+				type : "GET",
+				success : function (data){ 
+					var obj = $.parseJSON(data);
+					if(obj.sl5<='0'){
+						$("#sl5v").text("0");
+					}else{
+						$("#sl5v").text(obj.sl5);
+					}
+		 			if(obj.result=='10001'){
+						clearInterval(vasrss);
+						$.alert(obj.Messages, "系统提示！",function(){
+							prase = parseInt($(".is_"+obj.data.id).text());
+							$(".is_"+obj.data.id).text(prase+1);
+							
+							$("#idis_"+obj.data.id).removeClass("lisaturat");
+							rsess();
+						}); 
+					}else if(obj.result=='10003'){
+						clearInterval(vasrss);
+						
+						$.alert(obj.Messages, "系统提示！",function(){
+							window.location.href="{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}&timesgo={php echo time();}";
+							
+						}); 
+						
+					}else{
+						
+						
+					}
+					
+				} 
+		  	}); 
+			
+			
+		}, 3000);	
+	
+	}
+	 
+	var btn = document.getElementById("btn");
+	btn.ontouchstart = function(){
+		var audioArr = document.getElementsByTagName("audio");
+		for(var i = 0; i < audioArr.length; i++){
+			if(audioArr[i].ended){
+				audioArr[i].play();
+				return;
+			}
+		}
+		var audio = document.createElement("audio");
+		audio.src=audio.src || "http://tvimg.ilvle.com/mp3/4123.mp3";
+		document.body.appendChild(audio);
+		audio.autoplay = 'autoplay';
+		audio.play();
+		 
+	}
+	document.querySelector('body').addEventListener('touchmove', function (ev) {
+		ev.preventDefault();
+	});
+	
+	
+	{if $UserInfo['zt']=='1'}
+		$.alert("系统赠送您{$account['numbers']}个福，快去收集其他福吧。", "参与成功！",function(){
+			{if $_W['fans']['follow']=='0'}
+			 $("body").append("<div class='dialog' id='dialog'><div class='d-box'><div class='d-e'><img src='{php echo tomedia($account['eqcode'])}'></div><p class='e-t'>请通过平台参与本次活动！<br>长按上方二维码3秒识别二维码</p></div></div>");
+			{/if}
+		});
+	{else}
+	
+		{if $_W['fans']['follow']=='0'}
+			$("body").append("<div class='dialog' id='dialog'><div class='d-box'><div class='d-e'><img src='{php echo tomedia($account['eqcode'])}'></div><p class='e-t'>请通过平台参与本次活动！<br>长按上方二维码3秒识别二维码</p></div></div>");
+		{/if}
+	
+	{/if}
+	
+	{if $is_zj=='1' && $UserInfo['state']!='1'}
+		$.confirm("兑奖后将无法赠送给好友福卡片！", "恭喜您已集齐五福点击兑奖！", function() {
+			$.confirm("<input value='' class='weui_input' id='AjaxGetDJ' type='tel' placeholder='工作人员输入兑奖码'>", "点击确定进行兑奖！", function() {
+				$.ajax({ 
+					url : '{php echo $this->createMobileUrl("AjaxGetDJ",array("id"=>$_GPC["id"]));}', 
+					data:"&djm="+$("#AjaxGetDJ").val(), 
+					cache : false, 
+					async : true, 
+					type : "GET",
+					success : function (data){ 
+						var obj = $.parseJSON(data);
+						if(obj.result=='10002'){
+							 
+							$.alert(obj.Messages, "系统提示！",function(){
+								window.location.href="{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$_GPC['id'])),'app');}";
+							}); 
+						}else{
+							$.alert(obj.Messages);
+						}
+					} 
+				}); 
+			}, function() {
+			 
+			});
+		}, function() {
+			//取消操作
+		});
+	{/if}	
+	
+	//$.confirm("<input value='' class='weui_input' id='AjaxGetZi' type='tel' placeholder='输入对方ID'>", "您的游戏ID:{$UserInfo['id']}<br>你确定要送给朋友福？", function(s) {
+//			
+//		}, function() {
+//			//取消操作
+//		});
+	
+</script>
+
+{if $UserInfo['state']=='1'}
+<script>
+$(document).ready(function(){
+
+$("body").append("<div class='dialog' id='dialog'><div class='d-box'> <img src='../addons/{$_GPC['m']}/public/picture/showqrcode.png' style='width:100%;margin-top:30px;'><p><a href='{php echo $this->mobileurls($this->createmobileUrl('Content',array('id'=>$_GPC['id'])),'app');}' style='border-radius:10px;background:#e22833;padding:5px;'>点击查看活动规则</a></p></div></div>");
+
+});
+{/if}
+</script>
+</body>
+</html>

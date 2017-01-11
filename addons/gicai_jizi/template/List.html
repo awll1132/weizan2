@@ -1,0 +1,76 @@
+{template 'common/header'}
+<div class="main">
+
+	<ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#" aria-controls="home" role="tab">活动列表</a></li>
+        <li role="presentation" ><a href="{php echo $this->createWebUrl('Add');}" aria-controls="home" role="tab">添加活动</a></li>
+    </ul>
+	<div class="alert alert-success alert-dismissable">
+	【温馨提示】：复制下面的活动地址，然后添加到图文回复原文链接中！
+	</div>
+    <div class="category">
+		<div class="panel panel-default">
+        	<div class="panel-heading">活动列表</div>
+        
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+                    <thead class="navbar-inner">
+                        <tr>
+                            
+                            <th class="text-center" style="width:60px;">编号</th>
+                            <th class="text-center">活动名称</th>
+                            <th class="text-center">参与人数</th>
+                            <th class="text-center">剩余奖品数</th>
+                            <th class="text-center">结束时间</th>
+                            <th class="text-center">活动状态</th>
+                            <th class="text-center" style="width:250px;">操作</th>
+                        </tr>
+                    </thead>
+				<tbody>
+               		{loop $account $key $item}
+                	<tr> 
+                        <td class="text-center" >{php echo $key+1;}</td>
+ 						<td class="text-center" >{$item['title']}</td>
+                        <td class="text-center" >{$item['cyrs']}</td>
+                        <td class="text-center" >{php echo $setting['data_'.$item['id']]['sl5'];}</td>
+                        <td class="text-center" >{php echo date('Y-m-d',$item['endtime'])}</td>
+                        <td class="text-center" >{if $item['endtime']>=time()}<span style="color:#090;">进行中</span>{else}<span style="color:#900;">已结束</span>{/if}</td>
+                        <td class="text-right" style="width:50px;">
+                        	<a href="{php echo $this->mobileurls($this->createmobileUrl('Index',array('id'=>$item['id'])),'app');}" target="_blank" class="btn btn-default btn-sm">活动地址</a>
+                        	<a href="{php echo $this->createWebUrl('Edit', array('id'=>$item['id']));}" class="btn btn-default btn-sm">编辑</a>
+                            <a href="{php echo $this->createWebUrl('user', array('pid'=>$item['id']));}" class="btn btn-default btn-sm">参与者</a>
+                            <a 	onclick="DelIt('您确认要删除？此操作不可逆！','{php echo $this->createWebUrl('Delete', array('id'=>$item['id'],'mobs'=>'gicai_jizi'),true);}','{php echo $this->createWebUrl('List',true);}');" class="btn btn-default btn-sm">删除</a>
+                        </td>
+					</tr>
+                    {/loop}
+                	 
+                    
+                     
+				 
+				</tbody>
+			</table>
+			</div>
+            <div class="divline"></div>
+            <div style="text-align:center;">{$pager}</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+});
+function DelIt(Cstr,Urls,Gourl){
+	if(confirm(Cstr)){
+		$.get(Urls,
+			function(data){
+				util.message(data,Gourl,'info');
+				return true;
+			}
+		);
+	}
+	return;
+}
+</script>
+
+
+{template 'common/footer'}

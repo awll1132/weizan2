@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.guifox.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[智慧微教育]]></name>
+		<identifie><![CDATA[fm_jiaoyu]]></identifie>
+		<version><![CDATA[2.7.2]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[教育行业通用模块，适用于培训学校，幼儿园，具备成绩查询，教师管理，课程安排等功能]]></ability>
+		<description><![CDATA[教育行业通用模块，适用于培训学校，幼儿园，具备成绩查询，教师管理，课程安排等功能]]></description>
+		<author><![CDATA[鬼狐源码社区]]></author>
+		<url><![CDATA[http://www.guifox.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口设置" do="wapindex" />
+		</cover>
+		<menu>
+			<entry title="学校管理" do="school" />
+			<entry title="校区设置" do="area" />
+			<entry title="分类设置" do="type" />
+			<entry title="基本设置" do="basic" />
+			<entry title="平台功能" do="manager" />
+		</menu>
+	</bindings>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

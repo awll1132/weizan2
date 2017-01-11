@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{$school['title']}</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<link type="text/css" rel="stylesheet" href="../addons/fm_jiaoyu/public/mobile/css/mGrzxTeacher.css?v=5.00814" />
+<link type="text/css" rel="stylesheet" href="../addons/fm_jiaoyu/public/mobile/css/mTeacherContent.css?v=5.0" />	
+<link type="text/css" rel="stylesheet" href="../addons/fm_jiaoyu/public/mobile/css/greenStyle.css?v=5.00120" />
+<link rel="stylesheet" href="../addons/fm_jiaoyu/public/mobile/css/weixin.css">
+<link rel="stylesheet" href="../addons/fm_jiaoyu/public/mobile/css/reset.css">
+<script src="../addons/fm_jiaoyu/public/mobile/js/jquery.js"></script>
+
+</head>
+<body>
+<div class="all">
+<div id="BlackBg" class="BlackBg"></div>
+<div id="titlebar" class="header mainColor">
+	<div class="l"><a class="backOff" style="background:url(../addons/fm_jiaoyu/public/mobile/img/ic_arrow_left_48px_white.svg) no-repeat;background-size: 55% 55%;background-position: 50%;" href="javascript:history.go(-1);"></a></div>
+	<div class="m">	
+		<span style="font-size: 18px">教师风采</span>     
+	</div>
+		<div class="r">
+			<a href="#my-menu"></a>
+		</div>
+	</div>
+<div class="_header"></div>
+
+		<div class="title">		
+			<div class="teacherHeader parent">
+				<div class="img">
+					<img  alt="" src="{php echo tomedia($item['thumb']);}" />
+				</div>
+			</div>
+			<div class="teacherInfo">
+				<div class="name">{$item['tname']}</div>
+				<div class="info">
+					<span class="position">{if $item['status'] == 1}教员{else if $item['status'] == 2}校长{/if}</span>
+					<span class="bjmc">{if !empty($category[$item['xq_id1']])}{$category[$item['xq_id1']]['sname']}&nbsp;{/if}{if !empty($category[$item['xq_id2']])}{$category[$item['xq_id2']]['sname']}&nbsp;{/if}{if !empty($category[$item['xq_id3']])}{$category[$item['xq_id3']]['sname']}&nbsp;{/if}</span>
+				</div>
+			</div>
+			<!--a href="javascript:setPraise(470242);"><span id="userPraisecount">2</span>
+				<img id="praise" alt="" src="../addons/fm_jiaoyu/public/mobile/img/ico_praised.png" />
+			</a-->
+		</div>
+		<div class="content">
+			<p>　　
+			{if !empty($item['info'])}教学成果:{$item['info']}{/if}</br>{if !empty($item['jinyan'])}{$item['jinyan']}{/if}</br>{if !empty($item['headinfo'])}{$item['headinfo']}{/if}
+			</p>
+		</div>
+		<div class="campusDiv" style="padding-bottom:45px;">
+				<div class="campusTop">
+					<div class="campusLogo">
+						<img alt="" src="{php echo tomedia($school['logo']);}"/>
+					</div>
+					<div class="campusInfo">
+						<div class="info"><span>地址：{$school['address']}</span></div>
+						<div class="info"><span>电话：{$school['tel']}</span></div>
+					</div>
+					<div class="cl"></div>
+				</div>
+				<div class="campusBottom">
+					<div class="tips">扫一扫下方二维码，关注校园</div>
+					<img id="qrcodeurl" alt="" src="{if !empty($school['qroce'])}{php echo tomedia($school['qroce']);}{else}{$_W['attachurl']}qrcode_{$_W['acid']}.jpg{/if}">
+				</div>			
+		</div>
+	</div>
+	   {php include $this->template('footer');}	
+</body>
+</html>

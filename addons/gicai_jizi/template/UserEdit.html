@@ -1,0 +1,308 @@
+{template 'common/header'}
+<div class="main">
+	
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="{php echo $this->createWebUrl('User',array('pid'=>$_GPC['pid']));}" aria-controls="home" role="tab">返回活动</a></li>
+        <li role="presentation" class="active" ><a href="#" aria-controls="home" role="tab">参与用户编辑</a></li>
+    </ul>
+    
+	<form action="" method="post" class="form-horizontal form" id="setting-form" onsubmit="return validForm();">
+		<div class="panel panel-default">
+			<div class="panel-heading">添加活动</div>
+			<div class="panel-body">
+            
+            	<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">会员ID编号</label>
+					<div class="col-sm-8">
+						<span style="line-height:35px;">{$account['id']}</span> 
+					</div>
+				</div>
+                
+                
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">微信名称</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[name]" id="title" class="form-control" value="{$account['name']}" />
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">联系电话</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[tel]" id="fxtitle" class="form-control" value="{$account['tel']}" />
+					</div>
+				</div>
+                 
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">会员头像</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('data[headimg]',$account['headimg']);}
+					</div>
+				</div>
+                <style>
+                .gicai_jizi_list{ height:auto;}
+				.gicai_jizi_list ul{padding:0px;margin:0px 0px 0px 15px;clear:both;overflow:hidden;}
+				.gicai_jizi_list ul li{  float:left;height:auto; line-height:35px; text-decoration:none; list-style-type:none; text-align:center;margin-right:10px;margin-bottom:5px;}
+				.gicai_jizi_list .img-thumbnail{ display:none;}
+                </style>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" >奖品选项</label>
+					<div class="col-sm-8" style="padding:0px;margin:0px;">
+						<div class="gicai_jizi_list" style="padding:0px;margin:0px;">
+                        	<ul>
+                            	<li style="width:60px;">编号</li><li style="width:50px;">字名称</li><li style="width:80px;">数量</li> 
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">1</li>
+                                <li style="width:50px;"><input type="text" name="data[sl1]" id="" class="form-control" style="width:100%; text-align:center;" placeholder="{$accountz['zi1']}" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[zi1]" id="zi1" class="form-control" style="width:100%;"	value="{$account['zi1']}" placeholder="家" /></li>
+                                
+                                 
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">2</li>
+                                <li style="width:50px;"><input type="text" name="data[sl2]" id="" class="form-control" style="width:100%; text-align:center;" placeholder="{$accountz['zi2']}" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[zi2]" id="zi2" class="form-control" style="width:100%;"	value="{$account['zi2']}" placeholder="和" /></li>
+                                 
+                                 
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">3</li>
+                                <li style="width:50px;"><input type="text" name="data[sl3]" id="" class="form-control" style="width:100%; text-align:center;" placeholder="{$accountz['zi3']}" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[zi3]" id="zi3" class="form-control" style="width:100%;"	value="{$account['zi3']}" placeholder="万" /></li>
+                                 
+                                 
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;">4</li>
+                                <li style="width:50px;"><input type="text" name="data[sl4]" id="" class="form-control" style="width:100%; text-align:center;" placeholder="{$accountz['zi4']}" disabled="disabled" /></li>
+                                <li style="width:80px;"><input type="text" name="data[zi4]" id="zi4" class="form-control" style="width:100%;"	value="{$account['zi4']}" placeholder="事" /></li>
+                                 
+                                 
+                            </ul>
+                            <ul>
+                            	<li style="width:60px;color:#900;">5</li>
+                                <li style="width:50px;"><input type="text" name="data[sl5]" id="" class="form-control" style="width:100%; text-align:center;" placeholder="{$accountz['zi5']}" disabled="disabled" /></li> 
+                                <li style="width:80px;"><input type="text" name="data[zi5]" id="zi5" class="form-control" style="width:100%;"	value="{$account['zi5']}" placeholder="兴" /></li>
+                                 
+                                 
+                                 
+                            </ul>
+                            
+                        </div>
+					</div>
+				</div>
+                
+                 
+                
+                
+                
+                 
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">分享次数</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[share]" id="share" value="{$account['share']}" style="width:300px;" class="form-control" />
+					</div>
+				</div>
+                
+                <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">兑奖状态</label>
+					<div class="col-sm-8">
+						<label class="radio-inline">
+                            <input type="radio" name="data[state]"   value="0" {if $account['state']=='0'}checked="checked"{/if} /> 未兑奖
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="data[state]"   value="1" {if $account['state']=='1'}checked="checked"{/if}/> 已兑奖
+                        </label>
+					</div>
+				</div>
+                
+                 
+                
+                  
+                 
+                
+                
+                <div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<input name="submit" type="submit" value="编辑" class="btn btn-primary" />
+						<input type="hidden" name="token" value="{$_W['token']}" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+});
+function validForm(){
+	if ($("#title").val()=='') {
+		Tip = $("#title");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#fxtitle").val()=='') {
+		Tip = $("#fxtitle");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#description").val()=='') {
+		Tip = $("#description");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi1").val()=='') {
+		Tip = $("#zi1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi2").val()=='') {
+		Tip = $("#jz2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi3").val()=='') {
+		Tip = $("#jz3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi4").val()=='') {
+		Tip = $("#jz4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#zi5").val()=='') {
+		Tip = $("#jz5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#sl5").val()=='') {
+		Tip = $("#sl5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn1").val()=='') {
+		Tip = $("#kn1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn2").val()=='') {
+		Tip = $("#kn2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn3").val()=='') {
+		Tip = $("#kn3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn4").val()=='') {
+		Tip = $("#kn4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#kn5").val()=='') {
+		Tip = $("#kn5");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl1").val()=='') {
+		Tip = $("#jl1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl2").val()=='') {
+		Tip = $("#jl2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl3").val()=='') {
+		Tip = $("#jl3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl4").val()=='') {
+		Tip = $("#jl4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#jl5").val()=='') {
+		Tip = $("#jl5");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#lg1").val()=='') {
+		Tip = $("#lg1");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg2").val()=='') {
+		Tip = $("#lg2");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg3").val()=='') {
+		Tip = $("#lg3");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg4").val()=='') {
+		Tip = $("#lg4");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#lg5").val()=='') {
+		Tip = $("#lg5");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#color").val()=='') {
+		Tip = $("#color");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#numbers").val()=='') {
+		Tip = $("#numbers");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#startime").val()=='') {
+		Tip = $("#startime");
+		Tip.focus();
+		return false;	
+	}
+	if ($("#endtime").val()=='') {
+		Tip = $("#endtime");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#footercopy").val()=='') {
+		Tip = $("#footercopy");
+		Tip.focus();
+		return false;	
+	}
+	
+	if ($("#content").val()=='') {
+		Tip = $("#content");
+		Tip.focus();
+		return false;	
+	}
+	return true;
+}
+
+ 
+</script>
+
+
+{template 'common/footer'}

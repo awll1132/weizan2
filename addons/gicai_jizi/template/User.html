@@ -1,0 +1,108 @@
+{template 'common/header'}
+<div class="main">
+
+	<ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" ><a href="{php echo $this->createWebUrl('List');}" aria-controls="home" role="tab">返回列表</a></li>
+        <li role="presentation" class="active"><a href="#" aria-controls="home" role="tab">参与者管理</a></li>
+    </ul>
+    
+    <div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="./index.php" method="get" class="form-horizontal" role="form" id="form1">
+				<input type="hidden" name="c" value="site" />
+				<input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="pid" value="{$_GPC['pid']}" />
+				<input type="hidden" name="m" value="gicai_jizi" />
+				<input type="hidden" name="do" value="user" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">搜索框</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="可查询ID号">
+					</div>
+				</div>
+				 
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">功能键</label>
+					 
+					<div class="col-sm-4 col-xs-12">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+						<button name="export" value="export" class="btn btn-default" style="display:none;"><i class="fa fa-download"></i> 导出数据</button>
+						<button type="button" class="btn btn-default">总记录数：{$total}</button>
+					</div>
+				</div>
+				<div class="form-group">
+				</div>
+			</form>
+		</div>
+	</div>
+	
+    <div class="category">
+		<div class="panel panel-default">
+        	<div class="panel-heading">活动列表</div>
+        
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+                    <thead class="navbar-inner">
+                        <tr>
+                            
+                            <th class="text-center" style="width:80px;">参与者ID</th>
+                            <th class="text-center">微信名称</th>
+                            <th class="text-center">手机号</th>
+                            <th class="text-center">微信头像</th>
+                            <th class="text-center" style="width:220px;">集齐字量</th>
+                            <th class="text-center">分享次数</th>
+                            <th class="text-center">状态会员</th>
+                            <th class="text-center" style="width:160px;">操作</th>
+                        </tr>
+                    </thead>
+				<tbody>
+                	
+                	{loop $account $key $item}
+                	<tr> 
+                        <td class="text-center" >{$item['id']}</td>
+ 						<td class="text-center" >{$item['name']}</td>
+                        <td class="text-center" >{$item['tel']}</td>
+                        <td class="text-center" ><img src="{$item['headimg']}" width="50" height="50" /></td>
+                        <td class="text-center" >{$accountz['zi1']}({$item['zi1']}) {$accountz['zi2']}({$item['zi2']}) {$accountz['zi3']}({$item['zi3']}) {$accountz['zi4']}({$item['zi4']}) {$accountz['zi5']}({$item['zi5']})</td>
+                        <td class="text-center" >{$item['share']}</td>
+                        <td class="text-center" >{if $item['state']=='0'}未兑奖{else}已兑奖{/if}</td>
+                        <td class="text-right" style="width:50px;">
+                        	 
+                        	<a href="{php echo $this->createWebUrl('UserEdit', array('id'=>$item['id'],'pid'=>$item['pid']));}" class="btn btn-default btn-sm">编辑</a>
+                            <a href="{php echo $this->createWebUrl('UserRecord', array('id'=>$item['id'],'wxid'=>$item['wxid']));}" class="btn btn-default btn-sm">记录</a>
+                            <a 	onclick="DelIt('您确认要删除？此操作不可逆！','{php echo $this->createWebUrl('Delete', array('id'=>$item['id'],'mobs'=>'gicai_jizi_user'),true);}','{php echo $this->createWebUrl('User', array('pid'=>$_GPC['pid']),true);}');" class="btn btn-default btn-sm">删除</a>
+                        </td>
+					</tr>
+                    {/loop}
+                	 
+                    
+                     
+				 
+				</tbody>
+			</table>
+			</div>
+            <div class="divline"></div>
+            <div style="text-align:center;">{$pager}</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+});
+function DelIt(Cstr,Urls,Gourl){
+	if(confirm(Cstr)){
+		$.get(Urls,
+			function(data){
+				util.message(data,Gourl,'info');
+				return true;
+			}
+		);
+	}
+	return;
+}
+</script>
+
+
+{template 'common/footer'}

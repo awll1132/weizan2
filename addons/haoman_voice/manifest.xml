@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.guifox.com" versionCode="0.6">	
+    <application setting="false">
+        <name><![CDATA[疯狂语音红包]]></name>
+        <identifie><![CDATA[haoman_voice]]></identifie>
+        <version><![CDATA[3.6.2]]></version>
+        <type><![CDATA[customer]]></type>
+        <ability><![CDATA[疯狂语音红包]]></ability>
+        <description><![CDATA[疯狂语音红包]]></description>
+		<author><![CDATA[鬼狐源码社区网)]]></author>
+		<url><![CDATA[http://www.guifox.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+	    <cover>	
+		    <entry title="首页入口" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="活动管理" do="manage" state="" direct="false" />
+			<entry title="口令管理" do="cardmanage" state="" direct="false" />
+			<entry title="借用设置" do="jieyong" state="" direct="false" />
+			<entry title="红包设置" do="hb" state="" direct="false" />
+		</menu>
+		<home>
+		</home>
+    </bindings>
+    <install><![CDATA[guifox_com.php]]></install>
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>
