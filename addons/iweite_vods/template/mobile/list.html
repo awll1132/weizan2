@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="max-age=10">
+<title>{$tt}_{$setting['title']}</title>
+<link rel="stylesheet" type="text/css" href="{RES}/themes/css/mui.min.css" />
+<link rel="stylesheet" type="text/css" href="{RES}/themes/css/app.min.css?v=2.01" />
+<script type="text/javascript" charset="utf-8" src="{RES}/themes/js/zepto.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="{RES}/themes/js/zepto.picLazyLoad.min.js"></script>
+</head>
+<body>
+<div class="mui-inner-wrap">
+<!-- 主页面标题 -->
+<header class="mui-bar mui-bar-nav">
+  <div class="game-fl diy-nav-bar "> 
+<a class="diy-control-item " href="{php echo $this->createMobileurl('index')}">首页</a>
+{loop $classarr $item}
+<a class="diy-control-item {if $item['tid']==$tid} mui-active{/if}" href="{php echo $this->createMobileurl('list', array('id'=>$item['tid']))}">{$item['title']}</a>
+{/loop}
+</div>
+</header>
+
+<div class="mui-content">
+<div class="profile_info"> <span class="radius_avatar profile_avatar"><img src="{$gz['yd_image']}"></span> <strong class="profile_nickname">{$gz['yd_title']}</strong>
+  <p class="profile_desc">{$gz['yd_desc']}</p>
+  <div class="profile_opr"> <a id="weui_btn" class="weui_btn weui_btn_primary" href="{$gz['yd_url']}">进入公众号</a> </div>
+</div>
+
+
+<ul class="mui-table-view mui-grid-view mui-grid-9 main-content" style="margin-top:5px">
+  <h5 class="mui-content-padded"> <span class="content-title">
+   {$tt}</span> </h5>
+  <ul class="mui-table-view mui-grid-view mui-grid-9 list" id="list-content">
+   			   
+		
+		{loop $items $row}	   
+		<li class="mui-table-view-cell mui-media mui-col-xs-4"> <a href="{php echo $this->createMobileurl('play', array('id'=>$row['tid']))}"> <span style="position:absolute; right:0; bottom:40px; height:20px; line-height:20px; background:#FF6600; color:#FFFFFF; display:block; padding:0px 3px;  overflow:hidden; font-size:11px">
+     {$row['fdes']}</span><img src="{RES}/themes/images/iweite.png"  data-original="{$row['fpic']}" class="grid-img lazy"/>
+            <img class="game-corner" src="{RES}/themes/images/14470348816dL25.png" style="display: block">
+            <div class="type-title">
+        {$row['title']}</div>
+      </a> </li>
+	  {/loop}
+      </ul>
+
+  <div class="pagination"  style="text-align:center;"> 
+	{$pager}
+	</div>
+</ul>
+
+<ul class="mui-table-view mui-grid-view mui-grid-9 main-content" style="margin-top:5px; padding-bottom:15px; text-align:center; color:#333; border-top:1px solid #d5d5d5" id=footer>
+<li class="mui-table-view-cell" style="font-size:12px; line-height:180%; height:25px; text-align:center"> 
+{$copyright}
+</ul>
+<script type="text/javascript">
+    $(function(){
+		$("img.lazy").picLazyLoad({ 
+			threshold : 200
+		}); 
+    });
+	
+</script>
+
+{php echo register_jssdk(false);} <!-- 放到其他引入的 js 之前 -->
+<script>
+	wx.ready(function () {
+		var shareData = {
+            title: '{$share_title}',
+            desc: '{$share_desc}',
+            link: '{$share_url}',
+            imgUrl: '{$share_image}'
+        };
+		
+		 wx.hideAllNonBaseMenuItem();
+                wx.showMenuItems({
+                    menuList: [
+                        'menuItem:share:appMessage',
+                        'menuItem:share:timeline',
+						'menuItem:share:qq',
+                        'menuItem:share:QZone'
+                    ]
+             });
+		
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareQZone(shareData);
+		
+	});
+	</script>
+<div style="display:none">
+{if $setting['cnzz']}
+<script src="{$setting['cnzz']}"></script>
+{/if}
+</div>
+</body>
+</html>

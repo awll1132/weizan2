@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.guifox.com" versionCode="0.6">	
+    <application setting="true">
+        <name><![CDATA[分答-语音问答饭]]></name>
+        <identifie><![CDATA[imeepos_fvoice]]></identifie>
+        <version><![CDATA[9.3.6]]></version>
+        <type><![CDATA[customer]]></type>
+        <ability><![CDATA[分答-语音问答饭]]></ability>
+        <description><![CDATA[分答-语音问答饭]]></description>
+		<author><![CDATA[鬼狐源码社区]]></author>
+		<url><![CDATA[http://www.guifox.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="text" />
+        </handles>
+        <rule embed="true" />
+    </platform>
+    <bindings>
+	    <cover>	
+		    <entry title="首页入口" do="index" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="基础设置" do="setting" state="" direct="false" />
+			<entry title="会员管理" do="member" state="" direct="false" />
+			<entry title="财务管理" do="paylog" state="" direct="false" />
+			<entry title="分类设置" do="category" state="" direct="false" />
+			<entry title="主题管理" do="themes" state="" direct="false" />
+			<entry title="专题讨论" do="chart" state="" direct="false" />
+			<entry title="问题管理" do="question" state="" direct="false" />
+			<entry title="模板设置" do="setting_tpl" state="" direct="false" />
+			<entry title="自由问答" do="task" state="" direct="false" />
+			<entry title="自由问答分类" do="task_class" state="" direct="false" />
+		</menu>
+		<home>
+		</home>
+    </bindings>
+    <install><![CDATA[guifox_com.php]]></install>
+    <uninstall><![CDATA[]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

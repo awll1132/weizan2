@@ -1,0 +1,73 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('jiekou', array('op' => 'display'))}">管理接口</a></li>
+  <li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('jiekou', array('op' => 'post'))}">添加接口</a></li>
+</ul>
+<div class="alert alert-info"> 什么是第三方接口，如果你想使用QQ视频，乐视等视频网站的视频，那么必须要添加对应的解析接口 </div>
+{if $operation == 'display'}
+<div class="main">
+  <div class="panel panel-default">
+    <div class="table-responsive panel-body">
+      <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+        <table class="table table-hover" style="margin-top: 15px;">
+          <thead class="navbar-inner">
+            <tr>
+              <th style="width:20%;">关键字</th>
+              <th style="width:50%;">接口地址</th>
+              <th style="width:20%;text-align: right;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="level-list">
+          
+          {loop $category $row}
+          <tr>
+            <td> {$row['title']}</td>
+            <td> {$row['fdes']}</td>
+            <td style="text-align: right;"><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('jiekou', array('op' => 'post', 'id' => $row['tid']))}" title="编辑"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" onclick="return confirm('确认删除吗？');return false;" href="{php echo $this->createWebUrl('jiekou', array('op' => 'delete', 'id' => $row['tid']))}" title="删除"><i class="fa fa-times"></i></a> </td>
+          </tr>
+          {/loop}
+          <tr>
+            <td colspan="5"><input type="hidden" name="token" value="{$_W['token']}"/>
+            </td>
+          </tr>
+          </tbody>
+          
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{elseif $operation == 'post'}
+<div class="main">
+  <form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+      <div class="panel-heading"> 接口编辑 </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">关键字</label>
+          <div class="col-sm-9">
+            <input type="text" name="title" class="form-control" value="{$item['title']}" />
+            <div class="help-block">接口关键字，比如接口是爱奇艺接口，那么关键字必须是iqiyi</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口调用</label>
+          <div class="col-sm-9">
+            <input type="text" name="fdes" class="form-control" value="{$item['fdes']}" />
+            <div class="help-block">接口调用的url，仅支持地址形式，比如:http://www.012wz.com/?url=</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+        <input type="hidden" name="id" value="{$item['tid']}"/>
+      </div>
+    </div>
+  </form>
+</div>
+{/if}
+{template 'common/footer'}

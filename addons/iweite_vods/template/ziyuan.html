@@ -1,0 +1,367 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('ziyuan', array('op' => 'display'))}">电影管理</a></li>
+  <li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('ziyuan', array('op' => 'post'))}">添加电影</a></li>
+  
+   {if (!empty($id))}
+  <li><a href="{php echo $this->createWebUrl('juji', array('op' => 'display', 'id' => $id))}">添加剧集</a></li>
+   {/if}
+
+       
+  
+  
+</ul>
+{if $operation == 'display'}
+<div class="main">
+  <div class="panel panel-info">
+    <div class="panel-heading">筛选</div>
+    <div class="panel-body">
+      <form action="../index.php" method="get" class="form-horizontal" role="form">
+        <input type="hidden" name="c" value="site" />
+        <input type="hidden" name="a" value="entry" />
+        <input type="hidden" name="m" value="iweite_vods" />
+        <input type="hidden" name="do" value="ziyuan" />
+        <input type="hidden" name="op" value="display" />
+        <input type="hidden" name="storeid" value="{$storeid}" />
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类</label>
+          <div class="col-sm-7 col-lg-8 col-md-8 col-xs-12 btn-group"> {if $classid>0} <a class="btn  btn-default" href="{php echo $this->createWebUrl('ziyuan', array('op' => 'display'))}">不限</a> {else} <a class="btn btn-primary" href="{php echo $this->createWebUrl('ziyuan', array('op' => 'display'))}">不限</a> {/if}
+            
+            
+            {loop $classarr $row} <a class="btn {if $row['tid']==$classid} btn-primary {else}  btn-default {/if}" href="{php echo $this->createWebUrl('ziyuan', array('op' => 'display','classid' =>$row['tid'],'page' =>$page))}">{$row['title']}</a> {/loop} </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">关键字</label>
+          <div class="col-sm-7 col-lg-8 col-md-8 col-xs-12">
+            <input class="form-control" name="keyword" placeholder="" type="text" value="{$keyword}">
+          </div>
+          <div class="pull-right col-xs-12 col-sm-3 col-lg-2">
+            <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="table-responsive panel-body">
+    <form action="" method="post" class="form-horizontal form" id=tj>
+      <table class="table table-hover" style="margin-top: 15px;">
+        <thead class="navbar-inner">
+          <tr>
+            <th style="width:5%;"><input type="checkbox" class="check_all" />
+            </th>
+            <th style="width:50%;">标题 </th>
+            <th style="width:15%;">属性</th>
+            <th style="width:10%;text-align: center; ">浏览</th>
+            <th style="width:20%;text-align: right;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="level-list">
+        
+        {loop $items $row}
+        <tr>
+          <td><input type="checkbox" name="check" value="{$row['tid']}">
+          </td>
+          <td><a href="../app/{php echo $this->createMobileurl('play', array('id'=>$row['tid']))}" target="_blank"> <img src="{$row['fpic']}" width="50" height="50"  class="img-rounded"/></a>&nbsp;&nbsp; <span class="text-info">({$row['tid']})</span>{$row['title']}
+            {if $row['recommend']==1}
+            <label  class='label label-default label-success' >荐</label>
+            {/if}
+            
+            {if $row['isok']==1}
+            <label class='label label-default label-warning'>隐</label>
+            {/if} 
+            
+            {if $row['shikan']>0}
+            <label class='label label-default label-danger'>试</label>
+            {/if} 
+			{if $row['ispass']>0}
+            <label class='label label-default label-info'>密</label>
+            {/if} 
+			
+			</td>
+          <td> {$row['fdes']} </td>
+          <td style="text-align: center;"> {$row['views']} </td>
+          <td style="text-align: right;"><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('juji', array('op' => 'display', 'id' => $row['tid']))}" title="剧集"><i class="fa fa-book"></i></a> <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('ziyuan', array('op' => 'post', 'id' => $row['tid']))}" title="编辑"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" onclick="return confirm('确认删除吗？');return false;" href="{php echo $this->createWebUrl('ziyuan', array('op' => 'delete', 'id' => $row['tid']))}" title="删除"><i class="fa fa-times"></i></a> </td>
+        </tr>
+        {/loop}
+        <tr>
+          <td colspan="5"><input name="deleteall" type="button" class="btn btn-primary" value="批量删除">
+		  
+		  <input name="jianall" type="button" class="btn btn-primary" value="批量推荐">
+		  
+            <input type="hidden" name="token" value="{$_W['token']}" />
+          </td>
+        </tr>
+        </tbody>
+        
+      </table>
+      <div style="float:right"> {$pager}</div>
+    </form>
+  </div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function(){
+	
+		$(".check_all").click(function(){
+		  $("[type='checkbox']").each(function() {
+		   if($(this).prop("checked"))
+		   {
+			$(this).attr("checked", false);
+			$(".check_all").prop("checked", false);
+		   }
+		   else
+		   {
+			$(this).prop("checked", true);
+				$(".check_all").prop("checked",true);
+		   }
+		  });
+		 });
+
+	
+	
+	
+	
+	
+	 $("input[name=jianall]").click(function(){
+            var check = $("input[type=checkbox][class!=check_all]:checked");
+            if(check.length < 1){
+                alert('请选择要批量推荐选择的数据!');
+                return false;
+            }
+			
+            if(confirm("确认要推荐选择的数据?")){
+			
+                var id = new Array();
+                check.each(function(i){
+                    id[i] = $(this).val();
+                });
+				
+                var url = "{php echo $this->createWebUrl('ziyuan', array('op' => 'jianall'))}";
+                $.post(
+                        url,
+                        {idArr:id},
+                        function(data){
+                           //alert(data);
+                           top.location.reload();
+                        },'json');				
+            }
+        });
+	
+	
+	
+	
+	
+        $("input[name=deleteall]").click(function(){
+            var check = $("input[type=checkbox][class!=check_all]:checked");
+            if(check.length < 1){
+                alert('请选择要删除的数据!');
+                return false;
+            }
+			
+            if(confirm("确认要删除选择的数据?")){
+			
+                var id = new Array();
+                check.each(function(i){
+                    id[i] = $(this).val();
+                });
+				
+                var url = "{php echo $this->createWebUrl('ziyuan', array('op' => 'deleteall'))}";
+                $.post(
+                        url,
+                        {idArr:id},
+                        function(data){
+                           //alert(data);
+                           top.location.reload();
+                        },'json');				
+            }
+        });
+
+        
+    });
+</script>
+{elseif $operation == 'post'}
+<div class="main">
+  <form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+      <div class="panel-heading"> 基本信息 </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">分类</label>
+          <div class="col-sm-9">
+            <select class="form-control tpl-category-child" id="classid" name="classid">
+              <option value="0">请选择分类</option>
+              
+				{loop $classarr $row}
+              
+              <option value="{$row['tid']}" {if $row['tid']==$item['classid']} selected="selected" {/if}	>{$row['title']}</option>
+              
+              {/loop}
+            
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">二级标签</label>
+          <div class="col-sm-9">
+            <input type="text" name="fkeys" class="form-control" value="{$item['fkeys']}" />
+            <div class="help-block">必须是二级分类里的一个，比如二级分类是 "动作片|爱情片|恐怖片|伦理片|剧情片" 这里可以填写:爱情片</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">名称</label>
+          <div class="col-sm-9">
+            <input type="text" name="title" class="form-control" value="{$item['title']}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">封面</label>
+          <div class="col-sm-9"> {php echo tpl_form_field_image('fpic',$item['fpic'],$item['fpic'],array('width' => 80, 'height' => 80))} <span class="help-block" >建议尺寸(200*260) </span> </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">下架</label>
+          <div class="col-sm-8 col-xs-12">
+            <label for="radio_1" class="radio-inline">
+            <input type="radio" name="isok" value="1" autocomplete="off"   {if $item['isok']==1} checked="checked"  {/if}/>
+            是</label>
+            <label for="radio_2" class="radio-inline">
+            <input type="radio" name="isok" value="0" autocomplete="off" {if !$item['isok']} checked="checked"  {/if}/>
+            否</label>
+            <div class="help-block">下架则不出现在列表页，但是出现在搜索页</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">推荐</label>
+          <div class="col-sm-8 col-xs-12">
+            <label for="radio_1" class="radio-inline">
+            <input type="radio" name="recommend"  value="1" autocomplete="off" {if $item['recommend']==1} checked="checked"  {/if} />
+            是</label>
+            <label for="radio_2" class="radio-inline">
+            <input type="radio" name="recommend"  value="0" autocomplete="off"  {if !$item['recommend']} checked="checked" {/if} />
+            否</label>
+            <div class="help-block" style="color:#FF0000"> 推荐则在首页显示</div>
+          </div>
+        </div>
+        {if (!empty($id))}
+        {if (!empty($isupp))}
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">更新状态</label>
+          <div class="col-sm-9">
+            <input type="text" name="fdes" class="form-control" value="{$item['fdes']}" />
+            <div class="help-block">电视剧,比如更新至第几集或者完结</div>
+          </div>
+        </div>
+        {/if}
+        {/if}
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">介绍</label>
+          <div class="col-sm-9"> {php echo tpl_ueditor('content', $item['content']);} </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+          <div class="col-sm-9">
+            <input type="text" name="sid" class="form-control" value="{$item['sid']}" />
+            <div class="help-block">从大到小降序排列</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading"> 诱导关联 </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">关联ID</label>
+          <div class="col-sm-9">
+            <input type="text" name="gid" class="form-control" value="{$gitem['gid']}" />
+            <div class="help-block">本地电影的ID参数</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">开启时间</label>
+          <div class="col-sm-8 col-xs-12">
+            <div class="row row-fix tpl-category-container">
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <select class="form-control tpl-category-parent" name="stime">
+                  
+                  
+					 {loop $timearr $row}
+					
+                  
+                  <option value="{$row}" {if $row==$gitem['stime']} selected="selected" {/if}>{$row}点</option>
+                  
+                  
+					{/loop}
+				
+                
+                </select>
+                <div class="help-block">在当前时间内访问关联ID内容，开始时间要小于结束时间</div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <select class="form-control tpl-category-child" name="etime">
+                  
+                  
+					 {loop $timearr $row}
+					
+                  
+                  <option value="{$row}" {if $row==$gitem['etime']} selected="selected" {/if}>{$row}点</option>
+                  
+                  
+					{/loop}
+				
+                
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+	
+	<div class="panel panel-default">
+      <div class="panel-heading"> 观看密码</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启</label>
+          <div class="col-sm-9">
+           <label for="radio_1" class="radio-inline">
+            <input type="radio" name="ispass" value="1" autocomplete="off"   {if $item['ispass']==1} checked="checked"  {/if}/>
+            是</label>
+            <label for="radio_2" class="radio-inline">
+            <input type="radio" name="ispass" value="0" autocomplete="off" {if !$item['ispass']} checked="checked"  {/if}/>
+            否</label>
+			
+            <div class="help-block">如果开启了观看密码,则需要输入全局设置里的密码才可以观看</div>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+	
+	
+	 <div class="panel panel-default">
+      <div class="panel-heading"> 强制关注 </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">试看</label>
+          <div class="col-sm-9">
+            <input type="text" name="shikan" class="form-control" value="{$item['shikan']}" />
+            <div class="help-block">此功能只针对认正的服务号，试看几分钟，提示必须关注，次功能必须具备服务号认证权限</div>
+          </div>
+        </div>
+      </div>
+    </div>
+	
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+        <input type="hidden" name="id" value="{$item['tid']}"/>
+      </div>
+    </div>
+  </form>
+</div>
+{/if}
+{template 'common/footer'}

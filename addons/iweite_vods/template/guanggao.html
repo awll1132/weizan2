@@ -1,0 +1,118 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  <li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('guanggao', array('op' => 'display'))}">管理广告</a></li>
+  <li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('guanggao', array('op' => 'post'))}">添加广告</a></li>
+</ul>
+<div class="alert alert-info">如果是JS联盟广告,直接把JS填写在链接的位置。 </div>
+{if $operation == 'display'}
+<div class="main">
+  <div class="panel panel-default">
+    <div class="table-responsive panel-body">
+      <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+        <table class="table table-hover" style="margin-top: 15px;">
+          <thead class="navbar-inner">
+            <tr>
+              <th style="width:10%;">顺序</th>
+              <th style="width:10%;">图片</th>
+              <th style="width:35%;">名称</th>
+              <th style="width:15%;">页面</th>
+              <th style="width:15%;">形式</th>
+              <th style="width:15%;text-align: right;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="level-list">
+          
+          {loop $category $row}
+          <tr>
+            <td><input type="text" class="form-control" name="sid[{$row['tid']}]" value="{$row['sid']}"></td>
+            <td><img src="{$row['fpic']}" width="50" height="50"  class="img-rounded"/></td>
+            <td> {$row['title']}
+              {if strstr($row['flink'],"js") } <font color="#FF0000">JS</font> {/if} </td>
+            <td> {$page[$row['apage']]}</td>
+            <td> {$style[$row['astyle']]}</td>
+            <td style="text-align: right;"><a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('guanggao', array('op' => 'post', 'id' => $row['tid']))}" title="编辑"><i class="fa fa-pencil"></i></a> <a class="btn btn-default btn-sm" onclick="return confirm('确认删除吗？');return false;" href="{php echo $this->createWebUrl('guanggao', array('op' => 'delete', 'id' => $row['tid']))}" title="删除"><i class="fa fa-times"></i></a> </td>
+          </tr>
+          {/loop}
+          <tr>
+            <td colspan="5"><input name="submit" type="submit" class="btn btn-primary" value="批量更新排序">
+              <input type="hidden" name="token" value="{$_W['token']}"/>
+            </td>
+          </tr>
+          </tbody>
+          
+        </table>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{elseif $operation == 'post'}
+<div class="main">
+  <form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+      <div class="panel-heading"> 广告编辑 </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">页面</label>
+          <div class="col-sm-9">
+            <input name="apage" type="radio" value="0" {if empty($item['apage'])}  checked="checked" {/if} />
+            首页
+            <input name="apage" type="radio" value="1"  {if $item['apage']==1}  checked="checked" {/if} />
+            列表页
+            <input name="apage" type="radio" value="2"  {if $item['apage']==2}  checked="checked" {/if} />
+            播放页 </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">形式</label>
+          <div class="col-sm-9">
+<input name="astyle" type="radio" value="0" {if empty($item['astyle'])}  checked="checked" {/if} />
+            普通横幅
+ <input name="astyle" type="radio" value="1" {if $item['astyle']==1}  checked="checked" {/if} />
+            轮播广告
+<input name="astyle" type="radio" value="2" {if $item['astyle']==2}  checked="checked" {/if} />
+            底部浮动 </div>
+        </div>
+        <div class="form-group" style="display:none">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">尺寸</label>
+          <div class="col-sm-9"> <span style="float:left">长：</span>
+            <input type="text" name="awidth" style="width:100px; float:left" class="form-control" value="{$item['awidth']}" />
+            <span style="float:left; margin-left:15px">高：</span>
+            <input type="text" name="aheight" style="width:100px;float:left" class="form-control" value="{$item['aheight']}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">名称</label>
+          <div class="col-sm-9">
+            <input type="text" name="title" class="form-control" value="{$item['title']}" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+          <div class="col-sm-9"> {php echo tpl_form_field_image('fpic',$item['fpic'],$item['fpic'],array('width' => 80, 'height' => 80))} <span class="help-block" style="color:#f00">如果是JS广告，此处不填写</span> </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">外链/js</label>
+          <div class="col-sm-9">
+            <input type="text" name="flink" class="form-control" value="{$item['flink']}" />
+            <span class="help-block" >如果是JS广告，此处填写JS外连地址。格式必须是完整的JS脚本代码</span> </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+          <div class="col-sm-9">
+            <input type="text" name="sid" class="form-control" value="{$item['sid']}" />
+            <div class="help-block">从大到小排列</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-12">
+        <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+        <input type="hidden" name="id" value="{$item['tid']}"/>
+      </div>
+    </div>
+  </form>
+</div>
+{/if}
+{template 'common/footer'}

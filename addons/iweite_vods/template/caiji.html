@@ -1,0 +1,187 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li  ><a href="{php echo $this->createWebUrl('update', array('op' => 'iweite'))}">微特同步</a></li>	<li  class="active"><a href="{php echo $this->createWebUrl('caiji', array('op' => 'display'))}">Ｃ值电影 采集</a></li>
+	<li  ><a href="{php echo $this->createWebUrl('dianshi', array('op' => 'display'))}">Ｃ值电视剧采集</a></li>
+	
+<li style="display:none"><a href="{php echo $this->createWebUrl('youku', array('op' => 'display'))}">优酷采集</a></li>	
+	
+	
+	
+</ul>
+
+
+
+{if $operation == 'display'}
+
+<form action="" method="post" class="form-horizontal" role="form"  onSubmit="javascript:return isValid();" target="_blank"> 
+<input type="hidden" name="c" value="site" />
+<input type="hidden" name="a" value="entry" />
+<input type="hidden" name="m" value="iweite_vods" />
+<input type="hidden" name="do" value="caiji" />
+<input type="hidden" name="op" value="add" />
+<input type="hidden" name="tid" value="{$cars}" />
+
+
+<div class="alert alert-info">
+本功能只采集电影信息，信息格式为C值，无需要对接第三方接口，因采集压力过大，数据已缓存。
+
+<a href="{php echo $this->createWebUrl('caiji', array('op' => 'shoudong'))}" style="float:right; color:#FF0000">点此立即手动更新</a>
+</div>
+<a name="nav"></a>
+<div class="main">
+    <div class="panel panel-default">
+
+
+		<div class="panel-heading">批量采集</div>
+		<div class="panel-body">
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择存储分类</label>
+					<div class="col-sm-7 col-lg-8 col-md-8 col-xs-12">
+			<select class="form-control tpl-category-child" id="classid" name="classid">
+					<option value="0">请选择分类</option>
+					 {loop $classarr $row}
+					<option value="{$row['tid']}" {if $row['tid']==$item['classid']} selected="selected" {/if}	>{$row['title']}</option>
+					{/loop}
+				</select>
+					</div>
+					<div class="pull-right col-xs-12 col-sm-3 col-lg-2">
+		<input name="submit" type="submit" value="批量采集所选" class="btn btn-primary ">
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+					
+					</div>
+				</div>
+		</div>
+	</div>
+	
+
+</div>
+
+
+<ul class="nav nav-tabs">
+	{loop $fl $item}
+	<li {if $item['tid']==$tid} class="active" {/if} ><a href="{php echo $this->createWebUrl('caiji', array('tid' => $item['tid'],'op' => 'display'))}#nav">{$item['name']}</a></li>
+	{/loop}
+</ul>
+
+  <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+					<th style="width:10%;"><input type="checkbox" class="check_all" /></th>
+						<th style="width:40%;">影片名称</th>
+                        <th style="width:20%;">影片类型</th>
+                        <th style="width:15%;">影片地区</th>
+						<th style="width:15%;">更新时间</th>
+						
+                    </tr>
+                    </thead>
+                   {$html}
+        </div>
+    </div>
+  
+</div>
+</div></form>
+<script type="text/javascript">
+    $(function(){
+	
+		$(".check_all").click(function(){
+		  $("[type='checkbox']").each(function() {
+		   if($(this).prop("checked"))
+		   {
+			$(this).attr("checked", false);
+			$(".check_all").prop("checked", false);
+		   }
+		   else
+		   {
+			$(this).prop("checked", true);
+				$(".check_all").prop("checked",true);
+		   }
+		  });
+		 });
+		 
+		 
+    });
+	
+
+function isValid(){
+	var classid = $("#classid");
+	if(parseInt(classid.val()) == 0){
+		alert("请选择分类");
+		classid.focus();
+		return false;
+	}
+	
+	var $checkbox = $("input[name='check[]']:checked");//选中
+	var len=parseInt($checkbox.length);
+	if(len==0){
+		alert("至少选择一个电影采集吧");
+		return false;
+	}
+	
+	var ids = ''; 
+	var id = document.getElementsByName('check[]');
+     for(var i = 0; i < id.length; i++){
+       if(id[i].checked)
+	   ids += id[i].value+'$'; 
+    }  
+	$("#ids").attr("value",ids); 
+}
+</script>
+{elseif $operation == 'post'}
+<div class="main">
+			<form action="" method="post" class="form-horizontal form" >
+			<input type="hidden" name="c" value="site" />
+                <input type="hidden" name="a" value="entry" />
+                <input type="hidden" name="m" value="iweite_vods" />
+                <input type="hidden" name="do" value="caiji" />
+                <input type="hidden" name="op" value="postadd" />
+				<input name="ids" id=ids type="hidden" value="{$ids}" />
+	
+    <div class="panel panel-default">
+        <div class="panel-heading">
+           {$iwetie_title}
+        </div>
+        <div class="panel-body">
+		
+		
+<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                <div class="col-sm-9">
+                <img src="{$iwetie_fpic}" width="150" height="150" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">本地分类</label>
+                <div class="col-sm-9">
+                <select class="form-control tpl-category-child" id="classid" name="classid">
+					<option value="" selected="selected">请选择分类</option>
+					 {loop $classarr  $row}
+					<option value="{$row['tid']}" >{$row['title']}</option>
+					{/loop}
+				</select>
+                </div>
+            </div>
+			
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">本地同步ID</label>
+                <div class="col-sm-9">
+                    <input type="text" name="gid" class="form-control" value="0" /><div class="help-block">增加不需要填写，更新需写本地ID</div>
+                </div>
+            </div>
+			
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+{/if}
+
+{template 'common/footer'}

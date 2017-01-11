@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>{$tt}</title>
+<script src="{$res}/images/uaredirectformobile.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="{$res}/images/index.css" />
+<script type="text/javascript" src="{$res}/images/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="{$res}/images/jquery-lazyload.js"></script>
+<script type="text/javascript" src="{$res}/images/jquery.base.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+</head>
+<body>
+
+<header id='test' class="header clearfix">
+ <a href="javascript:void(0);" target="_self" class="aChannel top_channel_btn"><span>{$cat['title']}</span><i class="moreArrow"></i></a>  <a href="javascript:void(0);" target="_self" class="aHeaderSearch top_search_btn"><i class="globalIcon searchIcon"></i><em>请输入片名</em></a>
+    <a href="{php echo $this->createMobileurl('index')}" class="aHeaderFun"><i class="globalIcon indexIcon"></i><span>首页</span></a><p class="headerChannelList">
+
+	{loop $classarr $item}
+	<a class="diy-control-item" href="{php echo $this->createMobileurl('list', array('id'=>$item['tid']))}">{$item['title']}</a>
+	{/loop}
+
+ 
+    </p>
+<section class="searchPop popShow">
+<section class="searchCon">
+<form id="ffsearch" name="ffsearch" method="post" action=""><span class="sSearchInput"><input autocomplete="off" autovalue="请输入片名" class="searchInput" placeholder="请输入片名" type="search"  id="q" name="q"><i class="iDelete" style="display: none;"></i></span><input type="button"  id="searchbutton"  class="cancelInput" value="搜索" /></form></section>
+<p class="pLinks">
+ 
+</p> 
+ </section>
+</header> 
+<div class="mask" id="common_mask"></div> 
+{if $twoarr}
+<nav class="header_nav main" id="nav_menu"  style="clear:both; position:inherit ">
+<div class="con clearfix">
+<ul>
+{loop $twoarr $index $row}
+<a class="diy-control-item {if $p==$row} cur {/if}"    href="{php echo $this->createMobileurl('list', array('id'=>$cat['tid'],'p'=>$row))}"  style="padding:0.4rem 0.32rem 0.4rem 0.30rem">{$row}</a>
+<?php if(($index+1)%6==0) {?>
+</ul><ul>
+<?php }?>
+{/loop}
+</ul>
+</div>
+</nav> 
+{/if}
+
+	<div class="profile_info" style="border-bottom:2px groove #f5f5f5; clear:both"> 
+	<span class="radius_avatar profile_avatar"><img src="{$gz['yd_image']}"></span> 
+	<strong class="profile_nickname">{$gz['yd_title']}</strong>
+	  <p class="profile_desc">{$gz['yd_desc']}</p>
+	  <div class="profile_opr"> <a id="weui_btn" class="weui_btn weui_btn_primary" href="{$gz['yd_url']}">进入公众号</a> </div>
+	</div>
+
+
+
+{if $midisjs==1 }
+<div class="index-category  nav_new " style="margin-top:5px; padding-bottom:0">
+{php echo html_entity_decode($mid_adsarr['flink'], ENT_QUOTES)}
+</div>
+{elseif $midisjs == 2}
+<div class="index-category  nav_new " style="margin-top:5px; padding-bottom:0">
+<a href="{$mid_adsarr['flink']}"><img src="{$mid_adsarr['fpic']}" width="100%" height="80" style="display:block"></a>
+</div>
+{/if}
+
+
+
+<div class="modo_title top"><i class="icol iconfont">&#xe628;</i><h2 style="font-size:14px">{$tt}</h2></div>
+<div class="main">
+<div class="all_tab" style="border-bottom:none">
+<ul class="list_tab_img" id="resize_list">
+{loop $items $row}	   
+ <li><a href="{php echo $this->createMobileurl('play', array('id'=>$row['tid']))}" >
+<div class="picsize">
+<img class="loading" src="{RESIMG}/themes/images/iweite.png" data-original="{$row['fpic']}"  />
+<label class="title">{$row['fdes']}</label>
+<label class="name">{$row['title']}</label>
+</div>
+ </a>  
+</li>
+ {/loop}
+</ul>
+</div>
+
+<div class="pagination"  style="text-align:center;"> 
+	{$pager}
+	</div>
+</div>
+
+ 
+
+{if $isjs==1 }
+<div style="position:fixed; left:0; bottom:0px; z-index:99999999999" id=footad>
+{php echo html_entity_decode($foot_adsarr['flink'], ENT_QUOTES)}
+</div>
+{elseif $isjs == 2}
+<br>
+<div style="position:fixed; left:0; bottom:0px; z-index:99999999999" id=footad>
+<div style="position:absolute; right:0; top:0; font-size:14px; background: #666666; color: #FFFFFF; padding:2px 4px; display:block" id=closead>X</div>
+<a href="{$foot_adsarr['flink']}"><img src="{$foot_adsarr['fpic']}"  width="100%" height="80" style="display:block"></a>
+</div>
+{/if}
+
+
+
+
+
+<div class="footer">
+<div class="fBox">
+<div class="footer_nav">{php echo html_entity_decode($setting['copyright'], ENT_QUOTES)}</div>
+</div> 
+</div>
+
+
+<script type="text/javascript" src="{$res}/images/iscroll.js"></script>
+<script type="text/javascript" src="{$res}/images/common.min.js"></script>
+
+
+{php echo register_jssdk(false);} <!-- 放到其他引入的 js 之前 -->
+<script>
+$('#searchbutton').click(function(){
+			var $search=$('#q');
+			if (!$search.val()) {
+				alert('请输入片名！');
+				$('#search').focus();
+				return false;
+			}
+			window.location.href="{php echo $this->createMobileurl('search')}&q="+encodeURIComponent($search.val());
+		})
+	$("#closead").click(function(e) {
+		$("#footad").hide();
+	});
+
+	wx.ready(function () {
+		var shareData = {
+            title: '{$share_title}',
+            desc: '{$share_desc}',
+            link: '{$share_url}',
+            imgUrl: '{$share_image}'
+        };
+		
+		 wx.hideAllNonBaseMenuItem();
+             wx.showMenuItems({
+                    menuList: [
+                        'menuItem:share:appMessage',
+                        'menuItem:share:timeline',
+						'menuItem:share:qq',
+                        'menuItem:share:QZone'
+                    ]
+             });
+		
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareQZone(shareData);
+	});
+	</script>
+<div style="display:none">{if $setting['cnzz']}
+<script src="{$setting['cnzz']}"></script>
+{/if}
+</div>
+
+
+</body>
+</html>

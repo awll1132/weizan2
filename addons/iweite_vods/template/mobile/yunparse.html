@@ -1,0 +1,81 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">body,html,div{background-color:#000;padding: 0;margin: 0;width:100%;height:100%;color:#aaa;}</style>
+<script type="text/javascript" src="{RESIMG}/themes/ckplayer/jquery.min.js"></script>
+<script type="text/javascript" src="{RESIMG}/themes/ckplayer/ckplayer.js"></script>
+</head>
+<body style="overflow-y:hidden;">
+<div id="loading" style="font-weight: bold; color:#FFFFFF; padding-top: 90px; display:;" align="center">正在加载播放中,请稍等...</div>
+<div id="a1"  style="position:relative; z-index:0"></div>
+<div id="error" style="display:none;font-weight:bold;padding-top:90px;" align="center"></div>
+
+{if !empty($purl)}
+   <script type="text/javascript">
+	 $('#a1').html('<iframe width="100%" height="100%" allowTransparency="true" frameborder="0" scrolling="no" src="{$purl}" id=aaaa></iframe>');
+	  $('#loading').hide();
+      $('#a1').show();
+    </script> 
+   {else}
+<script type="text/javascript">
+  /**  var vid='{$curr}&type=mp4&host={php echo $_SERVER["HTTP_HOST"];}';
+	var purl='http://addons.012wz.com/iweite_vods/api.php?vid='+vid;
+	var flashvars={
+	    f: purl, 		//使用swf向播放器发送视频地址进行播放     
+	    c: 0,		//调用 ckplayer.js 配置播放器
+	    p: 1,		//自动播放视频
+	};
+	var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+	var isiPad = navigator.userAgent.match(/iPad|iPhone|Linux|Android|iPod/i) != null;
+    if (isiPad) {
+        document.getElementById('a1').innerHTML = '<video src="'+purl+'" controls="controls" autoplay="autoplay" width="100%" height="100%" style="psotion:relative;""></video>'
+	}else{
+	    CKobject.embedSWF('{RESIMG}/themes/ckplayer/ckplayer.swf','a1','ckplayer_a1','100%','100%',flashvars,params);
+	}
+	$('#loading').hide();
+    $('#a1').show();
+	**/
+   $.ajax({			
+            type : "GET",
+            dataType : "jsonp",			
+            url : "{php echo $this->createMobileurl('jsonp');}",
+            data:{"access_token":'{$access_token}'},			
+            success : function(result){
+                //console.log(result);
+				callback(result);
+            }
+   });
+  function callback(data){
+
+  		if(data['msg'] == 'ok'){
+            var isiPad = navigator.userAgent.match(/iPad|iPhone|Android|Linux|iPod/i) != null;
+			
+            if(data['ext']=='link'){
+                $('#a1').html('<iframe width="100%" height="100%" allowTransparency="true" frameborder="0" scrolling="no" src="'+data['url']+'" id=aaaa></iframe>');
+            }else if(isiPad || data['ext']=='h5'){
+                $('#a1').html('<video src="'+data['url']+'" controls="controls" autoplay="autoplay" width="100%" height="100%"></video>');
+            }else{
+                if(data['ext']=='m3u8' || data['ext']=='m3u8_list'){
+                    var flashvars={f:'{RESIMG}/themes/ckplayer/m3u8.swf',a:data['url'],c:0,s:4,lv:0,p:1,v:100,loaded:'loadedHandler'}	
+                }else if(data['ext']=='mp4'){
+                    var flashvars={f:data['url'],c:0,s:0,p:1,v:100,h:3};
+                }else if(data['ext']=='xml'){
+                    var flashvars={f:data['url'],c:0,s:2,p:1,v:100,h:3};
+                }
+                var params={bgcolor:'#FFF',allowFullScreen:true,allowScriptAccess:'always',wmode:'transparent'};
+				
+                CKobject.embedSWF('{RESIMG}/themes/ckplayer/ckplayer.swf','a1','ckplayer_a1','100%','100%',flashvars,params);
+            }
+            $('#loading').hide();
+            $('#a1').show();
+        }else{
+            $('#loading').hide();
+            $('#a1').hide();
+            $('#error').show();
+            $('#error').html(data['msg']);
+        }
+  }
+</script>
+{/if}
+</body></html>

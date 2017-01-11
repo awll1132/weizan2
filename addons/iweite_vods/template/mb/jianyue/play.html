@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable = false" />
+   <title>{$tt}</title>
+  <link rel="stylesheet" type="text/css" href="{$res}/css/app.min.css?v=1.5" />
+  <link rel="stylesheet" href="{$res}/css/style.css?v=1.5">
+  
+  <script type="text/javascript" charset="utf-8" src="{$res}/js/zepto.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="{$res}/js/zepto.picLazyLoad.min.js"></script>
+	<script>
+	if (top.location != self.location)top.location=self.location;
+	 var gid="{$guanlian['gid']}";
+	 var stime="{$guanlian['stime']}";
+	 var etime="{$guanlian['etime']}";
+	 var purl="{php echo $this->createMobileurl('play', array('id'=>$guanlian['gid']))}"
+	 if(parseInt(gid)>0){
+	 	var myDate = new Date();
+		var Hours=myDate.getHours(); 
+		if(Hours>=parseInt(stime) && Hours<=parseInt(etime)){
+			top.location.href=purl;
+		}
+	 }
+	</script>
+  </head>
+  <body>
+ <div  class="mainbox" >
+      <div class="navbox">
+        <div class="common-nav">
+          <img onClick="history.back();" id="header-menubtn" class="header-menubtn" src="{RESIMG}/themes/images/header-menubtn-back.png" alt="">
+         {$play['title']}<a href="{php echo $this->createMobileurl('index')}"><i class="icon-home iconfont">&#xe605</i></a>
+        </div>
+      </div>
+	  
+	 
+	  
+{if $ispass}
+<div id="page1" class="box active" style="background:#fff; " > 
+	<div class="bo play" style="display:;height:200px; display:block">
+	{php echo html_entity_decode($setting['passtip'], ENT_QUOTES)}
+	</div>
+</div>
+
+<div  style="background:#fff; border-bottom:1px solid #dcdcdc; border-top:1px solid #dcdcdc; margin-bottom:15px; display:block; clear:both; height:35px; margin:8px 0 8px 0">
+	<form id="gk" name="gk" method="post" action="">
+	<input autocomplete="off" autovalue="请输入观看密码"  placeholder="请输入观看密码"  id="mima" name="mima"  style="height:33px; line-height:33px; font-size:16px; width:70%; float:left; padding-left:10px; border:0px solid #009933;">
+	<input type="button" id="gkbutton"  class="cancelInput" value="提交密码" style=" border:0; font-size:16px; background: #009933; color:#FFFFFF;display:block; "></form>
+</div>
+<script>
+		$('#gkbutton').unbind().click(function(){
+					var mima = $.trim($('#mima').val());
+					if(!mima) {
+						alert('请输入观看密码！');
+						return false;
+					}
+					
+					$.post("{php echo $this->createMobileurl('yunpass', array('id'=>$play['tid']))}", {mima:mima}, function(data){
+						if(data != 'success') {
+							alert(data);
+						} else {
+							alert('恭喜密码验证成功!');
+							location.reload();
+						}
+					});
+					return false;
+				});
+</script>
+{else}
+<div id="page1" class="box active" > 
+			<div class="bo play" style="display:;">
+				<iframe src="{php echo $this->createMobileurl('yunparse', array('url'=>$curr))}" scrolling="no" frameborder="0" height="200" id="mainFrame" width="100%"></iframe>
+			</div>
+</div>
+{/if}
+	  
+	
+	
+	
+	<div class="page3">
+		<div class="tab-title tab mb clearfix" style="text-align:center;  height:40px; line-height:40px">
+			  <ul><p class="intro" style="float:right; margin-right:10px">无需安装任何插件，即可快速播放</p>
+				<li id="tab3" class="on" style="margin-top:-3px">手机在线播放</li>
+			  </ul>
+		</div>
+			
+
+			
+			
+			
+			
+			<div id="stab2" class="tab-down mb clearfix">
+			
+			<dl id="liebiao" class="ptab" >
+			 <dd>
+			 <ul style="margin:0px; padding:0">
+			{$html}
+			</ul></dd></dl>
+			</div>
+			
+{if $midisjs==1 }
+<div class="index-category  nav_new " style="margin-top:5px; padding-bottom:0">
+{php echo html_entity_decode($mid_adsarr['flink'], ENT_QUOTES)}
+</div>
+{elseif $midisjs == 2}
+<div class="index-category  nav_new " style="margin-top:5px; padding-bottom:0">
+<a href="{$mid_adsarr['flink']}"><img src="{$mid_adsarr['fpic']}" width="100%" height="80" style="display:block"></a>
+</div>
+{/if}
+
+					
+<link rel="stylesheet" type="text/css" href="{$res}/css/mui.min.css" />
+<link rel="stylesheet" type="text/css" href="{$res}/css/app.min.css?v=2.01" />
+			
+		<div class="tab-title tab mb clearfix" style="text-align:center; border-top:1px solid #d5d5d5; height:40px; line-height:40px">
+				  <ul>
+					<li id="tab3" class="on" style="margin-top:-3px">猜你喜欢</li>
+				  </ul>
+			</div>
+	<div id="stab2" class="tab-down mb clearfix">
+		<ul class="mui-table-view mui-grid-view mui-grid-9 list" id="list-content">
+       
+		{loop  $like $row}	
+		  <li class="mui-table-view-cell mui-media mui-col-xs-4"> <a href="{php echo $this->createMobileurl('play', array('id'=>$row['tid']))}"> <span style="position:absolute; right:0; bottom:40px; height:20px; line-height:20px; background:#FF6600; color:#FFFFFF; display:block; padding:0px 3px;  overflow:hidden; font-size:11px">
+		  {$row['fdes']} </span> <img src="{RESIMG}/themes/images/iweite.png"  data-original="{$row['fpic']}" class="grid-img lazy"/> <img class="game-corner" src="{RESIMG}/themes/images/14470348816dL25.png" style="display: block">
+		  <div class="type-title">
+		  {$row['title']}</div>
+		  </a> </li>
+		  {/loop}
+		  </ul>
+			 
+	</div>
+			
+			
+					
+		<div class="tab-title tab mb clearfix" style="text-align:center; border-top:1px solid #d5d5d5; height:40px; line-height:40px;">
+				  <ul>
+					<li id="tab3" class="on" style="margin-top:-3px">内容介绍</li>
+				  </ul>
+			</div>
+			<div id="stab2" class="tab-down mb clearfix">
+			 <div class="tab-jq">{php echo html_entity_decode($play['content'], ENT_QUOTES)}
+			 </div>
+			</div>
+			
+			
+			
+	
+	
+			 
+<div class="profile_info" style="margin-top:0" > 
+	<span class="radius_avatar profile_avatar"><img src="{$gz['yd_image']}"></span> 
+	<strong class="profile_nickname">{$gz['yd_title']}</strong>
+	  <p class="profile_desc">{$gz['yd_desc']}</p>
+	  <div class="profile_opr"> <a id="weui_btn" class="weui_btn weui_btn_primary" href="{$gz['yd_url']}">进入公众号</a> </div>
+</div>
+
+
+
+
+<ul class="mui-table-view mui-grid-view mui-grid-9 main-content" style="margin-top:5px;  text-align:center; color:#333; border-top:1px solid #d5d5d5" id=footer>
+<li>
+
+<input name="time" id=time type="hidden" value="{$shikan}">
+{php echo html_entity_decode($setting['copyright'], ENT_QUOTES)}</li>
+</ul>
+
+{if $isjs==1 }
+<div style="position:fixed; left:0; bottom:0px; z-index:99999999999" id=footad>
+{php echo html_entity_decode($foot_adsarr['flink'], ENT_QUOTES)}
+</div>
+{elseif $isjs == 2}
+<br>
+<div style="position:fixed; left:0; bottom:0px; z-index:99999999999" id=footad>
+<div style="position:absolute; right:0; top:0; font-size:14px; background: #666666; color: #FFFFFF; padding:2px 4px; display:block" id=closead>X</div>
+<a href="{$foot_adsarr['flink']}"><img src="{$foot_adsarr['fpic']}"  width="100%" height="80" style="display:block"></a>
+</div>
+{/if}
+
+{if $ispass}
+{else}
+	{if $shikan>0}
+	<div id=shikan style="display:none">{php echo html_entity_decode($setting['shikan'], ENT_QUOTES)}</div>
+	{/if}
+{/if}
+
+
+
+<script type="text/javascript">
+    $(function(){
+		$("img.lazy").picLazyLoad({ 
+			threshold : 200
+		}); 
+		
+		$.get("{php echo $this->createMobileUrl('ajax', array('id' => $tid))}", function (response) {})
+	})
+</script>
+
+	
+
+{if $ispass}
+<script>
+$(".profile_info").hide()
+</script>
+{else}
+
+
+{if $shikan}
+{if empty($isiweite)}
+<script>
+$(".profile_info").hide()
+
+var t = parseInt($("#time").val());  
+function showTime(){  
+    t -= 1;  
+    if(t==0){ 
+		$(".play").css("background","#f5f5f5") 
+    	$(".play").html($("#shikan").html()) 
+    }  
+    setTimeout("showTime()",1000);  
+} 
+showTime(); 
+</script>
+{/if}
+{/if}
+{/if}
+
+
+{php echo register_jssdk(false);} <!-- 放到其他引入的 js 之前 -->
+
+
+<script>
+//执行showTime()  
+ 
+$(document).ready(function(){
+$.get("{php echo $this->createMobileUrl('ajax', array('id' => $tid))}", function (response) {
+})
+
+var time=parseInt($("#time").val());
+
+$('#searchbutton').click(function(){
+			var $search=$('#q');
+			if (!$search.val()) {
+				alert('请输入片名！');
+				$('#search').focus();
+				return false;
+			}
+			window.location.href="{php echo $this->createMobileurl('search')}&q="+encodeURIComponent($search.val());
+		})
+		
+	$("#closead").click(function(e) {
+		$("#footad").hide();
+	});
+
+});
+
+	wx.ready(function () {
+		var shareData = {
+            title: '{$share_title}',
+            desc: '{$share_desc}',
+            link: '{$share_url}',
+            imgUrl: '{$share_image}'
+        };
+		
+		 wx.hideAllNonBaseMenuItem();
+             wx.showMenuItems({
+                    menuList: [
+                        'menuItem:share:appMessage',
+                        'menuItem:share:timeline',
+						'menuItem:share:qq',
+                        'menuItem:share:QZone'
+                    ]
+             });
+		
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareQZone(shareData);
+	});
+	</script>
+<div style="display:none">{if $setting['cnzz']}
+<script src="{$setting['cnzz']}"></script>
+{/if}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+{template 'common/header'}
+<style>
+     .item_box img{
+         width: 100%;
+         height: 100%;
+     }
+</style>
+<style type='text/css'>
+    .tab-pane { padding:20px 0 20px 0;}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$setting['tid']}" />
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            全局设置
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#tab_basic">基本设置</a></li>
+				 <li><a href="#tab_auth">关注设置</a></li>
+				 <li><a href="#tab_share">分享设置</a></li>
+              <li><a href="http://wiki.012wz.com" target="_blank">帮助文档</a></li>
+            </ul>
+            <div class="tab-content">
+            <div class="tab-pane  active" id="tab_basic">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="title" class="form-control" value="{$setting['title']}" />
+                    </div>
+                </div>
+                
+				
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">首页显示数量</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="indexpagesize" class="form-control" value="{if empty($setting)}15{else}{$setting['indexpagesize']}{/if}" />
+						
+						
+                    </div>
+                </div>
+				
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">列表每页显示数量</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="pagesize" class="form-control" value="{if empty($setting)}15{else}{$setting['pagesize']}{/if}" />
+                    </div>
+                </div>
+				
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">底部版权</label>
+					<div class="col-sm-8 col-xs-12">
+						<textarea class="form-control" name="copyright" rows="5">{if empty($setting) || empty($setting['copyright'])}© 微信影院
+						本站所有视频来自互联网，本站仅提供Web页面服务，不参与录制、上传，且不储存任何资源。 
+						若本站收录的节目无意侵犯到贵司版权，我们会及时删除.{else}{$setting['copyright']}{/if}</textarea>
+					</div>
+				</div>
+				
+				
+				
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">统计代码</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="cnzz" class="form-control" value="{if empty($setting) || empty($setting['cnzz'])}{else}{$setting['cnzz']}{/if}" />
+						  <div class="help-block">只需要填写连接就可以可以，不需要加script标签</div>
+                    </div>
+                </div>
+            </div>
+			
+			 <div class="tab-pane" id="tab_share">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享时的标题</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="share_title" name="share_title" value="{$setting_share['share_title']}" class="form-control" /><div class="help-block">留空以网站名称作为标题</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享时的图片</label>
+                    <div class="col-sm-9">
+                   {php echo tpl_form_field_image('share_image',$setting_share['share_image'], '../addons/iweite_vods/template/themes/images/none.png', array('width' => 300, 'height' => 300))}
+                        <span class="help-block" style="color:#f00">建议尺寸300*300</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享时的摘要</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="share_desc" name="share_desc" value="{$setting_share['share_desc']}" class="form-control" />
+                        <div class="help-block">留空以网站名称作为内容</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户分享的链接</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="share_url" name="share_url" value="{$setting_share['share_url']}" class="form-control" />
+                        <div class="help-block">建议留空，让用户把测试链接分享出去。</div>
+                    </div>
+                </div>
+            </div>
+			
+			
+			
+			
+            <div class="tab-pane" id="tab_auth">
+               
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">LOGO图</label>
+                    <div class="col-sm-9">
+                        {php echo tpl_form_field_image('yd_image',$setting_yd['yd_image'], '../addons/iweite_vods/template/themes/images/none.png', array('width' => 200, 'height' => 200))}
+                        <span class="help-block" style="color:#f00">建议尺寸200*200</span>
+                    </div>
+                </div>
+				<div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">诱导的标题</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="yd_title" name="yd_title" value="{$setting_yd['yd_title']}" class="form-control" /><div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">诱导的描述</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="yd_desc" name="yd_desc" value="{$setting_yd['yd_desc']}" class="form-control" />
+						
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">诱导的链接</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="yd_url" name="yd_url" value="{$setting_yd['yd_url']}" class="form-control" />
+                        <div class="help-block">建议填写公众号素材地址 </div>
+                    </div>
+                </div>
+			   
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group col-sm-12">
+        <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+        <input type="hidden" name="token" value="{$_W['token']}" />
+    </div>
+	</form>
+</div>
+<script type="text/javascript">
+        require(['util'],function(util){
+         util.editor( $(".richtext-clone")[0]);
+    });
+    $(function () {
+        window.optionchanged = false;  require(['bootstrap'],function(){
+        $('#myTab a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        }) });
+    });
+
+</script>
+{template 'common/footer'}

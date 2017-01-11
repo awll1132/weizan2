@@ -1,0 +1,101 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li   {if $operation == 'iweite'}class="active"{/if}><a href="{php echo $this->createWebUrl('update', array('op' => 'iweite'))}">微特同步</a></li>
+	<li ><a href="{php echo $this->createWebUrl('caiji', array('op' => 'display'))}">Ｃ值电影采集</a></li>
+	<li  ><a href="{php echo $this->createWebUrl('dianshi', array('op' => 'display'))}">Ｃ值电视剧采集</a></li>
+</ul>
+
+<div class="alert alert-info">
+信息同步于网络,目前是缓存，如果想获取最新的点→
+
+<a href="{php echo $this->createWebUrl('update', array('op' => 'shoudong'))}" style="float:right; color:#FF0000">点此立即手动更新</a>
+</div>
+
+<ul class="nav nav-tabs">
+	{loop $fl $item}
+	<li {if $item['tid']==$tid} class="active" {/if} ><a href="{php echo $this->createWebUrl('update', array('tid' => $item['tid'],'op' => 'iweite'))}#nav">{$item['name']}</a></li>
+	{/loop}
+</ul>
+
+
+{if $operation == 'iweite'}
+ <form action="" method="post" class="form-horizontal form" >
+<div class="main">
+    <div class="panel panel-default">
+		<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">选择存储分类</label>
+					<div class="col-sm-7 col-lg-8 col-md-8 col-xs-12">
+			<select class="form-control tpl-category-child" id="classid" name="classid">
+					<option value="0">请选择分类</option>
+					 {loop $category $row}
+					<option value="{$row['tid']}" >{$row['title']}</option>
+					{/loop}
+				</select>
+					</div>
+				  <div class="pull-right col-xs-12 col-sm-3 col-lg-2">
+					
+					  <input name="submit" type="submit" value="批量同步" class="btn btn-primary ">
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+     
+				
+					   
+					</div>
+				</div>
+		
+		</div>
+	</div>
+	
+
+</div>
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+          
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+						<th style="width:5%;"><input type="checkbox" class="check_all" /></th>
+						<th style="width:10%;">图片</th>
+                        <th style="width:30%;">标题</th>
+                        <th style="width:20%;">分类</th>
+						<th style="width:20%;">更新</th>
+						<th style="width:15%;">更新时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                   {$html}
+                    </tbody>
+                </table>
+           
+        </div>
+    </div>
+  
+</div>
+</div>
+ </form>
+<script type="text/javascript">
+    $(function(){
+	
+		$(".check_all").click(function(){
+		  $("[type='checkbox']").each(function() {
+		   if($(this).prop("checked"))
+		   {
+			$(this).attr("checked", false);
+			$(".check_all").prop("checked", false);
+		   }
+		   else
+		   {
+			$(this).prop("checked", true);
+				$(".check_all").prop("checked",true);
+		   }
+		  });
+		 });
+    });
+</script>
+{elseif $operation == 'post'}
+
+{/if}
+
+{template 'common/footer'}

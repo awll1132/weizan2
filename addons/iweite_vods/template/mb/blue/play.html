@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>{$tt}</title>
+<script src="{$res}/images/uaredirectformobile.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="{$res}/images/index.css" />
+<script type="text/javascript" src="{$res}/images/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="{$res}/images/jquery-lazyload.js"></script>
+<script type="text/javascript" src="{$res}/images/jquery.base.js"></script>
+<script>
+	if (top.location != self.location)top.location=self.location;
+	 var gid="{$guanlian['gid']}";
+	 var stime="{$guanlian['stime']}";
+	 var etime="{$guanlian['etime']}";
+	 var purl="{php echo $this->createMobileurl('play', array('id'=>$guanlian['gid']))}"
+	 if(parseInt(gid)>0){
+	 	var myDate = new Date();
+		var Hours=myDate.getHours(); 
+		if(Hours>=parseInt(stime) && Hours<=parseInt(etime)){
+			top.location.href=purl;
+		}
+	 }
+	</script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head>
+</head>
+<body>
+
+<header id='test' class="header clearfix" >
+         <a href="javascript:void(0);"  class="aChannel top_channel_btn"><span>{$cat['title']}</span><i class="moreArrow"></i></a>  <a href="javascript:void(0);" target="_self" class="aHeaderSearch top_search_btn"><i class="globalIcon searchIcon"></i><em>请输入片名</em></a>
+    <a href="{php echo $this->createMobileurl('index')}" target="_self" class="aHeaderFun"><i class="globalIcon indexIcon"></i><span>首页</span></a>
+	<p class="headerChannelList"  style="z-index:999999999999; position: fixed">
+	{loop $classarr $item}
+	<a class="diy-control-item" href="{php echo $this->createMobileurl('list', array('id'=>$item['tid']))}">{$item['title']}</a>
+	{/loop}
+    </p>
+<section class="searchPop popShow">
+<section class="searchCon">
+<input name="time" id=time type="hidden" value="{$shikan}">
+<form id="ffsearch" name="ffsearch" method="post" action=""><span class="sSearchInput"><input autocomplete="off" autovalue="请输入片名" class="searchInput" placeholder="请输入片名" type="search" id="q" name="q"><i class="iDelete" style="display: none;"></i></span><input type="button" id="searchbutton"  class="cancelInput" value="搜索" /></form></section>
+<p class="pLinks">
+</p> 
+ </section>
+</header> 
+<div class="mask" id="common_mask" style="z-index:9999999999999"></div>  
+
+
+
+{if $ispass }
+<div class="play" style="background:#fff; position:relative;z-index:0">
+{php echo html_entity_decode($setting['passtip'], ENT_QUOTES)}
+</div>
+<div class="tbmov-notice" style="background: #339933; border:0; margin-bottom:15px">
+<form id="gk" name="gk" method="post" action="">
+<input autocomplete="off" autovalue="请输入观看密码"  placeholder="请输入观看密码"  id="mima" name="mima"  style="height:35px; line-height:35px; font-size:16px;  width:70%; padding-left:10px; border:1px solid #f5f5f5">
+<input type="button" id="gkbutton"  class="cancelInput" value="提交" style="height:35px; line-height:35px;  width:20%; border:0; font-size:16px;  "></form>
+</div>
+<script>
+		$('#gkbutton').unbind().click(function(){
+					var mima = $.trim($('#mima').val());
+					if(!mima) {
+						alert('请输入观看密码！');
+						return false;
+					}
+					
+					$.post("{php echo $this->createMobileurl('yunpass', array('id'=>$play['tid']))}", {mima:mima}, function(data){
+						if(data != 'success') {
+							alert(data);
+						} else {
+							alert('恭喜密码验证成功!');
+							location.reload();
+						}
+					});
+					return false;
+				});
+</script>
+{else}
+<div class="play" style="background:#fff; position:relative;z-index:0">
+<iframe src="{php echo $this->createMobileurl('yunparse', array('url'=>$curr ,'t'=>$play['shikan'],'isweite'=>$isiweite,'id'=>$play['tid']))}" scrolling="no" frameborder="0" height="230" id="mainFrame" width="100%" ></iframe>
+</div>
+<div class="tbmov-notice"><DIV class=sf-alert-remove></DIV>【提醒】：无需安装任何插件，即可快速播放</div>
+{/if}
+
+
+
+{if $midisjs==1 }
+<div class="index-category  nav_new " style="margin-top:5px; padding-bottom:0">
+{php echo html_entity_decode($mid_adsarr['flink'], ENT_QUOTES)}
+</div>
+{elseif $midisjs == 2}
+<div class="index-category  nav_new " style="margin-top:5px; padding-bottom:0">
+<a href="{$mid_adsarr['flink']}"><img src="{$mid_adsarr['fpic']}" width="100%" height="80" style="display:block"></a>
+</div>
+{/if}
+
+
+
+
+<div class="vod-play-tab main">
+      <ul>
+        <li  style="font-size:14px"><span class="current" onMouseDown="setTab('vod',1,4);" id="vod1">剧集</span></li>
+        <li  style="font-size:14px"><span onMouseDown="setTab('vod',2,4);" id="vod2">简介</span></li>
+     </ul>
+</div>
+<div class="vod-play-info main"  style="background:#FFFFFF">
+<div class="vod-info-tab" id="con_vod_1"  >
+
+ 
+<div class="play-box"  id="qvod"  style="display:block"  >
+  <ul class="plau-ul-list">
+ <ul>
+{$html}
+ </ul>
+  </ul></div>                         
+</div>
+
+<div class="vod-info-tab fn-hide" id="con_vod_2">
+<div class="vod_content" style="font-size:14px">
+{php echo html_entity_decode($play['content'], ENT_QUOTES)}
+</div>
+</div>
+</div>
+
+
+<div class="profile_info" > 
+	<span class="radius_avatar profile_avatar"><img src="{$gz['yd_image']}"></span> 
+	<strong class="profile_nickname">{$gz['yd_title']}</strong>
+	  <p class="profile_desc">{$gz['yd_desc']}</p>
+	  <div class="profile_opr"> <a id="weui_btn" class="weui_btn weui_btn_primary" href="{$gz['yd_url']}">进入公众号</a> </div>
+</div>
+
+
+<div  class="main vod-botx-title">
+<ul>
+<li  style="background:#FFFFFF">猜你喜欢</li>
+</div>
+<div class="main" id="resize_list" style="background:#FFFFFF">
+
+<div class="all_tab"  style="display:block">
+
+<ul class="list_tab_img" >
+{loop  $like $row}	   
+<li><a href="{php echo $this->createMobileurl('play', array('id'=>$row['tid']))}" >
+<div class="picsize">
+<img  class="loading" src="{RESIMG}/themes/images/iweite.png" data-original="{$row['fpic']}"  alt="{$row['title']}"/><label class="score" style="width:100%; background:#333">{$row['title']}</label>
+<label class="title"> {$row['fdes']}</label></div>  
+</a>
+</li>
+{/loop}
+</ul>    
+</div>
+</div>
+
+
+<div class="footer">
+<div class="fBox">
+<div class="footer_nav">{php echo html_entity_decode($setting['copyright'], ENT_QUOTES)}</div>
+</div> 
+</div>
+
+{if $isjs==1 }
+<div style="position:fixed; left:0; bottom:0px; z-index:99999999999" id=footad>
+{php echo html_entity_decode($foot_adsarr['flink'], ENT_QUOTES)}
+</div>
+{elseif $isjs == 2}
+<br>
+<div style="position:fixed; left:0; bottom:0px; z-index:99999999999" id=footad>
+<div style="position:absolute; right:0; top:0; font-size:14px; background: #666666; color: #FFFFFF; padding:2px 4px; display:block" id=closead>X</div>
+<a href="{$foot_adsarr['flink']}"><img src="{$foot_adsarr['fpic']}"  width="100%" height="80" style="display:block"></a>
+</div>
+{/if}
+
+
+
+{if $ispass}
+{else}
+
+	{if $shikan>0}
+	<div id=shikan style="display:none">{php echo html_entity_decode($setting['shikan'], ENT_QUOTES)}</div>
+	{/if}
+{/if}
+
+<script type="text/javascript" src="{$res}/images/iscroll.js"></script>
+<script type="text/javascript" src="{$res}/images/common.min.js"></script>
+
+{php echo register_jssdk(false);} <!-- 放到其他引入的 js 之前 -->
+{if $ispass}
+<script>
+$(".profile_info").hide()
+</script>
+{else}
+{if $shikan>0}
+{if empty($isiweite)}
+<script>
+$(".profile_info").hide()
+
+var t = parseInt($("#time").val());  
+function showTime(){  
+    t -= 1;  
+    if(t==0){ 
+		$(".play").css("background","#f5f5f5") 
+    	$(".play").html($("#shikan").html()) 
+    }  
+    setTimeout("showTime()",1000);  
+} 
+showTime(); 
+</script>
+{/if}
+{/if}
+{/if}
+<script>
+//执行showTime()  
+ 
+$(document).ready(function(){
+$.get("{php echo $this->createMobileUrl('ajax', array('id' => $tid))}", function (response) {
+})
+
+var time=parseInt($("#time").val());
+
+
+$('#searchbutton').click(function(){
+			var $search=$('#q');
+			if (!$search.val()) {
+				alert('请输入片名！');
+				$('#search').focus();
+				return false;
+			}
+			window.location.href="{php echo $this->createMobileurl('search')}&q="+encodeURIComponent($search.val());
+		})
+		
+	$("#closead").click(function(e) {
+		$("#footad").hide();
+	});
+
+});
+
+	wx.ready(function () {
+		var shareData = {
+            title: '{$share_title}',
+            desc: '{$share_desc}',
+            link: '{$share_url}',
+            imgUrl: '{$share_image}'
+        };
+		
+		 wx.hideAllNonBaseMenuItem();
+             wx.showMenuItems({
+                    menuList: [
+                        'menuItem:share:appMessage',
+                        'menuItem:share:timeline',
+						'menuItem:share:qq',
+                        'menuItem:share:QZone'
+                    ]
+             });
+		
+		wx.onMenuShareAppMessage(shareData);
+		wx.onMenuShareTimeline(shareData);
+		wx.onMenuShareQQ(shareData);
+		wx.onMenuShareQZone(shareData);
+	});
+	</script>
+<div style="display:none">{if $setting['cnzz']}
+<script src="{$setting['cnzz']}"></script>
+{/if}
+</div>
+
+</body>
+</html>
