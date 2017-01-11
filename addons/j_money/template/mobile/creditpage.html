@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>{$_W['account']['name']}</title>
+<meta name="format-detection" content="telephone=no, address=no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link href="./resource/css/bootstrap.min.css" rel="stylesheet">
+<link href="./resource/css/font-awesome.min.css" rel="stylesheet">
+<link href="./resource/css/animate.css" rel="stylesheet">
+<link href="./resource/css/common.css" rel="stylesheet">
+{php echo register_jssdk(false);}
+<script src="{MODULE_URL}template/js/jquery-2.1.1.min.js"></script>
+<script src="{MODULE_URL}template/js/fastclick.min.js"></script>
+<link type="text/css" rel="stylesheet" href="{MODULE_URL}template/js/weui.css"/>
+</head>
+<style>
+.weui_cell_ft{color:#F00;}
+</style>
+<body>
+{if $fans['follow']==0}
+<div class="weui_msg">
+    <div class="weui_icon_area"><i class="weui_icon_msg weui_icon_warn"></i></div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title"><img src="{php echo tomedia($cfg['qrcode'])}" style="width:50%;"/></h2>
+        <p class="weui_msg_desc">请长按上方二维码关注</p>
+    </div>
+</div>
+
+{elseif $fans['follow']==1}
+<div class="weui_msg">
+    <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+    <div class="weui_text_area">
+        <h2 class="weui_msg_title">积分已进账</h2>
+        <p class="weui_msg_desc">本次积分<b style="color:#F60">{php echo $credit}</b>，您共有<b style="color:#F60">{php echo $allcredit['credit1']}</b>积分。</p>
+    </div>
+    <div class="weui_opr_area">
+        <p class="weui_btn_area">
+        	<a href="javascript:wx.closeWindow();" class="weui_btn weui_btn_default">关闭页面</a>
+            {if $cfg['creditbtn']}
+            <a href="{$cfg['creditbtn']}" class="weui_btn weui_btn_primary">积分使用</a>
+            {/if}
+        </p>
+    </div>
+</div>
+{/if}
+<script language="javascript">
+$(document).ready(function(e) {
+    
+});
+$(function() {
+  FastClick.attach(document.body);
+});
+wx.ready(function () {
+	wx.hideOptionMenu();
+});
+</script>
