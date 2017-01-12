@@ -1,0 +1,1066 @@
+{template 'common/header'}
+
+<title>我的购物车</title>
+
+<style type="text/css">
+
+body {margin:0px; background:#f2f2f2;width:100%;}
+
+</style>
+
+<div id='options'></div>
+
+<div id='container'></div>
+
+<script id='option_info' type='text/html'>
+
+ <div class="good_choose_layer"></div>
+
+    <div class="good_choose">
+
+        <div class="info">
+
+             <div class="left">
+
+                 <img id="chooser_img" src="<%goods.thumb%>"/>
+
+             </div>
+
+             <div class="right">
+
+                   <div class="price">￥<span id='option_price'><%goods.marketprice%></span></div>
+
+                   <div class="stock">库存:<span id='option_stock'><%goods.total%></span>件</span> </div>
+
+                   <div class="option">请选择规格</div>
+
+             </div>
+
+            <div class="close" onClick="choose2(true)"><i class="fa fa-remove-o"></i></div>
+
+        </div>
+
+        <div class="other">
+
+            <input type='hidden' id='optionid' value='' />
+
+                <%each specs as spec%>
+
+                <input type='hidden' name="optionid[]" class='optionid optionid_<%spec.id%>' value="" title="<%spec.title%>">
+
+                <div class="spec"><%spec.title%></div>
+
+                <div class="spec_items options_<%spec.id%>"  title="<%spec.title%>">
+
+                      <%each spec.items as o%>
+
+                      <div class="option option_<%spec.id%>" specid='<%spec.id%>' oid="<%o.id%>" sel='false' title='<%o.title%>' thumb='<%o.thumb%>'><%o.title%></div>
+
+                     <%/each%>
+
+                </div>
+
+                <%/each%>
+
+ 
+
+        </div>
+
+        <div class="close" onClick="closechoose()"><i class="fa fa-times-circle-o"></i></div>
+
+        <div class="sub <%if specs.length>0%>disabled<%/if%>" onClick="choose2()">确认</div>
+
+    </div>
+
+ </script>   
+
+ <script id='cart_empty' type='text/html'>
+
+     <div class="cart_top">
+
+    <div class="title" onclick='history.back()'><i class='fa fa-chevron-left'></i> 购物车(0)</div>
+
+</div>
+
+ <div class="card_no"><i class="fa fa-shopping-cart" style="font-size:100px;"></i><br><span style="line-height:18px; font-size:16px;">购物车快饿瘪了</span><br>主人快去给我找点东西吧</div>
+
+<div class="card_no_menu">
+
+   	<div class="card_no_nav" onclick="location.href='{php echo $this->createMobileUrl('member')}'">个人中心</div>
+
+        <div class="card_no_nav"  onclick="location.href='{php echo $this->getUrl()}'">去逛逛</div>
+
+ </div>
+
+
+
+
+
+     </script>
+
+<script id='cart_list' type='text/html'>
+
+<div class="cart_top">
+
+    <div class="title" onclick='history.back()'><i class='fa fa-chevron-left'></i> 购物车(<%total%>)</div>
+
+        <div class="nav" id='tofavorite'>移至收藏夹</div>
+
+        <div class="nav" id='removecart'>删除</div>
+
+</div>
+
+
+
+    <div class="cart_main">
+
+          <%each list as value%>
+
+             <div class="cart_good" 
+
+                        data-cartid="<%value.id%>" 
+
+                        data-marketprice="<%value.marketprice%>" 
+
+                        data-goodsid="<%value.goodsid%>" 
+
+                        sel='1' 
+
+                        data-maxbuy='<%value.maxbuy%>' 
+
+                        data-stock='<%value.stock%>'>
+
+                 <div class="ico"><i class="fa fa-check-circle-o" style="color:#ef4733;"></i></div>
+
+                 <div class="img" onclick="location.href='{php echo $this->createMobileUrl('shop/detail')}&id=<%value.goodsid%>'"><img src="<%value.thumb%>"/></div>
+
+                 <div class="info">
+
+                     <div class='inner' >
+
+            	      <div class="name" onclick="location.href='{php echo $this->createMobileUrl('shop/detail')}&id=<%value.goodsid%>'"><%value.title%></div>
+
+                        <%if value.optionid!='0'%>
+
+                         <div class="optionsel">
+
+                            <div class='content'>
+
+                                <div class="cinner"><%if optiontitle!=''%><%value.optiontitle%><%else%>未选规格<%/if%></div>
+
+                            </div>
+
+                            <div class="cico"><i class="fa fa-angle-down"></i></div>
+
+                        </div>
+
+                        <%/if%>
+
+                      
+
+                    </div>
+
+                 </div>
+
+                     <div class="other">
+
+                           <div class="price"><%value.marketprice%></div>  
+
+                           <div class="price1"><span class='line'><%value.productprice%></span></div>  
+
+                           <div class="num"><div class="leftnav">-</div><input type="text" class="shownum" value="<%value.total%>" /><div class="rightnav">+</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+       
+
+        <%/each%>
+
+        <div class="cart_count">共 <span class='total'><%total%></span> 件商品 合计: ￥<span class='totalprice'><%totalprice%></span></div>
+
+    </div>
+
+    <div class="cart_pay">
+
+        <div class="all" sel="1"><i class="fa fa-check-circle-o" style="color:#ef4733;"></i> <span class='t'>全选</span></div>
+
+        <div class="paysub <%if total<=0%>disabled<%/if%>">结算(<span class='total'><%total%></span>)</div>
+
+        <div class="text">合计：<span>￥<span  class='totalprice'><%totalprice%></span></span><br><span style="color:#999; font-size:14px;">不含运费</span></div>
+
+    </div>
+
+</script>
+
+<script language="javascript">
+
+    function choose(){
+
+                       $('.good_choose_layer').fadeIn(200);
+
+	     $('.good_choose').fadeIn(200);
+
+             $('.good_choose_layer').click(function(){
+
+                 closechoose();
+
+             })
+
+	}
+
+                function closechoose(){
+
+                      $('.good_choose_layer').fadeOut(100);
+
+                      $('.good_choose').fadeOut(100); 
+
+                }
+
+	function choose2(direct){
+
+	    
+
+                          
+
+	}
+
+        
+
+    function setSelect(obj, sel,isall){
+
+            if(sel=='1'){
+
+                         obj.find('i').addClass('fa-circle-o').removeClass('fa-check-circle-o').css('color', '#999');
+
+                    }
+
+                    else{
+
+                         obj.find('i').removeClass('fa-circle-o').addClass('fa-check-circle-o').css('color', '#ef4733');
+
+                    }
+
+                    sel =sel==1?0:1;
+
+                    if(!isall){
+
+                        obj.parent().attr('sel',sel);
+
+                   }
+
+                   else{
+
+                        obj.attr('sel',sel);
+
+                   }
+
+                   calcprice();
+
+    }
+
+    function calcprice(){
+
+           var total = 0;
+
+            var totalprice = 0;
+
+          
+
+        $(".cart_good").each(function(){
+
+            var $this = $(this);
+
+            var sel = $this.attr('sel')=='1';
+
+            if(sel){
+
+               
+
+                var num = $this.find('.shownum').val();
+
+                
+
+                if(isNaN(num)){
+
+                   num = 1;
+
+                }
+
+                 $this.find('.shownum').val(num);
+
+                 total+=parseInt(num);
+
+                totalprice+= parseFloat( $this.find('.shownum').val() ) * parseFloat($this.data('marketprice'));
+
+            }
+
+     
+
+        });
+
+        
+
+           
+
+            $('.total').html(total);
+
+            $('.totalprice').html(totalprice.toFixed(2));
+
+            
+
+            if(total<=0){
+
+                $(".paysub").addClass('disabled');
+
+                    $("#tofavorite").addClass('disabled');
+
+                    $("#removecart").addClass('disabled');
+
+            }
+
+            else{
+
+                $(".paysub").removeClass('disabled');
+
+                $("#tofavorite").removeClass('disabled');
+
+                $("#removecart").removeClass('disabled');
+
+            }
+
+        return total;
+
+    }
+
+    
+
+	function option_sel(hasoption){
+
+	var ret= {
+
+		no: "",
+
+		all: []
+
+	};
+
+	if(!hasoption){
+
+		return ret;
+
+	}
+
+			$(".optionid").each(function(){
+
+				ret.all.push($(this).val());
+
+				if($(this).val()==''){
+
+					ret.no = $(this).attr("title");
+
+					return false;
+
+				}
+
+	})
+
+	return ret;
+
+}
+
+
+
+    require(['tpl', 'core'], function(tpl, core) {
+
+      
+
+        core.json('shop/cart',{},function(json){
+
+            if(json.result.total<=0){
+
+               $('#container').html(  tpl('cart_empty') );
+
+                return;
+
+            }
+
+           $('#container').html(  tpl('cart_list',json.result) );
+
+           
+
+          var bh = $(document.body).height()/1.3 - 50;
+
+          $('.good_choose').css('max-height',bh); 
+
+          $('.good_choose .other').css('max-height',bh-175);
+
+          
+
+           $(".cart_good .names,.cart_good .img").click(function(){
+
+                var goodsid = $(this).closest('.cart_good').data('goodsid');
+
+                location.href=core.getUrl('shop/detail',{id:goodsid});
+
+           });
+
+           
+
+           $(".ico").click(function(){
+
+                    setSelect($(this),$(this).parent().attr('sel'))
+
+           });
+
+           $('.shownum').blur(function(){
+
+               
+
+               var maxbuy = parseInt( $(this).closest('.cart_good').data('maxbuy'));
+
+               var stock = parseInt( $(this).closest('.cart_good').data('stock'));
+
+           
+
+                var input =$(this);
+
+                if(!input.isInt()){
+
+                    input.val('1');
+
+                    return;
+
+                }
+
+                if(parseInt(input.val())<0){
+
+                    input.val('1');
+
+                    return;
+
+                }
+
+                var num = parseInt( input.val() );
+
+            
+
+               
+
+               if(num>maxbuy && maxbuy>0){
+
+                    num=maxbuy;
+
+                    core.tip.show("您最多购买 " + maxbuy + "件");
+
+                }
+
+                else if(stock!='-1' && stock!='' && num>stock){
+
+                    num=stock;
+
+                    core.tip.show("您最多购买 " + stock + "件");
+
+                }
+
+                input.val(num);
+
+            
+
+                core.json('shop/cart',{'op':'updatenum',id:$(this).closest('.cart_good').data('cartid'),goodsid:$(this).closest('.cart_good').data('goodsid'), total:num},null,false,true);
+
+                calcprice();
+
+                
+
+               
+
+           })
+
+            $(".all").click(function(){
+
+                    
+
+                   var $this = $(this);
+
+                   var sel = $this.attr('sel');
+
+                    
+
+                   $(".ico").each(function(){
+
+                       setSelect($(this),sel)
+
+                    });
+
+                   setSelect($(this),sel,true);
+
+                    
+
+            });
+
+            
+
+            $('.leftnav').click(function(){
+
+                
+
+                var input =$(this).next();
+
+                if(!input.isInt()){
+
+                    input.val('1');
+
+                }
+
+                var num = parseFloat( input.val() );
+
+                num--;
+
+                if(num<=0){
+
+                    num=1;
+
+                }
+
+                input.val(num);
+
+          
+
+                core.json('shop/cart',{'op':'updatenum',id:$(this).closest('.cart_good').data('cartid'),goodsid:$(this).closest('.cart_good').data('goodsid'), total:num},null,false,true);
+
+                calcprice();
+
+            })
+
+            
+
+             $('.rightnav').click(function(){
+
+                var maxbuy = parseInt( $(this).closest('.cart_good').data('maxbuy'));
+
+               var stock = parseInt( $(this).closest('.cart_good').data('stock'));
+
+             
+
+                var input =$(this).prev();
+
+                if(!input.isInt()){
+
+                    input.val('1');
+
+                } 
+
+                var num = parseInt( input.val() );
+
+                num++;
+
+               
+
+                if(num>maxbuy && maxbuy>0){
+
+                    num=maxbuy;
+
+                    core.tip.show("您最多购买 " + maxbuy + "件");
+
+                }
+
+                else if(stock!='-1' && stock!='' && num>stock){
+
+                    num=stock;
+
+                    core.tip.show("您最多购买 " + stock + "件");
+
+                }
+
+                input.val(num);
+
+   
+
+                core.json('shop/cart',{'op':'updatenum',id:$(this).closest('.cart_good').data('cartid'),goodsid:$(this).closest('.cart_good').data('goodsid'), total:num},null,false,true);
+
+                calcprice();
+
+            });
+
+      
+
+            $('.optionsel').click(function(){
+
+                var id = $(this).closest('.cart_good').data('cartid');
+
+                var goodsid = $(this).closest('.cart_good').data('goodsid');                
+
+                 core.json('shop/cart',{'op':'selectoption',id:id,goodsid:goodsid},function(json){
+
+  
+
+                     $('#options').html(  tpl('option_info',json.result) );
+
+                     $('.good_choose').data('cartid', id);
+
+                     $('.good_choose').data('goodsid',goodsid);
+
+                  
+
+                     choose();
+
+                     var options = json.result.options;
+
+                     
+
+                     if(options.length>0) {
+
+                       
+
+                        var cartspecs = json.result.cartspecs;
+
+                        var cartoption = json.result.cartoption;
+
+                        $("#optionid").val(json.result.cartoption.id);
+
+                        $(".spec_items").each(function(i){
+
+                            $(this).find('.option[oid=' +cartspecs[i] + ']' ).addClass('on');
+
+                        });
+
+                        var stock =0;
+
+			var marketprice = 0;
+
+			var productprice = 0;
+
+			
+
+				var len = options.length;
+
+				for(var i=0;i<len;i++) {
+
+					var o = options[i];
+
+                                      
+
+					if( o.specs==cartoption.specs){
+
+						optionid = o.id;
+
+						stock = o.stock;
+
+						marketprice = o.marketprice;
+
+						productprice = o.productprice;
+
+						break;
+
+					}
+
+                                                                           }
+
+					if(stock==0){
+
+					   $('.sub').addClass('disabled').html('库存不足,无法购买');
+
+					}
+
+					else{
+
+					     $('.sub').removeClass('disabled').html('确认');
+
+					}
+
+                               
+
+				 
+
+				
+
+		     	$("#option_price").html(marketprice);	
+
+		     	$("#option_stock").html(stock);	
+
+                        
+
+            
+
+                       $(".spec_items .option").click(function() {
+
+			 var specid = $(this).attr("specid");
+
+			 var oid = $(this).attr("oid");
+
+			$(".optionid_"+specid).val(oid);
+
+			$(".options_" + specid + "  .option").removeClass("on").attr("sel", "false");
+
+			$(this).addClass("on").attr("sel", "true");
+
+	      var titles='已选: ';
+
+			     $('.spec_items').each(function(){
+
+                                  if($(this).find('.on').length>0){
+
+			        titles+= $(this).find('.on').attr('title')+";";   
+
+                            }
+
+			     });
+
+                             
+
+                             $('.good_choose .info .right .option').html(titles);
+
+         var thumb = $(this).attr('thumb');
+
+         if(thumb!=''){
+
+             $("#chooser_img").attr('src',thumb);
+
+         }
+
+         else{
+
+             
+
+             $("#chooser_img").attr('src',json.result.goods.thumb);
+
+         }
+
+			var optionid = "";
+
+			var stock =0;
+
+			var marketprice = 0;
+
+			var productprice = 0;
+
+			 var ret = option_sel(json.result.options.length>0);
+
+  
+
+			if(ret.no==''){
+
+				var len = options.length;
+
+				for(var i=0;i<len;i++) {
+
+					var o = options[i];
+
+					var ids = ret.all.join("_");
+
+					if( o.specs==ids){
+
+						optionid = o.id;
+
+						stock = o.stock;
+
+						marketprice = o.marketprice;
+
+						productprice = o.productprice;
+
+						break;
+
+					}
+
+					
+
+				}
+
+			   $("#optionid").val(optionid); 
+
+			    
+
+				if(stock!="-1"){
+
+				      $("#stockcontainer").html("库存:<span id='stock'>" + stock + "</span>");
+
+				}
+
+				else{
+
+				       $("#stockcontainer").html("<span id='stock'></span>");
+
+				}
+
+				if(ret.no==''){
+
+					if(stock==0){
+
+					   $('.sub').addClass('disabled').html('库存不足,无法购买');
+
+					}
+
+					else{
+
+					     $('.sub').removeClass('disabled').html('确认');
+
+					}
+
+				} 
+
+				 
+
+				
+
+		     	$("#option_price").html(marketprice);	
+
+		     	$("#option_stock").html(stock);	
+
+				 
+
+			}
+
+		});
+
+                                }
+
+                  
+
+                        $('.sub').click(function(){
+
+
+
+                            if($("#optionid").val()==''){
+
+                                return;
+
+                            }
+
+                            var id = $(this).closest('.good_choose').data('cartid');
+
+                            var goodsid = $(this).closest('.good_choose').data('goodsid');
+
+                            var optionid = $('#optionid').val();
+
+
+
+
+
+                            core.json('shop/cart',{'op':'setoption',id:id,goodsid:goodsid,optionid:optionid},function(json){
+
+                                  if(json.status==1){
+
+                                       closechoose();
+
+                                        
+
+                                       $('.cart_good[data-cartid=' + id + ']').find('.cinner').html(json.result.optiontitle);
+
+                                 }
+
+                                 else{
+
+                                     core.tip.show(json.result);
+
+                                 }
+
+
+
+                            },true,true);
+
+
+
+                        });
+
+                    
+
+                
+
+                 },true);
+
+                
+
+            });
+
+            
+
+                
+
+                      
+
+                        $("#tofavorite").click(function(){
+
+                            
+
+                            var ids = [];
+
+                            $('.cart_good[sel=1]').each(function(){
+
+                                ids.push($(this).data('cartid'));
+
+                            })
+
+                            if(ids.length<=0){
+
+                                core.tip.show('未选择商品');
+
+                                return;
+
+                            }
+
+                           core.tip.confirm('确认将这些商品移至收藏夹?',function(){
+
+                              $('.cart_good').attr('del',0);
+
+                               core.json('shop/cart',{'op':'tofavorite',ids:ids},function(json){
+
+                                    if(json.status==1)  {
+
+                                         for(var i in ids){
+
+                                            $('.cart_good[data-cartid=' + ids[i]+ ']').attr('del',1).fadeOut(500,function(){
+
+                                                $('.cart_good[data-cartid=' + ids[i]+ ']').remove();
+
+                                            })
+
+                                        }
+
+                                        if($('.cart_good[del=0]').length<=0){
+
+                                             $('#container').html(  tpl('cart_empty') );
+
+                                        }
+
+                                         else{
+
+                                            calcprice();    
+
+                                        }
+
+                                    }
+
+                                    else{
+
+                                        core.tip.show('移动失败');
+
+                                    }
+
+                               },true,true);
+
+                           });
+
+                        })
+
+                   
+
+                        $('#removecart').click(function(){
+
+                            var ids = [];
+
+                            $('.cart_good[sel=1]').each(function(){
+
+                                ids.push($(this).data('cartid')) ;
+
+                            })
+
+                            if(ids.length<=0){
+
+                                core.tip.show('未选择商品');
+
+                                return;
+
+                            }
+
+                           core.tip.confirm('确认从购物车删除这些商品?',function(){
+
+                               $('.cart_good').attr('del',0);
+
+                               core.json('shop/cart',{'op':'remove',ids:ids},function(json){
+
+                                    if(json.status==1)  {
+
+                                        for(var i in ids){
+
+                                            
+
+                                            $('.cart_good[data-cartid=' + ids[i]+ ']').attr('del',1).fadeOut(500,function(){
+
+                                                //$('.cart_good[data-cartid=' + ids[i]+ ']').remove();
+
+                                            })
+
+                                        }
+
+                                       if($('.cart_good[del=0]').length<=0){
+
+                                             $('#container').html(  tpl('cart_empty') );
+
+                                        }
+
+                                        else{
+
+                                            calcprice();    
+
+                                        }
+
+                                        
+
+                                    }
+
+                                    else{
+
+                                        core.tip.show('删除失败');
+
+                                    }
+
+                               },true,true);
+
+                               
+
+                           });
+
+                            
+
+                        });
+
+                     
+
+                        $('.paysub').click(function(){
+
+                            
+
+                          var total =  calcprice();
+
+                          if(total<=0){
+
+                              return;
+
+                          }
+
+                          var ids = [];
+
+                          $('.cart_good[sel=1]').each(function(){
+
+                               ids.push($(this).data('cartid'));
+
+                          })
+
+                          
+
+                          location.href = core.getUrl('order/confirm',{cartids:ids.join(',')});
+
+                        })
+
+                            
+
+                    
+
+            
+
+       });
+
+});
+
+</script>
+
+
+
+{php $footer_current='cart'}
+
+{template 'common/footer'}
+

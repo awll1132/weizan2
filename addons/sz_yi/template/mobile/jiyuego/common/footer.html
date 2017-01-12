@@ -1,0 +1,57 @@
+{if $show_footer}
+<div style='height:50px; width:100%;margin:0;padding:0;float:left;display:block;'></div>
+{if $this->footer['diymenu']}
+{template 'designer/menu'}
+{else}
+<style type="text/css">
+    {if $this->footer['commission']}
+    footer#footer-nav .menu-list li { width:20%} 
+    {/if} 
+</style>
+
+<footer id="footer-nav">
+                <ul class="menu-list" style="margin:0">
+                    <li {if $footer_current=='first'}class='active'{/if}><a href="{php echo $this->footer['first']['url']}"><i class="fa fa-{php echo $this->footer['first']['ico']}"></i><span>{php echo $this->footer['first']['text']}</span></a></li>
+                    <li {if $footer_current=='second'}class='active'{/if}><a href="{php echo $this->footer['second']['url']}"><i class="fa fa-{php echo $this->footer['second']['ico']}"></i><span>{php echo $this->footer['second']['text']}</span></a></li>
+                {if $this->footer['commission']}
+                    <li {if $footer_current=='commission'}class='active'{/if}>
+                        <a href="{php echo $this->footer['commission']['url']}">
+                            <i class="fa fa-{php echo $this->footer['commission']['ico']}"></i>
+                            <span>{php echo $this->footer['commission']['text']}</span>
+                        </a>
+                    </li>
+                 {/if} 
+                    <li {if $footer_current=='cart'}class='active'{/if}><a href="{php echo $this->createMobileUrl('shop/cart')}"><i class="fa fa-shopping-cart"></i><span>购物车</span></a></li>
+                    <li {if $footer_current=='member'}class='active'{/if}><a href="{php echo $this->createMobileUrl('member')}"><i class="fa fa-user"></i><span>会员中心</span></a></li>
+                </ul>
+</footer>
+{/if}
+{/if}
+<script language="javascript" src="../addons/sz_yi/template/mobile/jiyuego/static/js/jquery.cookie.js"></script>
+{template 'common/footer_base'}
+
+<div class="go-top" onclick="BackTop();" style="display:none;"><span>顶部</span></div>
+<script language="javascript" >
+$(function() {
+	if ($(document).scrollTop() > 0) {
+		$('.go-top').show();
+	}
+});
+var duration = 200;
+$(window).scroll(function() {
+	if ($(document).scrollTop() > 0 && $(document).scrollTop() < 43) {
+		$('.go-top').hide();
+	} else if (jQuery(document).scrollTop() > 0) {
+		$('.go-top').show();
+	} else {
+		$('.go-top').hide();
+	} 
+});
+function BackTop(){
+window.scrollTo(0,0);
+}
+</script>
+<style>
+.go-top {display: block;width: 42px;height: 42px;position: fixed;right: 10px;bottom: 64px;z-index: 999;background: url(../addons/feng_fightgroups/static/image/go_top.png) no-repeat;background-size: contain;	}
+.go-top span {position: absolute;bottom: 7px;width: 100%;display: block;height: 12px;line-height: 12px;	text-align: center;	font-size: 10px;color: #333}
+</style>

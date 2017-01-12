@@ -1,0 +1,73 @@
+a:5:{s:2:"id";s:1:"3";s:7:"uniacid";s:2:"15";s:4:"sets";s:2005:"a:5:{s:4:"shop";a:19:{s:4:"name";s:27:"全国防水材料分销网";s:8:"cservice";s:0:"";s:3:"img";s:72:"http://7xs2fj.com1.z0.glb.clouddn.com/bb6WuyXQ5bk2Hyxk5Bs6K2N2XkzknL.jpg";s:4:"logo";s:72:"http://7xs2fj.com1.z0.glb.clouddn.com/gkpZzznmwl8CTTUPLNLnh618mh18mk.jpg";s:7:"signimg";s:72:"http://7xs2fj.com1.z0.glb.clouddn.com/KnN1EkfVNs0skKDff0N4uuhNkDdaKn.jpg";s:7:"diycode";s:0:"";s:9:"copyright";s:28:"版权所有 © 文天集团";s:6:"credit";s:6:"余额";s:7:"credit1";s:6:"积分";s:9:"levelname";s:12:"普通会员";s:8:"levelurl";s:0:"";s:12:"isbindmobile";i:0;s:10:"isreferrer";i:1;s:2:"qq";s:0:"";s:7:"address";s:36:"上海市宝山区城银路525号601";s:5:"phone";s:11:"15515553934";s:11:"description";s:87:"文天全国防水材料分销网，汇聚全国防水材料专家！期待您的加入";s:5:"style";s:8:"icon-new";s:5:"theme";s:5:"style";}s:5:"share";a:5:{s:9:"followurl";s:0:"";s:5:"title";s:51:"全国防水材料分销网，汇聚全国100强！";s:4:"icon";s:0:"";s:4:"desc";s:111:"全国防水材料商家100强，汇聚全国的力量！欢迎您来采购分销，同样期待您的入住！";s:3:"url";s:0:"";}s:5:"trade";a:13:{s:10:"closeorder";s:0:"";s:14:"closeordertime";s:0:"";s:7:"receive";s:0:"";s:11:"receivetime";s:0:"";s:10:"refunddays";s:0:"";s:13:"refundcontent";s:0:"";s:13:"closerecharge";s:1:"1";s:8:"withdraw";s:1:"0";s:13:"withdrawmoney";s:0:"";s:5:"money";s:1:"1";s:6:"credit";s:1:"1";s:12:"shareaddress";s:1:"1";s:6:"paylog";s:1:"0";}s:3:"pay";a:8:{s:6:"weixin";s:1:"1";s:11:"weixin_cert";s:0:"";s:10:"weixin_key";s:0:"";s:11:"weixin_root";s:0:"";s:6:"alipay";s:1:"1";s:6:"credit";s:1:"1";s:4:"cash";s:1:"0";s:6:"yunpay";N;}s:3:"sms";a:9:{s:4:"type";s:1:"2";s:7:"account";s:0:"";s:8:"password";s:0:"";s:6:"appkey";s:8:"23384930";s:6:"secret";s:32:"169f84bf78bd5574c306f4d154b5e7f1";s:8:"signname";s:12:"注册验证";s:7:"product";s:27:"全国防水材料分销网";s:12:"templateCode";s:11:"SMS_8900840";s:18:"templateCodeForget";s:11:"SMS_8900840";}}";s:7:"plugins";s:1746:"a:2:{s:10:"commission";a:32:{s:5:"texts";a:21:{s:5:"agent";s:9:"分销商";s:4:"shop";s:6:"小店";s:6:"myshop";s:12:"我的小店";s:6:"center";s:12:"分销中心";s:6:"become";s:15:"成为分销商";s:8:"withdraw";s:6:"提现";s:10:"commission";s:6:"佣金";s:11:"commission1";s:12:"分销佣金";s:16:"commission_total";s:12:"累计佣金";s:13:"commission_ok";s:15:"可提现佣金";s:16:"commission_apply";s:15:"已申请佣金";s:16:"commission_check";s:15:"待打款佣金";s:15:"commission_lock";s:15:"未结算佣金";s:14:"commission_pay";s:18:"成功提现佣金";s:17:"commission_detail";s:12:"佣金明细";s:5:"order";s:12:"分销订单";s:6:"myteam";s:12:"我的团队";s:2:"c1";s:6:"一级";s:2:"c2";s:6:"二级";s:2:"c3";s:6:"三级";s:10:"mycustomer";s:12:"我的客户";}s:5:"level";s:1:"3";s:11:"commission1";s:2:"10";s:11:"commission2";s:1:"5";s:11:"commission3";s:1:"3";s:7:"selfbuy";s:1:"1";s:13:"culate_method";s:1:"0";s:12:"become_child";s:1:"0";s:6:"become";s:1:"0";s:17:"become_ordercount";s:0:"";s:17:"become_moneycount";s:0:"";s:14:"become_goodsid";s:0:"";s:12:"become_order";s:1:"0";s:15:"upgrade_by_good";s:1:"0";s:10:"become_reg";s:1:"0";s:12:"become_check";s:1:"0";s:8:"withdraw";s:1:"1";s:16:"consume_withdraw";s:1:"0";s:13:"closetocredit";s:1:"0";s:18:"closewithdrawcheck";s:3:"500";s:10:"settledays";s:1:"3";s:8:"levelurl";s:0:"";s:12:"select_goods";s:1:"1";s:11:"closemyshop";s:1:"0";s:15:"openorderdetail";s:1:"1";s:14:"openorderbuyer";s:1:"1";s:14:"remind_message";s:1:"1";s:9:"levelname";s:12:"普通等级";s:9:"leveltype";s:1:"0";s:5:"style";s:7:"default";s:5:"regbg";s:0:"";s:10:"buttontext";s:12:"我要分销";}s:8:"supplier";a:3:{s:6:"switch";s:1:"1";s:13:"switch_centre";s:1:"1";s:5:"texts";a:0:{}}}";s:3:"sec";s:4530:"a:3:{s:4:"cert";s:1598:"-----BEGIN CERTIFICATE-----
+MIIEbjCCA9egAwIBAgIDLDqNMA0GCSqGSIb3DQEBBQUAMIGKMQswCQYDVQQGEwJD
+TjESMBAGA1UECBMJR3Vhbmdkb25nMREwDwYDVQQHEwhTaGVuemhlbjEQMA4GA1UE
+ChMHVGVuY2VudDEMMAoGA1UECxMDV1hHMRMwEQYDVQQDEwpNbXBheW1jaENBMR8w
+HQYJKoZIhvcNAQkBFhBtbXBheW1jaEB0ZW5jZW50MB4XDTE2MDYxMzAyMjAwMloX
+DTI2MDYxMTAyMjAwMlowgZ4xCzAJBgNVBAYTAkNOMRIwEAYDVQQIEwlHdWFuZ2Rv
+bmcxETAPBgNVBAcTCFNoZW56aGVuMRAwDgYDVQQKEwdUZW5jZW50MQ4wDAYDVQQL
+EwVNTVBheTEzMDEGA1UEAxQq6YOR5bee5Lq/5Lq/6aKG5LmF55S15a2Q56eR5oqA
+5pyJ6ZmQ5YWs5Y+4MREwDwYDVQQEEwgxMDIzNTIyMjCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBALsHQkxXZiBGLL1tdBQrCsHTtGozvPJywj2wh8ClbhOz
+8/AhCth5cc6SPL1KF4XDtthWGZ8Jym2H+Qvj9h0cZuxNc89LL/HKkQKFg2JyoGZx
+vkKCCAfRx8qBmpImABq49q6VqiMWvQ3VWj5jcOMUK1fL7mLf4KMPFAtgGNTkIs5u
+YzwUEdWg252f8C5uGM2A9sRnL1zRRwfR14AvnCM15Q7ejozKcj0vKjeQVxjNepCr
+bnUVS7rxLfVLeOk+NRvGb4VsX5er6IiHfssOKWqxErc4vm7F1xe3sYfkRApoQ27L
+stVmtvx/gowKubHTkT6wDdbWsYlX70Xm472zwNw16ekCAwEAAaOCAUYwggFCMAkG
+A1UdEwQCMAAwLAYJYIZIAYb4QgENBB8WHSJDRVMtQ0EgR2VuZXJhdGUgQ2VydGlm
+aWNhdGUiMB0GA1UdDgQWBBQUd+lL0AOqyQYlDezKKQCk1V93pzCBvwYDVR0jBIG3
+MIG0gBQ+BSb2ImK0FVuIzWR+sNRip+WGdKGBkKSBjTCBijELMAkGA1UEBhMCQ04x
+EjAQBgNVBAgTCUd1YW5nZG9uZzERMA8GA1UEBxMIU2hlbnpoZW4xEDAOBgNVBAoT
+B1RlbmNlbnQxDDAKBgNVBAsTA1dYRzETMBEGA1UEAxMKTW1wYXltY2hDQTEfMB0G
+CSqGSIb3DQEJARYQbW1wYXltY2hAdGVuY2VudIIJALtUlyu8AOhXMA4GA1UdDwEB
+/wQEAwIGwDAWBgNVHSUBAf8EDDAKBggrBgEFBQcDAjANBgkqhkiG9w0BAQUFAAOB
+gQDALK+5I8ZSPpJwYm38cNMcxQyZCKIzs5MDfX5HMMdKuUIjapSlRhWXhQngV3c6
+lDA77Qw4AKUjVg0gwhqyeXDf4M9MhPdX/SB3wCqKaq3BFFzgZq79R7sqiKeCe8TS
+0jNUMhZJ7x2W9oB6TdFiKrnHjNKb5BG+kvW3f/t/ZKrl8Q==
+-----END CERTIFICATE-----
+";s:3:"key";s:1704:"-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC7B0JMV2YgRiy9
+bXQUKwrB07RqM7zycsI9sIfApW4Ts/PwIQrYeXHOkjy9SheFw7bYVhmfCcpth/kL
+4/YdHGbsTXPPSy/xypEChYNicqBmcb5CgggH0cfKgZqSJgAauPaulaojFr0N1Vo+
+Y3DjFCtXy+5i3+CjDxQLYBjU5CLObmM8FBHVoNudn/AubhjNgPbEZy9c0UcH0deA
+L5wjNeUO3o6MynI9Lyo3kFcYzXqQq251FUu68S31S3jpPjUbxm+FbF+Xq+iIh37L
+DilqsRK3OL5uxdcXt7GH5EQKaENuy7LVZrb8f4KMCrmx05E+sA3W1rGJV+9F5uO9
+s8DcNenpAgMBAAECggEAE7MdCZt/F1Es7zrzKhiqhmX9L96JPWRXD1Zjxifmo06m
+GBny4YBRO3fty+Zc+er2fGz9P+IxHz5ePiFh0Ako0iUKWMBLqYUzpvdXMmxudrvu
+VWUK4X/4Ml1aYaB9DFOFMDh1dkKz4Rwi6EVjI5gBRLsnPeTk7WfuLZCOrQXmoKWT
+yzKRQ3yrsxsIivnJoTpiYx2evx6MqRpF5UjdtVfDXzrag5iVj2+/BfYnRBhVa/UJ
+tV1rwMKU1gtwx/GlneTSTNMRwE6p8xhD48nLyLf2CTmdM9iE2d2Cj/OJ0SBeHZWR
+NyZGrtL7jvaLjCDh+j4b9EUqLhzBoOy7mcGd+RIpjQKBgQDlIthW/YVXG2QfUTc6
+mSLlILLKiEr0Pu+YB/Mu+0AdRhefbuQGAmjggSl0T6j8IlRhnHovmmyfkr/hiHEe
+suGpbnJvZ2yNf2jcZ0YmrnuymmavjfAAfr1DwoHf/qhHKQV0LMuasWgNpiV8Urhj
+J9F/AuhRyZzPMBGVGnVrRoT+FwKBgQDQ9J3gq0+UF8WG12qw2T+P2//6lyMz1NPl
+XmV66DFjGQ72l2NSAm469qCLjUO81beFgb9M/69Unq/6fjGkY695mInrUPp6h68V
+DjyybSbr19rU3BlFSHPeDFyms15nrGa4a5USY0ieGhIYE2YpomsRIbHVhYvjY3B9
+YlYKuJVX/wKBgQCI5MJ/ZkNtgS3WD/2BAtB4N4rZuYeeWKNoHwfIv87ULnYaiHOu
+q23hAwmzNYxt5kynbIcLPaU7yL7ejVeX0aNESHoR2KZf+wi49PJSVdgNInXK2G/U
+u+NzQhe5rTj4GqfpeoHBz8+sp+CpX/pNMxLUYPZPNrZ6ietXO1F/X8hAzQKBgClg
+FpbzNQm8/0bpBt5H1lc1F+XV4YmU3fRwEaYZrhXSU20uouMNSihwx296pGwS4YkV
+HP0xL9WQqoXuUQQdHRT1yHGJEmAK1/dSX2BxTqCqmFFH19UpOJBCYGI96DadI6Xm
+35jJggqUXPrZdIRP/eVhh6YhEIcRHKgnPaRX0nKfAoGBAIMOE/pLq5JF6fs5vOoI
+proiWNy1ETJh7C8OYm16GRQJzsF0Q+Cmh5xpzxOCjjJDN8nya11vEptzfUe34bTp
+cVr8yIT46KjwcFcJ1F6hMUnNda5RBTn1we9hlXFV91XhfWlYMaPOb8rnERtAwivW
+ibjxK70p//mOjlFjTxCjsTOu
+-----END PRIVATE KEY-----
+";s:4:"root";s:1160:"-----BEGIN CERTIFICATE-----
+MIIDIDCCAomgAwIBAgIENd70zzANBgkqhkiG9w0BAQUFADBOMQswCQYDVQQGEwJV
+UzEQMA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2Vy
+dGlmaWNhdGUgQXV0aG9yaXR5MB4XDTk4MDgyMjE2NDE1MVoXDTE4MDgyMjE2NDE1
+MVowTjELMAkGA1UEBhMCVVMxEDAOBgNVBAoTB0VxdWlmYXgxLTArBgNVBAsTJEVx
+dWlmYXggU2VjdXJlIENlcnRpZmljYXRlIEF1dGhvcml0eTCBnzANBgkqhkiG9w0B
+AQEFAAOBjQAwgYkCgYEAwV2xWGcIYu6gmi0fCG2RFGiYCh7+2gRvE4RiIcPRfM6f
+BeC4AfBONOziipUEZKzxa1NfBbPLZ4C/QgKO/t0BCezhABRP/PvwDN1Dulsr4R+A
+cJkVV5MW8Q+XarfCaCMczE1ZMKxRHjuvK9buY0V7xdlfUNLjUA86iOe/FP3gx7kC
+AwEAAaOCAQkwggEFMHAGA1UdHwRpMGcwZaBjoGGkXzBdMQswCQYDVQQGEwJVUzEQ
+MA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2VydGlm
+aWNhdGUgQXV0aG9yaXR5MQ0wCwYDVQQDEwRDUkwxMBoGA1UdEAQTMBGBDzIwMTgw
+ODIyMTY0MTUxWjALBgNVHQ8EBAMCAQYwHwYDVR0jBBgwFoAUSOZo+SvSspXXR9gj
+IBBPM5iQn9QwHQYDVR0OBBYEFEjmaPkr0rKV10fYIyAQTzOYkJ/UMAwGA1UdEwQF
+MAMBAf8wGgYJKoZIhvZ9B0EABA0wCxsFVjMuMGMDAgbAMA0GCSqGSIb3DQEBBQUA
+A4GBAFjOKer89961zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y
+7qj/WsjTVbJmcVfewCHrPSqnI0kBBIZCe/zuf6IWUrVnZ9NA2zsmWLIodz2uFHdh
+1voqZiegDfqnc1zqcPGUIWVEX/r87yloqaKHee9570+sB3c4
+-----END CERTIFICATE-----";}";}

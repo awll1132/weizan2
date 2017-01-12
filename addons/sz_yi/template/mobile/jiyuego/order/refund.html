@@ -1,0 +1,146 @@
+{template 'common/header'}
+<title>申请退款</title>
+<link rel="stylesheet" type="text/css" href="http://wz.1109wx.cn/css/order.css">
+<div id='container'></div>
+
+<script id='refund_edit' type='text/html'>
+     <div class="page_topbar">
+        <a href="javascript:;" class="back" onclick="history.back()"><i class="fa fa-angle-left"></i></a>
+        <div class="title"><%if refund%>修改退款申请<%else%>申请退款<%/if%></div>
+    </div>
+ <div class="refund_main" >
+        <input type='hidden' id='refundid' value="<%refund.id%>"/>
+        <div class="line">
+            <div class="label">退款原因</div>
+            <div class="info">
+                <div class="inner">
+                <select id="reason">
+                     <option value="不想要了" <%if refund.reason=='不想要了'%>selected<%/if%>>不想要了</option>
+                     <option value="卖家缺货" <%if refund.reason=='卖家缺货'%>selected<%/if%>>卖家缺货</option>
+                     <option value="拍错了/订单信息错误" <%if refund.reason=='拍错了/订单信息错误'%>selected<%/if%>>拍错了/订单信息错误</option>
+                     
+                </select>
+                </div>
+            </div>
+        </div>
+        <div class="line"><div class="label">退款金额</div><div class="info"><div class="inner"><input type="text" id="price" value="<%order.refundprice%>" readonly/></div></div></div>
+        <div class="line"><div class="label">退款说明</div><div class="info"><div class="inner"><input type="text" id="content" placeholder="选填" value="<%if refund.content%><%refund.content%><%/if%>"/></div></div></div>
+        
+        {if !empty($tradeset['refundcontent'])}
+            <div class="line1">{$tradeset['refundcontent']}</div>
+        {/if}
+       
+   
+        
+    </div>
+    <div class="refund_sub1" id='refund_submit'>确认</div>
+</script>
+
+<script id='refund_info' type='text/html'>
+  
+      <div class="page_topbar">
+        <a href="javascript:;" class="back" onclick="history.back()"><i class="fa fa-angle-left"></i></a>
+        <div class="title">查看退款申请</div>
+    </div>
+    
+    <div class="refund_main" >
+        <div class="line">等待商家处理退款申请</div>
+        <div class="line1">如果商家同意： 申请将达成，并由商家退款到你账户余额</div>
+        <div class="line1">如果商家发货： 申请将关闭，关闭后可以再次发起退款</div>
+        <div class="line1">如果商家未处理：请及时与商家联系</div>
+    </div>
+
+    <div class="refund_main" >
+        <div class="line">协商详情</div>
+        <div class="line1">退款类型：仅退款</div>
+        <div class="line1">退款原因：<%refund.reason%></div>
+        <div class="line1">退款说明：<%refund.content%></div>
+        <div class="line1" >申请时间：<%refund.createtime%></div>
+    </div>
+    
+    <div class="refund_sub1" id='refund_change'>修改退款申请</div>
+    <div class="refund_sub2"  id='refund_cancel'>取消退款申请</div>
+</script>
+
+<script language="javascript">
+ 
+    var orderid = "{$_GPC['orderid']}";
+    
+    require(['tpl', 'core'], function(tpl, core) {
+       
+           core.json('order/op',{op:'refund',orderid:orderid},function(json){
+               
+                    if(json.status==0){
+                        core.message(json.result,"{php echo $this->createMobileUrl('order')}",'error');
+                        return;
+                    }
+
+                    if(json.result.refund){
+                         $('#container').html(  tpl('refund_info',json.result) );    
+                     
+                          $('#refund_change').click(function(){
+                                 $('#container').html(  tpl('refund_edit',json.result) );    
+                                 bindEdit();
+                         });
+                   
+                         $('#refund_cancel').click(function(){
+                                    if($(this).attr('saving')=='1'){
+                                        return;
+                                    }
+                                     $(this).html('正在处理...').attr('saving',1);
+                                     core.json('order/op',{
+                                         op:'refund',
+                                         cancel:'true',
+                                         id:$('#refundid').val(),
+                                         orderid:orderid 
+                                      },function(canceljson){
+                                          if(canceljson.status==1){
+                                              location.href = core.getUrl('order/detail',{id:orderid});
+                                          }
+                                          else{
+                                              $(this).html('取消退款申请').removeAttr('saving');
+                                              core.tip.show(canceljson.result);
+                                          }
+                                     },true,true);
+
+                                })
+                    }
+                    else{
+                         $('#container').html(  tpl('refund_edit',json.result) );
+                         bindEdit();
+                    }
+                   function bindEdit(){
+                       
+                            $('#refund_submit').click(function(){
+                               if($(this).attr('saving')=='1'){
+                                   return;
+                               }
+                                $(this).html('正在处理...').attr('saving',1);
+                                core.json('order/op',{
+                                    op:'refund',
+                                    id:$('#refundid').val(),
+                                    orderid:orderid,
+                                    refunddata: {
+                                        reason: $('#reason').val(),
+                                        content: $('#content').val()
+                                    }
+                                 },function(postjson){
+                                     if(postjson.status==1){
+                                          location.href = core.getUrl('order/detail',{id:orderid});
+                                     }
+                                     else{
+                                         core.tip.show(postjson.result);
+                                         $(this).html('确认').removeAttr('saving');
+                                         
+                                     }
+                                },true,true);
+
+                           });
+                  }
+                   
+                   
+           },true);
+      
+    })
+</script>
+{template 'common/footer'}

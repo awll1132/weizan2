@@ -1,0 +1,814 @@
+{template 'common/header'}
+
+<title>订单详情</title>
+
+<link rel="stylesheet" type="text/css" href="http://wz.1109wx.cn/css/order.css">
+
+<div id='container'></div>
+
+
+
+<script id='tpl_detail' type='text/html'>
+
+<div class="page_topbar">
+
+    <a href="{php echo $this->createMobileUrl('order')}" class="back"><i class="fa fa-angle-left"></i></a>
+
+    <%if order.status==1 && order.isverify=='1' && order.verifyied!='1'%><a href="javascript:;" class="btn" onclick="VerifyHandler.verify('{$_GPC['id']}')"><i class="fa fa-qrcode"></i></a><%/if%>
+
+    <div class="title">订单详情</div>
+
+</div>
+
+<div class="detail_topbar">
+
+    <div class="ico"><i class="fa fa-file-text-o"></i></div>
+
+    <div class="tips">
+
+         <%if order.status==0 && order.paytype!=3%>等待付款<%/if%>
+
+     <%if order.paytype==3 && order.status==0%>货到付款，等待发货<%/if%>
+
+        <%if order.status==1%>买家已付款<%/if%>
+
+        <%if order.status==2 %>卖家已发货<%/if%>
+
+        <%if order.status==3%>交易完成<%/if%>
+
+        <%if order.status==-1%>交易关闭<%/if%>
+
+        <br>
+
+        <span>订单金额(含运费): ￥<%order.price%><span><br/>
+
+        <span>运费: ￥<%order.dispatchprice%><span><br/></div>
+
+</div>
+
+  <%if show==1%>
+
+    <%if order.isverify==1 || order.virtual!='0'%>
+
+    
+
+    <div class="detail_user">
+
+        <div class="info" >
+
+            <div class="ico"><i class="fa fa-user"></i></div>
+
+                <div class='info1'>
+
+                     <div class='inner'>
+
+                         <div class="user">联系人:  <%carrier.carrier_realname%></div>
+
+                         <div class="address">联系电话: <span id='carrier_address'><%carrier.carrier_mobile%></span></div>
+
+                     </div>
+
+                 </div>
+
+            </div>
+
+          </div>
+
+    </div>
+
+    <%/if%>
+
+<%/if%>
+
+
+
+    <%if order.isverify==1%>
+
+    <div class="store_title" onclick="showStores(this)" show="1" >适用的门店
+
+         <i class="fa fa-angle-down" style="float:right; line-height:44px; font-size:26px;"></i>
+
+    </div>
+
+  
+
+    
+
+      <div class="stores">
+
+      <%each stores as store index%>
+
+     <%if index<=1%>
+
+     <div class="store" >
+
+             <div class="info">
+
+             <div class="ico"><i class="fa fa-building-o"></i></div>
+
+             <div class='info1'>
+
+                 <div class='inner'>
+
+                     <div class="user"><%store.storename%></div>
+
+                     <div class="address">地址: <%store.address%></div>
+
+                     <div class="tel">电话: <%store.tel%></div>
+
+                 </div>
+
+             </div>
+
+             <a href="http://api.map.baidu.com/marker?location=<%store.lat%>,<%store.lng%>&title=<%store.storename%>&name=<%store.storename%>&content=<%store.address%>&output=html"><div class="ico2"><i class='fa fa-map-marker'></i></div></a>
+
+             <a href="tel:<%store.tel%>"><div class="ico3" ><i class='fa fa-phone'></i></div></a>
+
+        </div>
+
+       </div>
+
+     <%/if%>
+
+     <%/each%> 
+
+         <div id='store_more' style="display:none">
+
+      <%each stores as store index%>
+
+     <%if index>1%>
+
+     <div class="store" >
+
+             <div class="info">
+
+             <div class="ico"><i class="fa fa-building-o"></i></div>
+
+             <div class='info1'>
+
+                 <div class='inner'>
+
+                     <div class="user"><%store.storename%></div>
+
+                     <div class="address">地址: <%store.address%></div>
+
+                     <div class="tel">电话: <%store.tel%></div>
+
+                 </div>
+
+             </div>
+
+             <a href="http://api.map.baidu.com/marker?location=<%store.lat%>,<%store.lng%>&title=<%store.storename%>&name=<%store.storename%>&content=<%store.address%>&output=html"><div class="ico2"><i class='fa fa-map-marker'></i></div></a>
+
+             <a href="tel:<%store.tel%>"><div class="ico3" ><i class='fa fa-phone'></i></div></a>
+
+        </div>
+
+       </div>
+
+     <%/if%>
+
+     <%/each%> 
+
+         </div>
+
+    <%if stores.length>=3%>
+
+     <div class="store_more" onclick="$('#store_more').show();$(this).remove()">显示更多 <i class="fa fa-angle-double-down"></i></div>
+
+     <%/if%> 
+
+      </div>
+
+    
+
+   
+
+    <%else%>
+
+    
+
+	
+
+ 
+
+
+
+
+
+ <%if order.addressid!=0%>
+
+<div class="detail_user">
+
+    <input type='hidden' id='addressid' value='<%address.id%>' />
+
+    <div class="info">
+
+        <div class="ico"><i class="fa fa-map-marker"></i></div>
+
+         <div class='info1'>
+
+                 <div class='inner'>
+
+                        <div class="user">收件人：<span id='address_realname'><%address.realname%></span>(<span id='address_mobile'><%address.mobile%></span>)</div>
+
+                        <div class="address"><span id='address_address'><%address.address%></span></div>
+
+                 </div>
+
+             </div>
+
+   
+
+    </div>
+
+</div>
+
+ <%/if%>
+
+ 
+
+ <%if order.dispatchtype==1%>
+
+ <div class="detail_user">
+
+     <input type='hidden' id='carrierindex' value='0' />
+
+    <div class="info" id='carrier_select' >
+
+        <div class="ico"><i class="fa fa-map-marker"></i></div>
+
+            <div class='info1'>
+
+                 <div class='inner'>
+
+                     <div class="user">自提地点：<span id='carrier_realname'><%carrier.realname%></span>(<span id='carrier_mobile'><%carrier.mobile%></span>)</div>
+
+                     <div class="address"><span id='carrier_address'><%carrier.address%></span></div>
+
+                 </div>
+
+         </div>
+
+    </div>
+
+</div>
+
+ <%/if%>
+
+ <%/if%>
+
+ 
+
+ 
+
+
+
+<!--<span>diyform</span>-->
+
+{if $diyform_flag == 1 && count($goods)==1}
+
+{php $datas = iunserializer($goods[0]['diyformdata'])}
+
+<div class="diyform_info">
+
+{loop $goods[0]['diyformfields'] $value}
+
+<div class='dline   {$value['tp_css']}'>
+
+        <div class='dtitle'>{$value['tp_name']}：</div>
+
+        <div class='dinfo'>
+
+			<div class='dinner'>
+
+		           {$value['tp_value']}
+
+			</div>
+
+        </div>
+
+</div>
+
+{/loop}
+
+</div>
+
+{/if}	
+
+<div class="detail_good">
+
+    <div class="ico"><i class="fa fa-gift" style="color:#666; font-size:20px;"></i></div>
+
+    <div class="shop"><%set.name%></div>
+
+    <%each goods as g%>
+
+     <div class="good">
+
+            <div class="img"  onclick="location.href='{php echo $this->createMobileUrl('shop/detail')}&id=<%g.goodsid%>'"><img src="<%g.thumb%>"/></div>
+
+            <div class='info' onclick="location.href='{php echo $this->createMobileUrl('shop/detail')}&id=<%g.goodsid%>'">
+
+                <div class='inner'>
+
+                       <div class="name"><%g.title%></div>     
+
+                       <div class='option'><%if g.optionid!='0'%>规格:  <%g.optiontitle%><%/if%></div>
+
+                </div>
+
+            </div>
+
+            <div class="price">
+
+                <div class='pnum'><span class='marketprice'>￥<%g.price%></span></div>
+
+                <div class='pnum'><span class='total'>×<%g.total%></span></div>
+
+            </div>
+
+        </div>
+
+	{if count($goods)>1}
+
+	<%if g.diyformfields.length>0%>
+
+	 
+
+	<div class="diyform_info diyform_info1">
+
+	        <a href='javascript:;' class='btn' onclick='showDiyInfo(this)' hide='1'>查看提交的资料</a>
+
+	        <div style='display:none'>
+
+		<%each g.diyformfields as v %>
+
+			<div class='dline  <%=v.tp_css%>'>
+
+				 <div class='dtitle'><%=v.tp_name%>：</div>
+
+				 <div class='dinfo'>
+
+					 <div class='dinner'>
+
+						 <%=v.tp_value%>
+
+					 </div>
+
+				 </div>
+
+		   </div> <%/each%>
+
+		 </div>
+
+	      
+
+          </div>
+
+		<%/if%>
+
+		
+
+		{/if}
+
+
+
+    <%/each%>
+
+</div> 
+
+ <%if order.virtual_str!=''%>
+
+<div class="detail_good" style='margin-bottom:10px;'>
+
+    <div class="ico"><i class="fa fa-cubes" style="color:#666; font-size:20px;"></i></div>
+
+    <div class="shop">发货信息</div>
+
+    <div class='text'><%=order.virtual_str%></div>
+
+</div> 
+
+ 
+
+ <%/if%>
+
+<div class="detail_price" >
+
+    <input type="hidden" id="weight" value="<%weight%>" />
+
+    <div class="price">
+
+        <div class="line">商品小计:<span>￥<span class='goodsprice'><%order.goodsprice%></span></span></div>
+
+        	
+
+        <div class="line">运费:<span>￥<span class='dispatchprice'><%order.olddispatchprice%></span></span></div>
+
+      
+
+	
+
+        <%if order.discountprice>0%>
+
+        <div class="line">会员折扣:<span>-￥<span class='discountprice'><%order.discountprice%></span></span></div>
+
+        <%/if%>
+
+        <%if order.deductprice>0%>
+
+        <div class="line">积分抵扣:<span>-￥<span class='deductprice'><%order.deductprice%></span></span></div>
+
+        <%/if%>
+
+        <%if order.deductcredit2>0%>
+
+        <div class="line">余额抵扣:<span>-￥<span class='deductprice2'><%order.deductcredit2%></span></span></div>
+
+        <%/if%>
+
+        <%if order.changeprice!=0%>
+
+        <div class="line">改价优惠:<span><%if order.changeprice>0%>+<%/if%>￥<span class='changeprice2'><%order.changeprice%></span></span></div>
+
+        <%/if%>
+
+        
+
+        <%if order.changedispatchprice!=0%>
+
+        <div class="line">运费改价:<span><%if order.changedispatchprice>0%>+<%/if%>￥<span class='changedispatchprice2'><%order.changedispatchprice%></span></span></div>
+
+        <%/if%>
+
+
+
+        <%if order.couponprice!=0%>
+
+        <div class="line">优惠券优惠:<span><%if order.couponprice>0%>-<%/if%>￥<span class='changedispatchprice2'><%order.couponprice%></span></span></div>
+
+        <%/if%>
+
+        
+
+        <div class="line">实付费(含运费):<span><span class='dispatchprice' style='color:#ef4733'>￥<%order.price%></span></span></div>
+
+      </div> 
+
+</div>
+
+    <%if order.status==3%>
+
+    <div class="detail_price" style="margin-top:15px;height:80px;">
+
+    <div class="price" style="padding-top:10px;">
+
+     <div class="line">订单号:<span><%order.ordersn%></span></div>
+
+     <div class="line">交易完成时间:<span><%order.finishtime%></span></div>
+
+    </div>
+
+    </div>
+
+     <%/if%>
+
+     <div style="height:80px;"></div>
+
+     
+
+<div class="detail_pay">
+
+      <%if order.status==0%>
+
+	  <%if order.paytype!=3%>
+
+		<div class="paysub" onclick="location.href ='{php echo $this->createMobileUrl('order/pay')}&orderid=<%order.id%>&openid={$openid}'">付款</div>
+
+           <%/if%>
+
+           <div class="paysub1 order_cancel" style='position:relative;width:63px;'>
+
+               <span style='position:absolute;display:block;width:70px;top:-10px;color:#5f6e8b'>取消订单</span>
+
+           <select>
+
+               <option value="">不取消了</option>
+
+               <option value="我不想买了">我不想买了</option>
+
+               <option value="信息填写错误，重新拍">信息填写错误，重新拍</option>
+
+               <option value="同城见面交易">同城见面交易</option>
+
+               <option value="其他原因">其他原因</option>
+
+           </select>
+
+             </div>
+
+      <%/if%>
+
+  
+
+      
+
+      <%if order.status==2 %>
+
+             <div class="paysub order_complete">确认收货</div>
+
+			 <%if order.expresssn!=''%>
+
+             <div class="paysub1 order_express">查看物流</div>
+
+			 <%/if%>
+
+      <%/if%>
+
+      <%if order.status==3 && order.iscomment==0%>
+
+             <div class="paysub1 order_comment">评价</div>
+
+      <%/if%>
+
+      <%if order.status==3 && order.iscomment==1%>
+
+             <div class="paysub1 order_comment">追加评价</div>
+
+      <%/if%>
+
+      <%if order.status==3  || order.status==-1%>
+
+             <div class="paysub1 order_delete">删除订单</div>
+
+      <%/if%>
+
+      <%if order.canrefund%>
+
+         <%if order.refundid!=0%>
+
+               <div class="paysub order_refund">退款申请中</div>
+
+         <%else%>
+
+               <div class="paysub order_refund">申请退款</div>
+
+         <%/if%>
+
+      <%/if%> 
+
+       <%if order.isverify=='1' %>
+
+              <%if order.verified!='1'%>
+
+                      <%if order.status==1%>
+
+                       <div class="paysub1" onclick="VerifyHandler.verify('{$_GPC['id']}')" style='float:left'><i class="fa fa-qrcode"></i> 确认使用</div>
+
+                       <%/if%>
+
+            <%/if%>
+
+      <%/if%>
+
+</div>
+
+</script>
+
+{if p('verify')}
+
+{template 'verify/pop'}
+
+{/if}
+
+
+
+<script type="text/javascript">
+
+	function showDiyInfo(obj){
+
+				var hide = $(obj).attr('hide');
+
+				$(obj).next().toggle('fadeIn');
+
+				$(obj).attr('hide',hide=='1'?'0':'1');
+
+			}
+
+			
+
+     function showStores(obj){
+
+        if($(obj).attr('show')=='1'){
+
+            $(obj).next('div').slideUp(100);
+
+            $(obj).removeAttr('show').find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+
+        }
+
+        else{
+
+            $(obj).next('div').slideDown(100);
+
+            $(obj).attr('show','1').find('i').removeClass('fa-angle-up').addClass('fa-angle-down');
+
+        }
+
+    }
+
+    require(['tpl', 'core'], function(tpl, core) {
+
+    
+
+	function is_weixin(){
+
+		
+
+	}
+
+        core.json('order/detail',{id:'{$_GPC['id']}'},function(json){
+
+                 
+
+                 if(json.status==0){
+
+                     core.message('订单已取消或不存在，无法查看!',"{php echo $this->createMobileUrl('order')}" ,'error');
+
+                     return;
+
+                 }
+
+                 $('#container').html(  tpl('tpl_detail',json.result) );
+
+				 
+
+				 
+
+				     var ua = navigator.userAgent.toLowerCase();
+
+						var isWX = ua.match(/MicroMessenger/i) == "micromessenger";
+
+						var z = []; 
+
+						$(".diyform_info img").each(function() {
+
+							 z.push($(this).attr("src"));
+
+						 });
+
+						 var current;
+
+						 if (isWX) {
+
+							 $(".diyform_info img").click(function(e) {
+
+								 e.preventDefault();
+
+								 var startingIndex = $(".diyform_info img").index($(e.currentTarget));
+
+								 var current = null;
+
+								 $(".diyform_info img").each(function(B, A) {
+
+									 if (B === startingIndex) {
+
+										 current = $(A).attr("src");
+
+									 }
+
+								 });
+
+								 WeixinJSBridge.invoke("imagePreview", {
+
+									 current: current,
+
+									 urls: z
+
+								 });
+
+							 });
+
+						 }
+
+			 
+
+                 $("#verifycode").html( json.result.order.verifycode);
+
+                 $(".order_cancel").find('select').change(function(){
+
+                        var reason = $(this).val();
+
+
+
+                        if(reason!=''){
+
+                             core.json('order/op',{'op':'cancel', orderid:'{$_GPC['id']}',reason:reason},function(json){
+
+
+
+                                 if(json.status==1){
+
+                                      location.href = core.getUrl('order');
+
+                                      return;
+
+                                 }
+
+                                 else{
+
+                                      core.tip.show(json.result);
+
+                                 }
+
+                             },true,true);
+
+                        }
+
+                 });
+
+             
+
+                 $('.order_refund').click(function(){
+
+                       location.href = core.getUrl('order/op',{op:'refund',orderid:'{$_GPC['id']}'});
+
+                  });
+
+                    $('.order_express').click(function(){
+
+                       location.href = core.getUrl('order/express',{id:'{$_GPC['id']}'});
+
+                  });
+
+                
+
+                 $(".order_complete").click(function(){
+
+  
+
+                      core.tip.confirm('确认您已经收货?',function(){
+
+                      
+
+                         core.json('order/op',{'op':'complete', orderid:'{$_GPC['id']}'},function(json){
+
+                                 if(json.status==1){
+
+                                      location.reload();
+
+                                      return;
+
+                                 }
+
+                                 core.tip.show(json.result);
+
+                             },true,true);
+
+                       });
+
+                 });
+
+               
+
+                 $(".order_comment").click(function(){
+
+                             location.href = core.getUrl('order/op',{op:'comment',orderid:'{$_GPC['id']}'});
+
+                 });
+
+            
+
+                 $(".order_delete").click(function(){
+
+                         core.json('order/op',{'op':'delete', orderid:'{$_GPC['id']}'},function(json){
+
+
+
+                              if(json.status==1){
+
+                                   location.href = core.getUrl('order');
+
+                                   return;
+
+                               }
+
+                              core.tip.show(json.result);
+
+                         },true,true);
+
+                 });
+
+
+
+         },true, true);
+
+   });
+
+</script>
+
+{template 'common/footer'}
+
+
+

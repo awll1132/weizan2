@@ -1,0 +1,319 @@
+﻿{template 'common/header'}
+<title>个人中心</title>
+<style type="text/css">
+
+    body {margin:0px; background:#f2f2f2; -moz-appearance:none;}
+
+    a {text-decoration:none;}
+
+    .header {height: auto; width:100%; padding:0px; background:#ef4733;}
+
+    .header .user {height:120px; text-align:center; padding:10px; position:relative;}
+
+    .header .user .user-head { margin-top:8px;height:60px; width:60px; background:#fff; border-radius:50%; border:2px solid #fff; display:inline-block;}
+
+    .header .user .user-head img {height:60px; width:60px; border-radius:50%;}
+
+    .header .user .user-info {height:48px; width:auto; color:#fff;padding-top:5px; display:inline-block;}
+
+    .header .user .user-info .user-name {height:24px; width:auto; font-size:16px; line-height:24px;}
+
+    .header .user .user-info .user-other {height:24px; width:auto; font-size:12px;}
+
+    .header .user-gold {height:35px; width:94%; padding:5px 3%; border-bottom:1px solid #f2f2f2; background:#fff; font-size:16px; line-height:35px;}
+
+    .header .user-gold .title {height:35px; width:auto; float:left; color:#666;}
+
+    .header .user-gold .num {height:35px; width:auto; float:left; color:#ef4733;}
+
+    
+
+    .header .user-gold .draw {width:80px; height:30px; background:#6c9; float:right;}
+
+    .header .user .set {height:26px; width:26px; position:absolute; top:10px; right:10px;}
+
+
+
+    .header .user-op { height:35px; width:94%; padding:5px 3%; border-bottom:1px solid #f2f2f2; background:#fff; font-size:16px; line-height:35px; }
+
+    .take {height:30px; width:auto;  line-height:30px; font-size:16px; padding:0 10px; display:inline-block; background:#ef4733; border-radius:5px; margin-top:5px; color:#fff;}
+
+  
+
+    
+
+    .order {height:125px; width:100%; background:#fff; margin-top:10px; border-bottom:1px solid #f2f2f2;}
+
+    .order_all {height:50px; width:100%; padding:10px 0px; color:#666; font-size:14px;}
+
+    .order_pub {height:18px; float:left; padding-top:5px; text-align:center; color:#666; position:relative;}
+	.order_pub img { display:inline-block; width:29px;}
+
+    .order_pub span {height:16px; width:16px; background:#ef4733; border-radius:8px; position:absolute; top:0; right:25%; font-size:12px; color:#fff; line-height:16px;}
+
+    .order_1 {width:25%;}
+
+    .order_2 {width:25%;}
+
+    .order_3 {width:25%;}
+
+    .order_4 {width:25%;}
+	
+	
+	
+	.tool {height:243px; width:100%; background:#fff; margin-top:10px; border-bottom:1px solid #f2f2f2; }
+
+    .tool_list {height:60px; width:100%; padding:10px 0px; color:#666; border-bottom:1px solid #f2f2f2; font-size:14px;}
+
+    .tool_pub {height:18px; float:left; padding-top:5px; text-align:center; color:#666; position:relative;}
+	.tool_pub img { display:inline-block; width:31px;}
+
+    .tool_pub span {height:16px; width:16px; background:#ef4733; border-radius:8px; position:absolute; top:0; right:25%; font-size:12px; color:#fff; line-height:16px;}
+
+    .tool_1 {width:25%;}
+
+    .tool_2 {width:25%;}
+
+    .tool_3 {width:25%;}
+
+    .tool_4 {width:25%;}
+	
+
+    
+	 .list1 {height:44px; width:92%; background:#fff; padding:0px 4%; margin-top:10px; line-height:44px; color:#666;}
+
+    .list1 i {font-size:20px; margin-right:10px;}
+
+
+    
+
+    .allorder {float:right; color:#999; font-size:14px; text-decoration:none;}
+
+
+
+     .cart {height:auto; width:100%; background:#fff; margin-top:20px; border-bottom:1px solid #ddd;}
+	
+	.num {height:42px; width:100%; padding:10px 0; background:#fff; margin-top:10px; overflow:hidden; zoom:1; }
+	.num .items { width:25%; float:left; text-align:center; font-weight:bold; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; }
+	.num .items p { margin:0; padding:0; color:#666; font-weight:normal; font-size:14px;}
+
+    .address {height:38px; width:100%; background:#fff; margin-top:20px; border-bottom:1px solid #ddd; border-top:1px solid #ddd; line-height:38px;}
+
+
+
+
+    span.count { position:absolute; top:5px; right:10px; height:16px; width:16px; background:#fbc900; border-radius:8px; font-size:12px; color:#fff; line-height:16px; text-align: center; font-family:Segoe, "Segoe UI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif; display:none;}
+
+</style>
+<div id="container"></div>
+<script id="member_center" type="text/html">
+
+    <div class="header">
+
+        <div class="user">
+
+            <div class="user-head"><img src="<%member.avatar%>" /></div><br>
+
+            <div class="user-info">
+
+                <div class="user-name"><%member.nickname%></div>
+                <div class="user-other" {if !empty($set['shop']['levelurl'])}onclick='location.href="{$set['shop']['levelurl']}"'{/if}><%level.levelname%> {if !empty($set['shop']['levelurl'])}<i class='fa fa-question-circle' ></i>{/if}
+
+                </div>
+
+            </div>
+
+            <div class="set" onclick='location.href="{php echo $this->createMobileUrl('member/info')}"'><i class="fa fa-gear" style="font-size:26px; color:#fff;"></i></div>
+
+        </div>
+
+
+
+</div>
+
+ <div class="num">
+
+
+	
+	<div class="items"><%member.credit2%> <p>余额</p> </div>
+	
+	
+	<div class="items"><%member.credit1%><p>积分</p> </div>
+	
+	
+	<div class="items"><%counts.couponcount%> <p>优惠券</p></div>
+	
+
+             {if empty($set['trade']['closerecharge'])}
+
+             <div class="items"><div class="take" onclick="location.href='{php echo $this->createMobileUrl('member/recharge',array('openid'=>$openid))}'">充值</div></div>
+
+             {/if}
+
+                 
+
+    
+
+   
+
+</div>
+
+<div class="order">
+
+    <a href="{php echo $this->createMobileUrl('order')}">
+
+        <div class="list1" style="margin-top:0px;">           
+
+            <span style="float:left;">我的订单</span>           
+
+            <div class="allorder">查看全部订单</div>
+
+        </div>
+
+    </a>
+
+    <div class="order_all">
+
+        <a href="{php echo $this->createMobileUrl('order',array('status'=>0))}"><div class="order_pub order_1" style="border:0px;"><img src="http://wz.1109wx.cn/ui/card_icon.png"/><br>待付款<%if order.status0>0%><span><%order.status0%></span><%/if%></div></a>
+
+        <a href="{php echo $this->createMobileUrl('order',array('status'=>1))}"><div class="order_pub order_2"><img src="http://wz.1109wx.cn/ui/suitcase_icon.png"/><br>待发货<%if order.status1>0%><span><%order.status1%></span><%/if%></div></a>
+
+        <a href="{php echo $this->createMobileUrl('order',array('status'=>2))}"><div class="order_pub order_3"><img src="http://wz.1109wx.cn/ui/truck_icon.png"/><br>待收货<%if order.status2>0%><span><%order.status2%></span><%/if%></div></a>
+
+        <a href="{php echo $this->createMobileUrl('order',array('status'=>4))}"><div class="order_pub order_4"><img src="http://wz.1109wx.cn/ui/money_icon.png"/><br>待退款<%if order.status4>0%><span><%order.status4%></span><%/if%></div></a>
+
+    </div>
+
+</div>
+
+
+<div class="tool">
+
+   
+    <div class="tool_list">
+
+        <a href="{php echo $this->createMobileUrl('shop/cart')}"><div class="tool_pub tool_1" style="border:0px;"><span class="count"><%counts.cartcount%></span><img src="http://wz.1109wx.cn/ui/gwc_icon.png"/><br>购物车</div></a>
+		<a href="{php echo $this->createPluginMobileUrl('coupon/my')}"><div class="tool_pub tool_2" style="border:0px;"><span class="count"><%counts.couponcount%></span><img src="http://wz.1109wx.cn/ui/yhq_icon.png"/><br>优惠券</div></a>
+		<a href="http://wz.1109wx.cn/app/index.php?i=7&c=mc&a=card&do=sign_display&"><div class="tool_pub tool_3" style="border:0px;"><img src="http://wz.1109wx.cn/ui/qd_icon.png"/><br>签到</div></a>
+		<a href="{php echo $this->createMobileUrl('shop/favorite')}"><div class="tool_pub tool_4" style="border:0px;"><span class="count"><%counts.favcount%></span><img src="http://wz.1109wx.cn/ui/sc_icon.png"/><br>收藏</div></a>       
+
+    </div>
+	
+	<div class="tool_list">
+
+        <a href="{php echo $this->createMobileUrl('shop/history')}"><div class="tool_pub tool_1" style="border:0px;"><img src="http://wz.1109wx.cn/ui/zj_icon.png"/><br>足迹</div></a>
+		<a href="{php echo $this->createMobileUrl('member/notice')}"><div class="tool_pub tool_2" style="border:0px;"><img src="http://wz.1109wx.cn/ui/xx_icon.png"/><br>消息</div></a>
+		<a href="{php echo $this->createPluginMobileUrl('commission/shares')}"><div class="tool_pub tool_3" style="border:0px;"><img src="http://wz.1109wx.cn/ui/fxzq_icon.png"/><br>分享挣钱</div></a>
+		<a href="{php echo $this->createPluginMobileUrl('creditshop')}"><div class="tool_pub tool_4" style="border:0px;"><img src="http://wz.1109wx.cn/ui/jfsc_icon.png"/><br>积分商城</div></a>       
+
+    </div>
+	
+	<div class="tool_list">
+
+        <a href="{php echo $this->createPluginMobileUrl('commission')}"><div class="tool_pub tool_1" style="border:0px;"><img src="http://wz.1109wx.cn/ui/fxzx_icon.png"/><br>分销中心</div></a>
+		<a href="http://wz.1109wx.cn/app/index.php?i=7&c=entry&op=0&do=mygroup&m=feng_fightgroups"><div class="tool_pub tool_2" style="border:0px;"><img src="http://wz.1109wx.cn/ui/pt_icon.png"/><br>拼团</div></a>
+		<a href="http://wz.1109wx.cn/app/index.php?i=7&c=entry&do=myorder&m=hx_zhongchou"><div class="tool_pub tool_3" style="border:0px;"><img src="http://wz.1109wx.cn/ui/zc_icon.png"/><br>众筹</div></a>
+		<a href=""><div class="tool_pub tool_4" style="border:0px;"><img src="http://wz.1109wx.cn/ui/yydb_icon.png"/><br>开发中…</div></a>
+		<!--<a href="http://wz.1109wx.cn/app/index.php?i=7&c=entry&do=person&m=weliam_indiana"><div class="tool_pub tool_4" style="border:0px;"><img src="http://wz.1109wx.cn/ui/yydb_icon.png"/><br>1元夺宝</div></a> -->
+
+    </div>
+	
+	
+
+</div>
+ {if $shopset['isarticle'] == 1 }
+    <a href="{php echo $this->createPluginMobileUrl('article/article')}"><div class="list1" style="margin:0px; border-bottom:0px;"><i class="fa fa-article" style="color:#ca81d1;"></i><%shopset.article_text%><i class="fa fa-angle-right" style="color:#999; font-size:26px; float:right; line-height:44px;"></i></div></a> 
+ 	{/if}
+  {if $shopset['isranking'] == 1 }
+    <a href="{php echo $this->createPluginMobileUrl('ranking/ranking')}"><div class="list1" style="margin:0px; border-bottom:0px;"><i class="fa fa-article" style="color:#ca81d1;"></i><%shopset.rankingname%><i class="fa fa-angle-right" style="color:#999; font-size:26px; float:right; line-height:44px;"></i></div></a> 
+ 	{/if}
+
+    {if p('supplier')}
+        {if $shopset['switch'] == 1 && empty($shopset['af_result'])}
+            <a href="{php echo $this->createPluginMobileUrl('supplier/af_supplier')}"><div class="list1">供应商申请<i class="fa fa-angle-right" style="color:#999; font-size:22px; float:right; line-height:44px;"></i></div></a>
+        {/if}
+        {if !empty($issupplier) && $shopset['switch_centre'] == 1}
+            <a href="{php echo $this->createPluginMobileUrl('supplier/orderj')}"><div class="list1">供应商中心<i class="fa fa-angle-right" style="color:#999; font-size:22px; float:right; line-height:44px;"></i></div></a>
+        {/if}
+    {/if}
+
+
+{if $has_cashier}
+    <a href="{php echo $this->createPluginMobileUrl('cashier/qrcode_list')}"><div class="list1">收银台<i class="fa fa-angle-right" style="color:#999; font-size:22px; float:right; line-height:44px;"></i></div></a>
+{/if}
+
+
+{if !$member['isbindmobile'] && is_weixin()}
+<a href="{php echo $this->createMobileUrl('member/bindmobile')}"><div class="list1">绑定手机<i class="fa fa-angle-right" style="color:#999; font-size:22px; float:right; line-height:44px;"></i></div></a>
+{/if}
+  
+<a href="{php echo $this->createMobileUrl('shop/address')}"><div class="list1" style="margin-bottom:10px;">收货地址管理<i class="fa fa-angle-right" style="color:#999; font-size:22px; float:right; line-height:44px;"></i></div></a>  
+
+ 
+    
+
+
+
+
+
+{if !is_weixin()}
+
+<a href="{php echo $this->createMobileUrl('member/logout')}"><div class="list1">退出<i class="fa fa-angle-right" style="color:#999; font-size:26px; float:right; line-height:44px;"></i></div></a>
+
+{/if}
+
+
+
+</script> 
+<script language="javascript">
+
+    require(['tpl', 'core'], function(tpl, core) {
+
+        
+
+        core.json('member/center',{},function(json){
+
+            
+
+           $('#container').html(  tpl('member_center',json.result) );
+
+           var withdrawmoney = {php echo empty($set['trade']['withdrawmoney'])?0:floatval($set['trade']['withdrawmoney'])};
+
+           $('#btnwithdraw').click(function(){
+
+ 
+
+               if(json.result.member.credit2<=0){
+
+                   core.tip.show('无余额可提!');
+
+                   return;
+
+               }
+
+               if(withdrawmoney>0 && json.result.member.credit2<withdrawmoney){
+
+                   core.tip.show('满' +withdrawmoney + "元才能提现!" ); 
+
+                   return;
+
+               }
+
+               location.href = core.getUrl('member/withdraw');
+
+           })
+
+            
+
+        },true);
+
+        
+
+    })
+
+</script> 
+{php $show_footer=true}
+
+{php $footer_current='member'}
+
+{template 'common/footer'} 

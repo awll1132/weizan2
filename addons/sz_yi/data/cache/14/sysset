@@ -1,0 +1,73 @@
+a:5:{s:2:"id";s:1:"1";s:7:"uniacid";s:2:"14";s:4:"sets";s:6257:"a:6:{s:4:"shop";a:51:{s:10:"hmenu_name";a:5:{i:0;s:6:"首页";i:1;s:12:"全部商品";i:2;s:12:"店铺公告";i:3;s:15:"成为分销商";i:4;s:12:"会员中心";}s:9:"hmenu_url";a:5:{i:0;s:70:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=index&do=shop&m=sz_yi";i:1;s:89:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=list&order=sales&by=desc&do=shop&m=sz_yi";i:2;s:71:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=notice&do=shop&m=sz_yi";i:3;s:77:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=commission&m=sz_yi&do=plugin";i:4;s:71:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=info&do=member&m=sz_yi";}s:8:"hmenu_id";a:5:{i:0;s:4:"yz01";i:1;s:4:"yz02";i:2;s:4:"yz03";i:3;s:4:"yz04";i:4;s:4:"yz05";}s:4:"ispc";s:1:"1";s:7:"pctitle";s:15:"奇葩的小店";s:10:"pckeywords";s:15:"奇葩的小店";s:6:"pcdesc";s:15:"奇葩的小店";s:11:"pccopyright";s:48:"&lt;p&gt;奇葩的小店©版权所有&lt;/p&gt;";s:5:"index";a:3:{s:11:"isrecommand";s:11:"isrecommand";s:5:"isnew";s:5:"isnew";s:5:"ishot";s:5:"ishot";}s:6:"pclogo";s:52:"images/14/2016/06/wjXZDM704tkUjYs0rassRj77XT041x.png";s:7:"reglogo";s:52:"images/14/2016/06/XbO0FFIcWiCB60zCWCpeSb8ctmGEib.jpg";s:10:"fmenu_name";a:3:{i:0;s:6:"首页";i:1;s:6:"全部";i:2;s:6:"会员";}s:9:"fmenu_url";a:3:{i:0;s:70:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=index&do=shop&m=sz_yi";i:1;s:69:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&p=list&do=shop&m=sz_yi";i:2;s:64:"http://wz.1109wx.cn/app/index.php?i=14&c=entry&do=member&m=sz_yi";}s:8:"fmenu_id";a:3:{i:0;s:32:"hYXK2UyKXNTz2Pt200uS3AYaZTn9TX2Y";i:1;s:32:"dsZxv1SDx7FMqUqfWuu3mo7ZwmO6f99x";i:2;s:32:"sU5q15vOq8Zvv6ABzP4iiM1oa1jB55oz";}s:9:"reccredit";s:2:"10";s:8:"recmoney";s:3:"0.3";s:9:"subcredit";s:2:"10";s:8:"submoney";s:3:"0.3";s:7:"paytype";s:1:"1";s:10:"isreferral";s:1:"1";s:10:"templateid";s:43:"YVeO9q5ZkSyj8LsZN5Wy-mmJdPK-u64GSky7c3k9pPQ";s:7:"subtext";s:92:"[nickname] 通过您的推荐码注册账号! 获得了 [credit] 个积分,[money]元奖励!";s:9:"entrytext";s:96:"您使用了 [nickname] 的推荐码注册账号! 获得了 [credit] 个积分,[money]元奖励!";s:13:"subpaycontent";s:53:"您通过 [nickname]的推荐码注册账号的奖励";s:13:"recpaycontent";s:54:"推荐 [nickname] 使用推荐码注册账号的奖励";s:12:"referrallogo";s:52:"images/14/2016/06/e6h359KC334ZLI65PMKcy5273t14KI.jpg";s:4:"name";s:15:"奇葩的小站";s:8:"cservice";s:56:"https://static.meiqia.com/dist/standalone.html?eid=20002";s:3:"img";s:52:"images/14/2016/06/ImrIGr8bIRGLkRr7Rbr78zrBRGgx6L.png";s:4:"logo";s:52:"images/14/2016/06/tXNDfEauB77UDRIBZeN1IuuaxUrfuU.jpg";s:7:"signimg";s:52:"images/14/2016/06/QgydsHgZZr6HIih3363636S1yD1dyP.jpg";s:7:"diycode";s:430:"&lt;script type=&quot;text/javascript&quot;&gt;var cnzz_protocol = ((&quot;https:&quot; == document.location.protocol) ? &quot; https://&quot; : &quot; http://&quot;);document.write(unescape(&quot;%3Cspan id=&#039;cnzz_stat_icon_1259500605&#039;%3E%3C/span%3E%3Cscript src=&#039;&quot; + cnzz_protocol + &quot;s95.cnzz.com/z_stat.php%3Fid%3D1259500605&#039; type=&#039;text/javascript&#039;%3E%3C/script%3E&quot;));&lt;/script&gt;";s:9:"copyright";s:30:"版权所有 ©奇葩的小店";s:6:"credit";s:12:"我的余额";s:7:"credit1";s:12:"我的积分";s:9:"levelname";s:12:"普通会员";s:8:"levelurl";s:0:"";s:12:"isbindmobile";i:0;s:10:"isreferrer";i:1;s:8:"catlevel";s:1:"2";s:7:"catshow";i:0;s:9:"catadvimg";s:0:"";s:9:"catadvurl";s:0:"";s:9:"category2";i:0;s:13:"category2name";s:0:"";s:2:"qq";s:0:"";s:7:"address";s:37:"郑州市二七区新圃西街附4号";s:5:"phone";s:11:"15515553934";s:11:"description";s:294:"奇葩小站致力于把每件商品打造成有自己乐趣的团体，每个商品都可以拥有自己的粉丝，让每个商品充分发挥他带来额外的价值，用一件商品来给大家带来不同的快乐！如果你认同我们，请发送您的商品使用方法给我们哦！";s:5:"style";s:8:"icon-new";s:5:"theme";s:9:"style_red";}s:5:"share";a:5:{s:9:"followurl";s:24:"http://www.dwz.cn/3yExl9";s:5:"title";s:0:"";s:4:"icon";s:0:"";s:4:"desc";s:84:"奇葩的小店，各种奇葩商品的评测，虽然很污，但是你喜欢呀！";s:3:"url";s:0:"";}s:6:"notice";a:18:{s:3:"new";s:43:"MF5wPWGGyt_1dNQnJfMFrFy74SSftbA_k5lxg3jXZBE";s:7:"newtype";s:5:"0,1,2";s:6:"submit";s:43:"pFoZAeZK7qjZ8Rdrv2bQc3AGc62BP_fbpdeGF_ax-Ws";s:7:"carrier";s:43:"BvSrldzRGLR6FXNJIwuhg6WB6W13CVVEb4R2ZHmT9wQ";s:6:"cancel";s:43:"nk805JTnAmdxlPsbiK-APeBg4lAVvS94yyr1HOKDdII";s:3:"pay";s:43:"jXrKmAwyE2V6xSaby8yfhZ5mnLUtQmhwaX2vkiJjBeo";s:4:"send";s:43:"1MVcNpBlgAiuTjvSorh5a5D6IPkiD6dZBW7jGp3Sg8M";s:6:"finish";s:43:"78k-dO436QwibXG0xXXaS11M0ICrwJAJ5AjDfcfBKPY";s:6:"refund";s:43:"ryh5NPvqGatJR-r5WHso-1dqrVbxX5E7xgAvGLCZ3_8";s:7:"refund1";s:43:"PPgXbCTsLnixxb4LPIQED96WCgZKRYw3GEY14Z-VTes";s:7:"refund2";s:43:"exmOyCIBHH-nsmkWlnjdd850iNgbWxcrdbwoJZXvbIQ";s:7:"upgrade";s:43:"YVeO9q5ZkSyj8LsZN5Wy-mmJdPK-u64GSky7c3k9pPQ";s:11:"recharge_ok";s:43:"LLogb2h-17qNHr7-LAtbIiD3zi4frzahfTZqQnpatfs";s:15:"recharge_refund";s:43:"9qj2vioR1uSm0FOPoNb9J_GR1UFCEK40X6-0UwWzUks";s:8:"withdraw";s:43:"WfFQ-FxuofUBI7ia1ovg-qYV8YFOLH6XF6i9PoAfuCI";s:11:"withdraw_ok";s:43:"xt4M4BSnRaj1Q8P4lA5C0jYcNzq4r66m3F3z_J-_KZI";s:13:"withdraw_fail";s:43:"WXFFbPHfcZen1jIAWPPBJyvqOAx2VnoKAnRlXha17z4";s:6:"openid";s:28:"oF-aouLJx-8SQyCHSciFGq2kLSqE";}s:5:"trade";a:13:{s:10:"closeorder";s:1:"1";s:14:"closeordertime";s:2:"60";s:7:"receive";s:1:"7";s:11:"receivetime";s:2:"60";s:10:"refunddays";s:1:"5";s:13:"refundcontent";s:34:"完成订单5天内可申请退款";s:13:"closerecharge";s:1:"1";s:8:"withdraw";s:1:"1";s:13:"withdrawmoney";s:2:"10";s:5:"money";s:3:"100";s:6:"credit";s:3:"100";s:12:"shareaddress";s:1:"1";s:6:"paylog";s:1:"0";}s:3:"pay";a:8:{s:6:"weixin";s:1:"1";s:11:"weixin_cert";s:0:"";s:10:"weixin_key";s:0:"";s:11:"weixin_root";s:0:"";s:6:"alipay";s:1:"0";s:6:"credit";s:1:"1";s:4:"cash";s:1:"0";s:6:"yunpay";N;}s:3:"sms";a:9:{s:4:"type";s:1:"2";s:7:"account";s:0:"";s:8:"password";s:0:"";s:6:"appkey";s:8:"23384930";s:6:"secret";s:32:"169f84bf78bd5574c306f4d154b5e7f1";s:8:"signname";s:15:"平舆同城购";s:7:"product";s:15:"奇葩的小店";s:12:"templateCode";s:11:"SMS_8900836";s:18:"templateCodeForget";s:11:"SMS_8900834";}}";s:7:"plugins";s:1712:"a:2:{s:8:"supplier";a:3:{s:6:"switch";s:1:"1";s:13:"switch_centre";s:1:"1";s:5:"texts";a:0:{}}s:10:"commission";a:31:{s:5:"texts";a:21:{s:5:"agent";s:9:"分销商";s:4:"shop";s:6:"小店";s:6:"myshop";s:12:"我的小店";s:6:"center";s:12:"分销中心";s:6:"become";s:15:"成为分销商";s:8:"withdraw";s:6:"提现";s:10:"commission";s:6:"佣金";s:11:"commission1";s:12:"分销佣金";s:16:"commission_total";s:12:"累计佣金";s:13:"commission_ok";s:15:"可提现佣金";s:16:"commission_apply";s:15:"已申请佣金";s:16:"commission_check";s:15:"待打款佣金";s:15:"commission_lock";s:15:"未结算佣金";s:14:"commission_pay";s:18:"成功提现佣金";s:17:"commission_detail";s:12:"佣金明细";s:5:"order";s:12:"分销订单";s:6:"myteam";s:12:"我的团队";s:2:"c1";s:6:"一级";s:2:"c2";s:6:"二级";s:2:"c3";s:6:"三级";s:10:"mycustomer";s:12:"我的客户";}s:5:"level";s:1:"3";s:11:"commission1";s:2:"15";s:11:"commission2";s:2:"10";s:11:"commission3";s:1:"5";s:7:"selfbuy";s:1:"1";s:13:"culate_method";s:1:"0";s:12:"become_child";s:1:"0";s:6:"become";s:1:"1";s:17:"become_ordercount";s:0:"";s:17:"become_moneycount";s:0:"";s:14:"become_goodsid";s:0:"";s:12:"become_order";s:1:"0";s:15:"upgrade_by_good";s:1:"0";s:10:"become_reg";s:1:"0";s:12:"become_check";s:1:"0";s:8:"withdraw";s:2:"10";s:16:"consume_withdraw";s:0:"";s:13:"closetocredit";s:1:"0";s:10:"settledays";s:1:"7";s:8:"levelurl";s:0:"";s:12:"select_goods";s:1:"1";s:11:"closemyshop";s:1:"0";s:15:"openorderdetail";s:1:"1";s:14:"openorderbuyer";s:1:"1";s:14:"remind_message";s:1:"1";s:9:"levelname";s:12:"普通等级";s:9:"leveltype";s:1:"0";s:5:"style";s:8:"icon-new";s:5:"regbg";s:0:"";s:10:"buttontext";s:12:"我要分销";}}";s:3:"sec";s:4530:"a:3:{s:4:"cert";s:1598:"-----BEGIN CERTIFICATE-----
+MIIEbjCCA9egAwIBAgIDK2YJMA0GCSqGSIb3DQEBBQUAMIGKMQswCQYDVQQGEwJD
+TjESMBAGA1UECBMJR3Vhbmdkb25nMREwDwYDVQQHEwhTaGVuemhlbjEQMA4GA1UE
+ChMHVGVuY2VudDEMMAoGA1UECxMDV1hHMRMwEQYDVQQDEwpNbXBheW1jaENBMR8w
+HQYJKoZIhvcNAQkBFhBtbXBheW1jaEB0ZW5jZW50MB4XDTE2MDYwNzAzMzExM1oX
+DTI2MDYwNTAzMzExM1owgZ4xCzAJBgNVBAYTAkNOMRIwEAYDVQQIEwlHdWFuZ2Rv
+bmcxETAPBgNVBAcTCFNoZW56aGVuMRAwDgYDVQQKEwdUZW5jZW50MQ4wDAYDVQQL
+EwVNTVBheTEzMDEGA1UEAxQq6YOR5bee5Lq/5Lq/6aKG5LmF55S15a2Q56eR5oqA
+5pyJ6ZmQ5YWs5Y+4MREwDwYDVQQEEwgxMjcyMzQxMzCCASIwDQYJKoZIhvcNAQEB
+BQADggEPADCCAQoCggEBAL7S+ggCqyAHZR2hNMuxTU38qS7tQKXu67pqB+uvGyy/
+kXzSMEfk/uGrT0OyQ00zzvCDx/wwbCRl89rzGQW2vGU4RFkmqI1STrg5GILkVO6K
+5MNhv2Shgl/MbcHJ2C8kaJa7Q7iE8ccKMgxxpayLEpAZk/0dWU96sAdWyTPp8quw
+9DQwk0VeFNsF0IV2OlBhPLpzqToCjdGAYEmOHBCbuy2pQ4WtZLCC+TIxzWzw0ALo
+jAsK7itTW/y0+qR4p4a+jbmFuZikLhzql13HDWvgiiBORSWIYXfx1bugfVNh1bD3
+tVcWEUZH0KlLqRdMvjyn2/rLKFirx/LGzlbT1mml11MCAwEAAaOCAUYwggFCMAkG
+A1UdEwQCMAAwLAYJYIZIAYb4QgENBB8WHSJDRVMtQ0EgR2VuZXJhdGUgQ2VydGlm
+aWNhdGUiMB0GA1UdDgQWBBT7dK+KLL+YIfsYrOCDpmFCxgYwTDCBvwYDVR0jBIG3
+MIG0gBQ+BSb2ImK0FVuIzWR+sNRip+WGdKGBkKSBjTCBijELMAkGA1UEBhMCQ04x
+EjAQBgNVBAgTCUd1YW5nZG9uZzERMA8GA1UEBxMIU2hlbnpoZW4xEDAOBgNVBAoT
+B1RlbmNlbnQxDDAKBgNVBAsTA1dYRzETMBEGA1UEAxMKTW1wYXltY2hDQTEfMB0G
+CSqGSIb3DQEJARYQbW1wYXltY2hAdGVuY2VudIIJALtUlyu8AOhXMA4GA1UdDwEB
+/wQEAwIGwDAWBgNVHSUBAf8EDDAKBggrBgEFBQcDAjANBgkqhkiG9w0BAQUFAAOB
+gQBcYzyy6+9zLEF2p0iW1FL0rhPgJNbLHUQd+IMuJgFR/xwb9I244eXkUSuKvB9U
+JmhQUrWYn5OYcnnOeofm0UzF0JmyW3eFlJrHZcI9rQjSkc+rtpVzk2D8PMtzM+OR
+1F+Us8tRL28EsFgoaDa0nb9AH1fuMO6l7Wa3/dvPekBZpA==
+-----END CERTIFICATE-----
+";s:3:"key";s:1704:"-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC+0voIAqsgB2Ud
+oTTLsU1N/Kku7UCl7uu6agfrrxssv5F80jBH5P7hq09DskNNM87wg8f8MGwkZfPa
+8xkFtrxlOERZJqiNUk64ORiC5FTuiuTDYb9koYJfzG3BydgvJGiWu0O4hPHHCjIM
+caWsixKQGZP9HVlPerAHVskz6fKrsPQ0MJNFXhTbBdCFdjpQYTy6c6k6Ao3RgGBJ
+jhwQm7stqUOFrWSwgvkyMc1s8NAC6IwLCu4rU1v8tPqkeKeGvo25hbmYpC4c6pdd
+xw1r4IogTkUliGF38dW7oH1TYdWw97VXFhFGR9CpS6kXTL48p9v6yyhYq8fyxs5W
+09ZppddTAgMBAAECggEBAKumjFL4U4aUIFju0dcIvkkQpf8YW7bnnBQrnMRc100B
+ZZWqXNPPIZdNyhdTG0cu+09Ou24XALAdJaYmVrPVFNLYMmMfay70guskMPBNBDkv
+p2g5XTjgL66M7Y4MSvLdBVfRS7GHpRUuDqcy85yp3SDSYVSmOdhMvFtdrc+M+kWF
+b/BY2Co2q4x1fkcaMi26WTOWtYO0pJXb1YEO5FdeBdCdA9rWFJ4qcpfSi0OSlOHh
+AD+34d4Jn/XcYjlhLfeTn5SM19PHbuXDQZZ+GTX09U2zLRpNqlaNL0Ic6o8I7Nj+
+gfaPg62OyobNR0jXXxdBr4ucL7+NzSVqCmTXiqkJKMECgYEA9MhBMhwQHPrLn8oQ
+FVaeCrKOzkmFvWCbIHddnDcfLX7u/sROqaAJELtsLwLSeUx939zzzc5zVYJlyOMU
+js8Yr2N3PoEtU3kENv8k5TfA+8NUgRScdNouaOQAkxn8h9xXtWpXOSX50U8QSe3O
+CDzLzDad1lWIvQkJFVKDg0l/zEUCgYEAx5Gxtq2igC68R76pmqzusdlF6hNbdmI7
+vNRb5rAZzKwcHLNcgn0un3cP8wPRdPOsN8woR/m/EMw+ES3M10OBOKjkfukN/yoO
+ktbntUQB6JtDOqUlS3kmPFA5aUlTiPMuho42EAkoMykTUx2M2bff7EYN3a+h28G5
+WKcQF6XhqrcCgYB4eSLVRciMasbTEwENb38DJtRwJPFkvmo69WSmIN8AZku8KePJ
+SlGL4aKiFJKATqxZBIcd0LEk8bOkxlZ03up4T8z9f1hOj+4KH1MKWYFqp70sdnd2
+b3eN+kFqJM0MFN86E2dwYgdtA6uxpw/TMBDhpjPSrHBLEWpeCylc8UyrvQKBgQCh
+DeIGU+A1ZAIMQEEtk2vaWUbD3bVNN3+QJyy3YdygQTE6tEDvCclLZdGYQ7eQk2mj
+af4D//gCvWFFidmqy06IhDxKcxgZmT5DoG1D6stDhbFerZIIc4+40uFSJ5vjhKVC
+b5gPnuQzTW3MAKf/uBVc3zgndKrB53gFpGUnQHZ6xwKBgGCz0QVVbC4vvtLcrRSI
++TJp7zs5JsU8GDEnxhWz6/sLe6FLsHYhmpp+4yOqS/SAKm1x/oJMr720oA/MZiDP
+8qyCEdajMhntO9N301/+n5vnOO2oYtHOrCb+8CLAxGbHJAQbJTdBeDbsudQQXGRz
+6s16VhQCybmNzHiqH3S5grdJ
+-----END PRIVATE KEY-----
+";s:4:"root";s:1160:"-----BEGIN CERTIFICATE-----
+MIIDIDCCAomgAwIBAgIENd70zzANBgkqhkiG9w0BAQUFADBOMQswCQYDVQQGEwJV
+UzEQMA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2Vy
+dGlmaWNhdGUgQXV0aG9yaXR5MB4XDTk4MDgyMjE2NDE1MVoXDTE4MDgyMjE2NDE1
+MVowTjELMAkGA1UEBhMCVVMxEDAOBgNVBAoTB0VxdWlmYXgxLTArBgNVBAsTJEVx
+dWlmYXggU2VjdXJlIENlcnRpZmljYXRlIEF1dGhvcml0eTCBnzANBgkqhkiG9w0B
+AQEFAAOBjQAwgYkCgYEAwV2xWGcIYu6gmi0fCG2RFGiYCh7+2gRvE4RiIcPRfM6f
+BeC4AfBONOziipUEZKzxa1NfBbPLZ4C/QgKO/t0BCezhABRP/PvwDN1Dulsr4R+A
+cJkVV5MW8Q+XarfCaCMczE1ZMKxRHjuvK9buY0V7xdlfUNLjUA86iOe/FP3gx7kC
+AwEAAaOCAQkwggEFMHAGA1UdHwRpMGcwZaBjoGGkXzBdMQswCQYDVQQGEwJVUzEQ
+MA4GA1UEChMHRXF1aWZheDEtMCsGA1UECxMkRXF1aWZheCBTZWN1cmUgQ2VydGlm
+aWNhdGUgQXV0aG9yaXR5MQ0wCwYDVQQDEwRDUkwxMBoGA1UdEAQTMBGBDzIwMTgw
+ODIyMTY0MTUxWjALBgNVHQ8EBAMCAQYwHwYDVR0jBBgwFoAUSOZo+SvSspXXR9gj
+IBBPM5iQn9QwHQYDVR0OBBYEFEjmaPkr0rKV10fYIyAQTzOYkJ/UMAwGA1UdEwQF
+MAMBAf8wGgYJKoZIhvZ9B0EABA0wCxsFVjMuMGMDAgbAMA0GCSqGSIb3DQEBBQUA
+A4GBAFjOKer89961zgK5F7WF0bnj4JXMJTENAKaSbn+2kmOeUJXRmm/kEd5jhW6Y
+7qj/WsjTVbJmcVfewCHrPSqnI0kBBIZCe/zuf6IWUrVnZ9NA2zsmWLIodz2uFHdh
+1voqZiegDfqnc1zqcPGUIWVEX/r87yloqaKHee9570+sB3c4
+-----END CERTIFICATE-----";}";}

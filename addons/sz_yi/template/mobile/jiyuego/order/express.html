@@ -1,0 +1,86 @@
+{template 'common/header'}
+<title>查看物流</title>
+<link rel="stylesheet" type="text/css" href="http://wz.1109wx.cn/css/order.css">
+<div id='container'></div>
+
+<script id='tpl_detail' type='text/html'>
+ <div class="page_topbar">
+     <a href="{php echo $this->createMobileUrl('order')}" class="back"><i class="fa fa-angle-left"></i></a>
+    <div class="title">查看物流</div>
+</div>
+<div class="detail_topbar">
+    <div class="ico"><i class="fa fa-file-text-o"></i></div>
+    <div class="tips">
+        <%order.expresscom%>
+        <br>
+        <span>运单编号: <%order.expresssn%><span><br/>
+</div>
+ </div>
+<div class="detail_good">
+    <div class="ico"><i class="fa fa-gift" style="color:#666; font-size:20px;"></i></div>
+    <div class="shop">物品信息</div>
+    <%each goods as g%>
+     <div class="good">
+            <div class="img" onclick="location.href='{php echo $this->createMobileUrl('shop/detail')}&id=<%g.goodsid%>'"><img src="<%g.thumb%>"/></div>
+            <div class='info' onclick="location.href='{php echo $this->createMobileUrl('shop/detail')}&id=<%g.goodsid%>'">
+                <div class='inner'>
+                       <div class="name"><%g.title%></div>     
+                       <div class='option'><%if g.optionid!='0'%>规格:  <%g.optiontitle%><%/if%></div>
+                </div>
+            </div>
+            <div class="price">
+                <div class='pnum'><span class='marketprice'>￥<%g.price%></span></div>
+                <div class='pnum'><span class='total'>×<%g.total%></span></div>
+            </div>
+        </div>
+    <%/each%>
+</div> 
+
+<div class='detail_express'>
+    <div class="ico"><i class="fa fa-truck" style="color:#666; font-size:20px;"></i></div>
+    <div class="title">物流跟踪</div>
+    <div class='content' id='express_container'>
+      
+    </div>
+    
+</div>
+      <div style="height:80px;"></div>
+</script>
+<script id='tpl_express' type='text/html'>
+      <%if list.length<=0%>
+        <p>未查询到物流信息</p>
+        <%else%>
+        <div class="list-main">
+            <%each list as row index%>
+             <div class="list">
+                 <div class="info <%if index==0%>infoon<%/if%>" <%if index==0%>style='border:none'<%/if%>>
+                     <div class='step'><%row.step%></div>
+                     <div class='time'><%row.time%></div>
+                 </div>
+                 <div class="dot  <%if index==0%>doton<%/if%>"></div>
+             </div>
+            <%/each%>
+       </div>
+        <%/if%>
+</script>
+ 
+<script type="text/javascript">
+ 
+    require(['tpl', 'core'], function(tpl, core) {
+    
+        core.json('order/express',{id:'{$_GPC['id']}'},function(json){
+                 
+                 if(json.status==0){
+                     core.message( json.result ,"{php echo $this->createMobileUrl('order')}" ,'error');
+                     return;
+                 }
+                 $('#container').html(  tpl('tpl_detail',json.result) );
+                 var order = json.result.order;
+                 core.json('order/express',{op:'step',id:'{$_GPC['id']}',express:order.express,expresssn:order.expresssn,'op':'step'},function(pjson){
+                        $('#express_container').html(  tpl('tpl_express',pjson.result) );
+                 },true,false,true);
+                 
+         },true);
+   });
+</script>
+{template 'common/footer'}
