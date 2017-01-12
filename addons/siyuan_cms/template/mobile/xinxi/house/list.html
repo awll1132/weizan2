@@ -1,0 +1,17 @@
+{loop $list $item}
+<li>
+<a href="{php echo $this->createMobileUrl('xinxi_house', array('act' => 'news', 'id' => $item['id']))}">
+{if $item['pic']}
+<div class="pic"><img src="{$item['pic']}">{if $item['ding'] == '1'}<sup class="ding"></sup>{/if}</div>
+<div class="con">
+<h3 style="height:54px;">{$item['title']}</h3>
+{else}
+<div class="con1">
+<h3 style="height:27px;">{$item['title']}</h3>
+{/if}
+<p><span class="rooms"><i class="fa fa-clock-o"></i> {php echo date('m-d', $item['time'])}</span>
+<span class="rooms"><i class="fa fa-codepen"></i> {$item['huxing']}</span>
+<span class="rooms"><i class="fa fa-delicious"></i> {$item['mianji']}㎡</span>
+<span class="price">{if $item['jiage'] =='0'}<em>面议</em>{else}<em>{$item['jiage']}</em>万{/if}</span></p>
+</div></a></li>
+{/loop}

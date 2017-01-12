@@ -1,0 +1,220 @@
+﻿{template 'header'}
+<div class="banner">
+<div id="mySwipe">
+<div class="swipe-wrap">
+{loop $flash $flash}
+<div>
+<a href="{$flash['url']}">
+<img src="{$_W['attachurl']}{$flash['thumb']}"></a>
+</div>
+{/loop}
+</div>
+</div>
+<div class="swipe-point">
+<ul id="position">
+<li class="on"></li>
+<li class=""></li>
+<li class=""></li>
+<li class=""></li>
+<li class=""></li>
+</ul>
+</div>
+</div>
+{if $index_set['color_open'] == '1'}
+<div class="banner_top">
+<li class="color_r"></li>
+<li class="color_y"></li>
+<li class="color_b"></li>
+<li class="color_g"></li>
+<li class="color_p"></li>
+</div>
+{/if}
+<div class="Nweather">
+<div class="Nweather_c">
+<div id="weather" class="Nweather_c_div"><a href="#" class="Nweather_c_left">{$weather_day}</a><a class="Nweather_c_right" href="#"><ul><li>{$weather_week}</li><li>{$weather_weather} {$weather_temp}℃</li></ul></a> {if $index_set['city'] == '1'}<em class="choose-city-a cd-bouncy-nav-trigger" onclick="#0">{else}<em class="choose-city-a">{/if}<i class="fa fa-map-marker"></i> {$api['city']}</em></div>
+{if $index_set['qiandao']}
+<a href="{$index_set['qiandao']}" class="index_sign">{$index_set['anniu']}</a>
+{else}
+<a href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=mc&a=card&do=sign_display" class="index_sign">签到</a>
+{/if}
+</div>
+<div class="b_bottom"></div>
+</div>
+
+<div style="height:10px;"></div>
+<div class="icon_list bottom_line" style="margin-top:-10px;">
+<ul id="nav_APP_data" style="display:none;">
+{loop $index_nav $item}
+<li><a href="{$item['url']}"><img src="{$_W['attachurl']}{$item['thumb']}"><p>{$item['title']}</p></a></li>
+{/loop}
+</ul>
+<div class="viewport">
+<div id="nav_Node" class="nav_APPa showNavApp">
+<div id="scroller" class="clearfix"></div>
+</div>
+<div id="indicator2"><div id="dotty"></div></div>
+</div>
+</div>
+<div class="index_ad top_line bottom_line clear">
+<ul>
+{if $index_set['ad_1']}
+<li><a href="{$index_set['ad_url_1']}"><img src="{$_W['attachurl']}{$index_set['ad_1']}"></a></li>
+{/if}
+{if $index_set['ad_2']}
+<li><a href="{$index_set['ad_url_2']}"><img src="{$_W['attachurl']}{$index_set['ad_2']}"></a></li>
+{/if}
+</ul>
+</div>
+<div class="life_hot">
+<div class="weui_mask_index_transition weui_fade_toggle">
+</div>
+<!--<div class="hot_header">
+<em></em>
+<ul><a href="javascript:;" id='kaifa'>福州市公安局重申：派出所不得拒绝.....</a></ul>
+</div>-->
+<ul class="hot_main">
+{loop $reply $key $rep}
+<li class="hot_main_li" data-index="{$rep['displayorder']}">
+<span class="hot_house hot_pic" style="background: url({php echo tomedia($rep['thumb'])}) no-repeat;background-size:45px;"></span>
+<span>{$rep['name']}</span>
+<span class="hot_text">{$rep['body']}</span>
+</li>
+{/loop}
+</ul>
+{loop $reply $key $rep}
+<div class="bianmin hot_main_c click-hide">
+<div class="pv-10 clear">
+<ul>
+{loop $rep['mreply'] $mre}
+<li>
+<a href="{$mre['url']}"><i class="fa" style="background: url({php echo tomedia($mre['thumb'])}) no-repeat;background-size:45px;"></i>
+<span>{$mre['name']}</span>
+</a>
+</li>
+{/loop}
+</ul>
+</div>
+</div>
+{/loop}
+<div class="weui_mask_index" id="bm-mask" style="display: none;">
+</div>
+</div>
+<script data-garbage="true">
+$(".click-hide a").click(function() {
+$("body").hide();
+});
+$(".hot_main li").on('click', function() {
+var index = $(this).attr('data-index');
+$(this).addClass("cur");
+$("#bm-mask").show();
+$(".bianmin:eq(" + index + ")").show();
+})
+
+$("#bm-mask").on('click', function() {
+$(this).hide();
+$(".bianmin").hide();
+$(".hot_main li").removeClass("cur");
+})
+</script>
+<div class="public-module-title mar-top-5"> 
+<p><span class="base-bgcolor public-title-icon"></span>{$api['city']}资讯</p>
+</div>
+<div class="threadlist box_bg">
+<ul>
+{loop $news $item}
+<li>
+<a class="act_link" href="{php echo $this->createMobileUrl('news', array('act' => 'news', 'id' => $item['id']))}">
+<div class="desc">
+<h3>{if $item['tuijian'] == '1'}<span class="tag_bg">推荐</span>{/if}{$item['title']}</h3>
+<div class="item_info">
+<span class="src space">{php echo date('m-d H:i', $item['time'])}</span>
+<span class="cmt space">阅读&nbsp;{$item['yuedu']}</span>
+<span class="cmt space">评论&nbsp;{$item['pinglun']}</span>
+</div>
+</div>
+<div class="list_img_holder">
+<img src="{$_W['attachurl']}{$item['thumb']}">
+</div>
+</a>
+</li>
+{/loop}
+</ul>
+</div>
+<script src="http://cdn.staticfile.org/iScroll/5.1.3/iscroll.js"></script>
+<script>
+function loaded() {
+	var nav_APP_data = $('#nav_APP_data');
+	nav_APP_data.find('li').slice(8,8).clone().insertAfter(nav_APP_data.find('li').eq(8));
+	var w_w = $(window).width();
+	var len = Math.ceil(nav_APP_data.find('li').length/8);
+	var txt = '';
+	var scroller = $('#scroller');
+	for(var i=0; i<len;i++){
+		var el = document.createElement('div');
+		el.className = 'slidea';
+		var ul = document.createElement('ul');
+		ul.className = 'clearfix';
+		txt = nav_APP_data.find('li').slice(0,8).detach();
+		$(ul).append(txt);
+		el.appendChild(ul);
+		scroller[0].appendChild(el);
+	}
+	scroller.css({'width':w_w*len+'px'}); 
+	scroller.find('.slidea').css('width',w_w+'px'); 
+	$('#indicator2').css({'width':(11*(len-1)+6)+'px'});
+	setTimeout(function(){
+		myScroll = new IScroll('#nav_Node', {
+			scrollX: true,
+			scrollY: false,
+			momentum: false,
+			click:true,
+			snap: true,
+			snapSpeed: 400,
+			keyBindings: true,
+			eventPassthrough:true,
+			indicators: {
+				el: document.getElementById('indicator2'),
+				resize: false
+			}
+		});
+	},200);
+}
+document.addEventListener('DOMContentLoaded',function(){
+	loaded();
+	var tg_list = $('#index_tg_list').find('li');
+	var w = parseInt(tg_list.eq(0).width() - 2);
+	tg_list.find('img').css({'height':w+'px'});
+},false);
+</script>
+{if $index_set['city'] == '1'}
+<div class="cd-bouncy-nav-modal">
+<nav>
+<ul class="cd-bouncy-nav">
+{loop $city_list $item}
+<li><a href="{$item['url']}"><img src="{$_W['attachurl']}{$item['thumb']}"><p>{$item['title']}</p></a></li>
+{/loop}
+</ul>
+</nav>
+<a href="#0" class="cd-close fa fa-power-off">返回</a>
+</div>
+{/if}
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+wx.ready(function () {
+sharedata = {
+title: "{$share['index_title']}",
+desc: "{$share['index_title']}",
+link: window.location.href,
+imgUrl: "{$_W['attachurl']}{$share['index_pic']}",
+success: function (res) {},
+cancel: function(){
+}
+};
+wx.onMenuShareAppMessage(sharedata);
+wx.onMenuShareTimeline(sharedata);
+wx.onMenuShareQQ(sharedata);
+wx.onMenuShareWeibo(sharedata);
+wx.onMenuShareQZone(sharedata);
+});
+</script>
+{template 'footer'}

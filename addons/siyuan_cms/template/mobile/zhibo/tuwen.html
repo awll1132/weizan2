@@ -1,0 +1,153 @@
+﻿{template 'header'}
+<div class="siyuan_top weui-row">
+<div class="weui-col-15"><a href="javascript:history.go(-1)"><i class="fa fa-angle-left f-32"></i></a></div>
+<div class="weui-col-70">{$set['name']}</div>
+<div class="weui-col-15"><a class="cd-bouncy-nav-trigger" href="#0"><img src="{$_W['siteroot']}addons/siyuan_cms/ui/img/daohang.png"></a></div>
+</div>
+<div class="cd-bouncy-nav-modal">
+<nav>
+<ul class="cd-bouncy-nav">
+{loop $menu $caidan}
+<li><a href="{$caidan['url']}"><img src="{$_W['attachurl']}{$caidan['thumb']}"><p>{$caidan['title']}</p></a></li>
+{/loop}
+</ul>
+</nav>
+<a href="#0" class="cd-close fa fa-power-off">返回</a>
+</div>
+<div style="height:40px;"></div>
+<div class="banner" style="padding:6px 8px 0px 8px;">
+<div class="banner1 click-hide">
+<div id="mySwipe" class="swipe clear">
+<div class="swipe-wrap clear">
+{loop $flash $flash}
+<div>
+<a href="{$flash['url']}">
+<img src="{$_W['attachurl']}{$flash['thumb']}" style="border-radius:3px;"></a>
+</div>
+{/loop}
+</div>
+</div>
+<div class="swipe-point clear">
+<ul id="position">
+<li class="on"></li>
+<li class=""></li>
+<li class=""></li>
+<li class=""></li>
+<li class=""></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="top_f"></div>
+<div class="content-c">
+<div class="contanr" id="gallery">
+<ul class="commentlist">
+{loop $reply $key $rep}
+<li class="bottom_line">
+<div class="listCon">
+<div class="Ldate">
+<div class="LImg"><img src="{$rep['avatar']}"></div>
+<h4>{$rep['name']}</h4>
+</div>
+<div class="detaiLcon clear">
+<p>{$rep['body']}</p>
+<div class="detaiimg clear">
+<ul class="thumbnails">
+{loop $rep['pic_list'] $p}
+<a class="fancybox-effects-a" href="{$p['pic']}"><span><img src="{$p['pic']}"></span></a>
+{/loop}
+</ul>
+</div>
+<div class="address">
+<div class="site"><i class="fa fa-clock-o"></i><em>{php echo date('m-d H:i', $rep['time'])}</em>
+</div>
+<div id="replybShare">
+{if $user !=='0'}<div class="share detapl" onClick="doHuifu({$rep['id']})" id="show-custom"></div>{/if}
+</div>
+</div>
+{if !empty($rep['mreply'])}
+<div class="plcon"><div>
+<i class="pointTop"></i>
+{loop $rep['mreply'] $mre}
+<div class="pl_line clear">
+<div class="replyb">
+<div class="answer">
+<span class="nm">{$mre['name']}</span> : <span class="mg">{$mre['body']}</span>
+</div></div></div>
+{/loop}
+</div>
+</div>
+{/if}
+</div>
+</div>
+</li>
+{/loop}
+<div class='demos-content-padded'><a id="aMore" href="#" class="cont-more">点击查看更多</a></div>
+</ul>
+</div>
+</div>
+<script language="javascript" type="text/javascript">
+var totalpage = {$total_page}, currentpage = 1;
+if (totalpage < 2) $('#aMore').remove();
+else
+$('#aMore').click(function () {
+$.ajax({ url: '{php echo $this->createMobileUrl("quan", array("act" => "list"))}', type: 'POST', data: { currentpage: currentpage + 1}, complete: function (xhr) {
+if (xhr.status == '200') {
+currentpage++;
+if (currentpage > totalpage) $('#aMore').remove($.toast("没有了...", "text"));
+$(xhr.responseText).insertBefore('#aMore');
+}
+else $.toast("没有了...", "text");
+}
+});
+return false;
+});
+</script>
+<script>
+function doHuifu(t) {
+$(document).on("click", "#show-custom", function() {
+$.prompt({
+title: "请输入回复内容",
+onOK: function(text) {
+$.ajax({
+type:'post',
+dataType:'json',
+url:"{php echo $this->createMobileUrl('quan', array('act' => 'huifu'))}",
+data:{body:text,pid:t},
+success:function(msg){
+if(msg.status==1){
+$.toast("评论成功", "text");
+window.location.href="{php echo $this->createMobileUrl('quan')}";
+}else{
+$.toast("未评论成功", "text");
+window.location.href=window.location.href;
+}
+}
+})
+},
+onCancel: function() {
+console.log("取消了");
+},
+});
+});
+}
+</script>
+<a href="{php echo $this->createMobileUrl('quan', array('act' => 'form'))}"><div class="fabu_xinxi"><span>我要<br>发布</span></div></a>
+<link rel="stylesheet" type="text/css" href="http://cdn.staticfile.org/fancybox/2.1.5/jquery.fancybox.min.css" />
+<script type="text/javascript" src="http://cdn.staticfile.org/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+$('.fancybox').fancybox();
+$(".fancybox-effects-a").fancybox({
+helpers: {
+title : {
+type : 'outside'
+},
+overlay : {
+speedOut : 0
+}
+}
+});
+});
+</script>
+{template 'footer'}

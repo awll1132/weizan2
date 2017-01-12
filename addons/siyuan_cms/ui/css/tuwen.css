@@ -1,0 +1,20 @@
+/*.bottom-list h1{padding:0px 5px 0px 5px;font-weight:normal;font-size:20px;line-height:30px;}
+.bottom-list li{padding:10px;color:#666;}
+.bottom-list li .fa{color:#999;margin-right:5px;width:20px;text-align:center;}*/
+.zhibo_tab{height:44px;line-height:44px;background:#333;padding-right:15%;width:85%;float:left;}
+.zhibo_tab ul{display:-webkit-box;}
+.zhibo_tab li{-moz-box-flex:1;-webkit-box-flex:1;box-flex:1;display:block;text-align:center;}
+.zhibo_tab a{color:#DDD;display:inline-block;font-size:14px;}
+.zhibo_tab a em{display: none;top:5px;right:-22px;height:16px;line-height:16px;border-radius:3px;background:#ec6c53;color:#fff;font-size:11px;padding:0 3px;font-weight:normal;}
+.zhibo_tab li.cur a{color:#ec6c53;height:39px;border-bottom:2px solid #ec6c53;font-weight:bold;}
+.zhibo_tab .guanzhu{position:relative; top:-45px; left: 53px;float:right;width:58px;height:38px;padding:3px 0;text-align:center;background:#ec6c53;color:#fff;font-size:11px;}
+.zhibo_tab .guanzhu p{height:16px;line-height:20px;font-size:12px;}
+.zhibo_tab .guanzhu p.gznum{font-size:12px;}
+.zhibo_body{margin:0 auto;width:100%;}
+.body_1, .body_2 , .body_3{
+    display: none;
+}
+.body_1.cur, .body_2.cur, .body_3.cur {
+    display: block;
+}
+.body_1,.body_2{padding:5px;}

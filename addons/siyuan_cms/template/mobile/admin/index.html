@@ -1,0 +1,56 @@
+{template 'admin/head'}
+<div class="weui_msg">
+      <div class="weui_text_area">
+        <h2 class="weui_msg_title f-green">{$set['name']}管理后台</h2>
+		<p class="weui_msg_desc">Beta 1.0.2</p>
+      </div>
+	  <div class="clear" style="width:100%;height:20px;"></div>
+<div class="wrapper cinfo_menu">
+<ul>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_news')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>新闻管理</p>
+</a>
+</li>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_vod')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>视频管理</p>
+</a>
+</li>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_weixin')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>微信头条</p>
+</a>
+</li>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_pk')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>辩论话题</p>
+</a>
+</li>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_shop')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>商家黄页</p>
+</a>
+</li>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_huodong')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>商家活动</p>
+</a>
+</li>
+<li class="item">
+<a class='f-black' href="{php echo $this->createMobileUrl('admin_tel')}">
+<span style="background-image:url({$_W['siteroot']}addons/siyuan_cms/weui/img/admin/index-1.png);"></span>
+<p>便民电话</p>
+</a>
+</li>
+</ul>
+</div>
+{template 'admin/nav'}
+</body>
+</html>

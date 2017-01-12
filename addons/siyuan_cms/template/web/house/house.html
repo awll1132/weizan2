@@ -1,0 +1,140 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+<li {if $op == 'display'}class="active"{/if}><a href="{php echo url('site/entry/house',array('op'=>'display','m'=>'siyuan_cms'))}">楼盘列表</a></li>
+<li {if $op == 'post'}class="active"{/if}><a href="{php echo url('site/entry/house',array('op'=>'post','m'=>'siyuan_cms'))}">添加楼盘</a></li>
+</ul>
+<style>
+.table td span{display:inline-block;margin-top:4px;}
+.table td input{margin-bottom:0;}
+</style>
+{if $op == 'display'}
+<form action="" method="post" onsubmit="return formcheck(this)">
+<form action="" method="post">
+<div class="panel panel-default">
+<div class="table-responsive panel-body">
+<table class="table">
+<thead>
+<tr>
+<th style="width:80px">排序</th>
+<th style="width:380px">名称</th>
+<th style="width:80px">封面图</th>
+<th style="width:80px">状态</th>
+<th style="width:120px">均价</th>
+<th style="width:150px">楼盘电话</th>
+<th>经纬度</th>
+<th>推荐</th>
+<th>楼盘链接</th>
+<th>楼盘资讯</th>
+<th>置业顾问</th>
+<th style="width:150px;">操作</th>
+</tr>
+</thead>
+<tbody>
+{loop $list $item}
+<tr>
+<td><input type="text" class="form-control" name="displayorder[{$item['id']}]" value="{$item['displayorder']}"></td>
+<td><a href="{php echo url('site/entry/house',array('op'=>'post', 'id' => $item['id'],'m'=>'siyuan_cms'))}">{$item['name']}</a></td>
+<td>{if $item['thumb']}<span class="label label-info">已上传</span>{else}<span class="label label-default">未上传</span>{/if}</td>
+<td>{if $item['zt']}<span class="label label-info">{$item['zt']}</span>{else}<span class="label label-default">未设置</span>{/if}</td>
+<td>{if $item['price'] > 0}<span class="label label-info">{$item['price']} 元/㎡</span>{else}<span class="label label-danger">一房一价</span>{/if}</td>
+<td>{if $item['phone']}<span class="label label-info">{$item['phone']}</span>{else}<span class="label label-default">未设置</span>{/if}</td>
+<td>{if $item['longitude']}<span class="label label-success">已设置</span>{else}<span class="label label-default">未设置</span>{/if}</td>
+<td>{if $item['tj'] == '1'}<a href="{php echo url('site/entry/house',array('op'=>'tj', 'id' => $item['id'],'status' => 0,'m'=>'siyuan_cms'))}"><span class="label label-success">取消推荐</span></a>{else}<a href="{php echo url('site/entry/house',array('op'=>'tj', 'id' => $item['id'],'status' => 1,'m'=>'siyuan_cms'))}"><span class="label label-default">设置为推荐</span></a>{/if}</td>
+<td>
+<a target="_blank" href="{$_W['siteroot']}app/{php echo $this->createMobileUrl('house', array('id' => $item['id'],'act' => news, 'weid' => $_W['weid']))}"><button type="button" class="btn btn-primary"><i class="fa fa-paper-plane"></i>访问</button></a>
+</td>
+<td><a target="_blank" href="{php echo url('site/entry/house_news',array('op'=>'display', 'loupanid' => $item['id'],'m'=>'siyuan_cms'))}"><button type="button" class="btn btn-info"><i class="fa fa-plus"></i>管理动态</button></a></td>
+<td><a target="_blank" href="{php echo url('site/entry/house_guwen',array('op'=>'display', 'hid' => $item['id'],'m'=>'siyuan_cms'))}"><button type="button" class="btn btn-success"><i class="fa fa-group"></i>管理顾问</button></a></td>
+<td>
+<a href="{php echo url('site/entry/house',array('op'=>'post', 'id' => $item['id'],'m'=>'siyuan_cms'))}" title="编辑" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+<a onclick="return confirm('此操作不可恢复，确认吗？'); return false;" href="{php echo url('site/entry/house',array('op'=>'delete', 'id' => $item['id'],'m'=>'siyuan_cms'))}" title="删除" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-times"></i></a>
+</td>
+</tr>
+{/loop} </tbody>
+</table>
+<br>
+<input name="submit" type="submit" class="btn btn-success" value="更新排序">
+<input type="hidden" name="token" value="{$_W['token']}" />
+</form>
+</div>
+</div>
+{$pager}
+<script type="text/javascript">
+require(['bootstrap'],function($){
+$('.btn').hover(function(){
+$(this).tooltip('show');
+},function(){
+$(this).tooltip('hide');
+});
+});
+</script>
+{elseif $op == 'post'}
+<form class="form-horizontal form" action="" method="post" enctype="multipart/form-data" id="form1">
+<input type="hidden" name="_id" value="{$item[id]}">
+<div class="panel panel-default">
+<div class="panel-heading">
+{if empty($item['id'])}
+添加楼盘
+{else}
+编辑楼盘
+{/if}
+</div>
+<div class="panel-body">
+<ul class="nav nav-tabs" id="house_tabs_wrap">
+<li class="active">
+<a href="javascript:;" rel="base_wrap">基本信息</a>
+</li>
+<li class="">
+<a href="javascript:;" rel="params_wrap">自定义属性</a>
+</li>
+</ul>
+<div class="tab-content">
+<div class="tab-pane active" id="base_wrap">
+{template 'web/house/house-base'}
+</div>
+<div class="tab-pane" id="params_wrap">
+{template 'web/house/house-params'}
+</div>
+</div>
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<input name="submit" type="submit" value="提交" class="btn btn-primary col-lg-1">
+<input type="hidden" name="token" value="{$_W['token']}" />
+</div>
+</div>
+</form>
+<script>
+require(['jquery', 'util'], function($, u){
+//绑定tab切换
+$('#house_tabs_wrap li a').bind('click', function(){
+var id = $(this).attr('rel');
+$('#house_tabs_wrap li').each(function(){
+$(this).removeClass('active');
+});
+$('.tab-pane').each(function(){
+$(this).hide();
+});
+$('#'+id).show();
+$(this).parent().addClass('active');
+});
+});
+</script>
+<script type="text/javascript">
+require(['jquery', 'util'], function($, u){
+$('#form1').submit(function(){
+if($("input[name=name]").val().length <= 0) {
+u.message('没有填写楼盘名称', '', 'error');
+return false;
+}
+if ($("select[id=fenlei_parent]").val() == "0"){
+u.message('请选择分类', '', 'error');
+return false;
+}
+return true;
+});
+});
+</script>
+{/if}
+{template 'common/footer'}

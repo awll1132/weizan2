@@ -1,0 +1,54 @@
+{template 'header'}
+<div class="siyuan_top weui-row">
+<div class="weui-col-15"><a href="javascript:history.go(-1)"><i class="fa fa-angle-left f-32"></i></a></div>
+<div class="weui-col-70">{$set['name']}</div>
+<div class="weui-col-15"><a class="cd-bouncy-nav-trigger" href="#0"><img src="{$_W['siteroot']}addons/siyuan_cms/ui/img/daohang.png"></a></div>
+</div>
+<div class="cd-bouncy-nav-modal">
+<nav>
+<ul class="cd-bouncy-nav">
+{loop $menu $caidan}
+<li><a href="{$caidan['url']}"><img src="{$_W['attachurl']}{$caidan['thumb']}"><p>{$caidan['title']}</p></a></li>
+{/loop}
+</ul>
+</nav>
+<a href="#0" class="cd-close fa fa-power-off">返回</a>
+</div>
+<div style="height:40px;"></div>
+<style type="text/css">
+#info {
+    margin-top: 10px;
+}
+#container{
+	min-width:100%;
+	min-height:400px;
+}
+</style>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+var init = function() {
+    var center = new qq.maps.LatLng(39.916527,116.397128);
+    var map = new qq.maps.Map(document.getElementById('container'),{
+        center: center,
+        zoom: 13
+    });
+    var infoWin = new qq.maps.InfoWindow({
+        map: map
+    });
+    infoWin.open();
+    //tips  自定义内容
+    infoWin.setContent('<div style="width:200px;padding-top:10px;">'+
+        '<img style="float:left;" src="img/infowindow-img.jpg"/> '+
+        '我是个可爱的小孩子</div>');
+    infoWin.setPosition(center);
+}
+</script>
+<title>根据多关键字本地搜索</title>
+</head>
+<body onload="init()">
+    <div id="container"></div>
+    <div id="info">
+    <p>调用open方法打开一个信息窗，内容为一张图片和一段文字。</p>
+</div>
+</body>
+{template 'footer1'}

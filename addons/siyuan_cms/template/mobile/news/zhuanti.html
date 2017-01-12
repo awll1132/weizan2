@@ -1,0 +1,52 @@
+{template 'head'}
+{if !$news['video']}
+<div class="zt_top"><img src="{$_W['attachurl']}{$news['thumb']}"></div>
+{else}
+<div class="zt_video">{$news['video']}</div>
+{/if}
+<div class="zt_title"><span class="cot-qianzhi" style="background: {$set['color']}">专题</span>{$news['title']}</div>
+<div class="zt_shuoming">{$news['content']}
+<div class="opt-zan xuxian"> 
+<ul> 
+<li class="ico-zan"><a href="{php echo $this->createMobileUrl('news', array('act' => 'ztzan', 'id' => $news['id']))}"><i></i>赞({$news['zan']})</a></li> 
+<li class="ico-cai"><a href="{php echo $this->createMobileUrl('news', array('act' => 'ztcai', 'id' => $news['id']))}"><i></i>踩({$news['cai']})</a></li> 
+<li class="ico-favorite" id="shoucang_xia"><a href="#comment"><i></i>人气({$news['yuedu']})</a></li> 
+<li class="ico-share"><a href="javascript:;" onclick="document.getElementById('mcover').style.display='block';"><i></i> 分享</a></li> 
+</ul> 
+<div class="clear"> </div> 
+</div>
+<div id="mcover" onclick="document.getElementById('mcover').style.display='';" style="display: none;">
+<img src="{$_W['siteroot']}addons/siyuan_cms/img/fenxiang.jpg">
+</div>
+</div>
+<div class="weui_panel weui_panel_access margin1">
+<div class="weui_panel_bd">
+{loop $list $v}
+{if !empty($v['title']) and !empty($v['url'])}
+<a href="{php echo $v['url']}" class='weui_media_box weui_media_appmsg'><div class='weui_media_hd'><img class='weui_media_appmsg_thumb' src="{$_W['attachurl']}{$v['thumb']}"></div><div class='weui_media_bd'><h4 class='weui_media_titlett'>{$v['title']}</h4><p class='weui_media_desctt'><span class='right time'>{php echo date('m-d H:i', $v['time'])}</span></p></div></a>
+{/if}
+{/loop}
+</div>
+</div>
+{php echo register_jssdk(false);}
+<script type="text/javascript">
+wx.ready(function () {
+sharedata = {
+title: "【专题】{$news['title']}",
+desc: "【专题】{$news['title']}",
+link: window.location.href,
+imgUrl: "{$_W['attachurl']}{$news['fenxiang']}",
+success: function (res) {},
+cancel: function(){
+}
+};
+wx.onMenuShareAppMessage(sharedata);
+wx.onMenuShareTimeline(sharedata);
+wx.onMenuShareQQ(sharedata);
+wx.onMenuShareWeibo(sharedata);
+wx.onMenuShareQZone(sharedata);
+});
+</script>
+{template 'end'}
+</body>
+</html>

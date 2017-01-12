@@ -1,0 +1,74 @@
+<div class="global-channel">
+<div class="global-channel-c clear">
+{loop $nav $item}
+{if $do == $item['bs']}
+<a class="on" href="{$item['url_2']}">
+<em class="icon-bar-on" style="background-image:url({$_W['attachurl']}{$item['icon_2']});background-size:100% 100%;"></em>
+<span>{$item['title_2']}</span>
+</a>
+{else}
+<a href="{$item['url_1']}">
+<em class="icon-bar" style="background-image:url({$_W['attachurl']}{$item['icon_1']});background-size:100% 100%;"></em>
+<span>{$item['title']}</span>
+</a>
+{/if}
+{/loop}
+</div>
+</div>
+<script>
+var elem = document.getElementById('mySwipe');
+window.mySwipe = Swipe(elem, {
+auto: 3000,
+continuous: true,
+callback: function(pos) {
+var i = bullets.length;
+pos = pos % i;
+while (i--) {
+bullets[i].className = ' ';
+}
+bullets[pos].className = 'on';
+}
+});
+var bullets = document.getElementById('position').getElementsByTagName('li');
+</script>
+<script>
+jQuery(document).ready(function($) {
+    var is_bouncy_nav_animating = false;
+    //弹出菜单
+    $('.cd-bouncy-nav-trigger').on('click', function() {
+        triggerBouncyNav(true);
+    });
+    //关闭菜单
+    $('.cd-bouncy-nav-modal .cd-close').on('click', function() {
+        triggerBouncyNav(false);
+    });
+    $('.cd-bouncy-nav-modal').on('click', function(event) {
+        if ($(event.target).is('.cd-bouncy-nav-modal')) {
+            triggerBouncyNav(false);
+        }
+    });
+    function triggerBouncyNav($bool) {
+        //点击若没有动画
+        if (!is_bouncy_nav_animating) {
+            is_bouncy_nav_animating = true;
+            //切换菜单动画
+            $('.cd-bouncy-nav-modal').toggleClass('fade-in', $bool).toggleClass('fade-out', !$bool).find('li:last-child').one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function() {
+                $('.cd-bouncy-nav-modal').toggleClass('is-visible', $bool);
+                if (!$bool)
+                    $('.cd-bouncy-nav-modal').removeClass('fade-out');
+                is_bouncy_nav_animating = false;
+            });
+            //判断css 动画是否开启.. 
+            if ($('.cd-bouncy-nav-trigger').parents('.no-csstransitions').length > 0) {
+                $('.cd-bouncy-nav-modal').toggleClass('is-visible', $bool);
+                is_bouncy_nav_animating = false;
+            }
+        }
+    }
+});
+$(document).on("click", "#kaifa", function() {
+        $.toast("即将上线", "text");
+      })  
+</script>
+</body>
+</html>

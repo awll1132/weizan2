@@ -1,0 +1,66 @@
+{template 'common/header'}
+<div class="main"> 
+<div class="form-horizontal form">
+		<div class="panel panel-default">
+			<div class="panel-heading">系统授权</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">域名</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" name="url" id="url" class="form-control" value="{$host_url}" readonly/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">IP地址</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" name="ip" id="ip" class="form-control" value="{$host_ip}" readonly/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">模块名称</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="text" class="form-control" value="智慧CMS" readonly/>
+						<input type="hidden" name="bs" id="bs" class="form-control" value="siyuan_cms" readonly/>
+					</div>
+				</div>
+				<div class="form-group">
+                    <label class="col-sm-2 control-label">授权状态</label>
+                    <div class="col-sm-8 col-xs-12">
+                        <div class='form-control-static'>
+                           	{if $status == '1'}
+                            <span class='label label-primary'>已授权</span>
+                            {else}
+                            <span class='label label-danger'>未授权</span>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+				{if $status == '0'}
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+						<a class="btn btn-primary" href="javascript:;" class="weui_btn weui_btn_primary" style="width:50%;margin-top:10px;" id="save_btn" onclick="doSave(this)">提交授权</a>
+					</div>
+				</div>{/if}
+			</div>
+		</div>
+</div>
+<script type="text/javascript">
+	function doSave() {
+			$.ajax({
+			type:'post',
+			dataType:'json',
+			url:"http://www.012wz.com/app/index.php?i=1&c=entry&do=input&m=siyuan_admin",
+			data:{ip:$("#ip").val(),url:$("#url").val(),bs:$("#bs").val()},
+			success:function(msg){
+				if(msg.status==1){
+				window.location.href="{php echo $this->createWebUrl('reg')}";
+				}else if(msg.status==2){
+				util.message('提交成功，请耐心等待授权通过审核！');
+				}else{
+				util.message('请不要重复提交！');
+				}
+				}
+			})
+		}
+</script>
+{template 'common/footer'}

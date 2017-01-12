@@ -1,0 +1,116 @@
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">楼盘名称</label>
+<div class="col-sm-8 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="name" value="{$item['name']}">
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">楼盘状态</label>
+<div class="col-sm-2 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="zt" value="{$item['zt']}">
+<span class="help-block">例：在售/售完/待售/售罄 不要超过2个字</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">封面图片</label>
+<div class="col-sm-8 col-xs-12">
+{php echo tpl_form_field_image('thumb', $item['thumb'])}
+<span class="help-block">图片尺寸642*320</span>
+</div>
+</div>
+<style>
+.multi-img-details{width:100%;float:left;}
+.multi-img-details .multi-item {float:left;}
+ .multi-item img{width:128px;height:200px;}
+</style>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">幻灯片图片</label>
+<div class="col-sm-8 col-xs-12">
+{php echo tpl_form_field_multi_image('flash[]', $item['flash'])}
+<span class="help-block">图片尺寸：640像素 * 320像素，最多5张！</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">微楼书</label>
+<div class="col-sm-8 col-xs-12">
+{php echo tpl_form_field_multi_image('descimgs[]', $item['descimgs'])}
+<span class="help-block">图片尺寸：640像素 * 1008像素(简单的微场景效果)</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">户型图</label>
+<div class="col-sm-8 col-xs-12">
+{php echo tpl_form_field_multi_image('huxingimgs[]', $item['huxingimgs'])}
+<span class="help-block">图片尺寸：640像素 * 1008像素(简单的微场景效果)</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">均价</label>
+<div class="col-sm-8 col-xs-12">
+<div class="input-group">
+<input type="text" class="form-control" placeholder="" name="price" value="{$item['price']}">
+<span class="input-group-addon">元/㎡</span>
+
+</div><span class="help-block">填0为一房一价</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">广告语</label>
+<div class="col-sm-8 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="hotmsg" value="{$item['hotmsg']}">
+<span class="help-block">楼盘项目广告宣传语,显示在列表页和内页，建议字数不超过20字！</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">联系电话</label>
+<div class="col-sm-8 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="phone" value="{$item['phone']}">
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">分机</label>
+<div class="col-sm-8 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="fenji" value="{$item['fenji']}">
+<span class="help-block">可以用400电话转分机</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">楼盘地址</label>
+<div class="col-sm-8 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="address" value="{$item['address']}">
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">地址坐标</label>
+<div class="col-sm-8 col-xs-12">
+{php echo tpl_form_field_coordinate('geo', array('lng' => $item['longitude'], 'lat' => $item['latitude']))}
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">楼盘宣传视频</label>
+<div class="col-sm-8 col-xs-12">
+<textarea class="form-control" name="video" rows="6" placeholder="视频通用代码...">{$item['video']}</textarea><div class="help-block">复制优酷、腾讯等视频网站视频通用代码</font>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">楼盘说明</label>
+<div class="col-sm-8 col-xs-12">
+{php echo tpl_ueditor('description', $item['description']);}
+<span class="help-block">楼盘项目详细内容介绍</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">分享标题</label>
+<div class="col-sm-5 col-xs-12">
+<input type="text" class="form-control" placeholder="" name="biaoti" value="{$item['biaoti']}">
+<span class="help-block">例如：XX花园-广告语</span>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label">分享图标</label>
+<div class="col-sm-5 col-xs-12">
+{php echo tpl_form_field_image('fenxiang', $item['fenxiang'])}
+<span class="help-block">1:1大小，建议用楼盘LOGO</span>
+</div>
+</div>

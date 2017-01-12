@@ -1,0 +1,38 @@
+{template 'common/header'}
+<div class="main"> 
+<form action="" method="post" class="form-horizontal form"> 
+<div class="panel panel-default">
+<div class="panel-heading">网站API设置(后期增加各大平台API服务)</div> 
+<div class="panel-body">
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">百度API</label> 
+<div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="baidu_key" value="{$set['baidu_key']}" />
+<span class="help-block"><a target="_blank" href="http://apistore.baidu.com" style="color:#ec6c53">点击这里申请</a> 登陆后点击顶部个人中心复制apikey（该apikey可以调用百度平台所有服务）</span> 
+</div> 
+</div>
+<div class="panel-heading" style="border-bottom: 1px dotted #DDD;margin-bottom:20px;">首页天气</div>
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">城市名称</label> 
+<div class="col-sm-6 col-md-2 col-xs-12"> 
+<input type="text" class="form-control" name="city" value="{$set['city']}" /><span class="help-block">用于天气预报及页面显示，例如重庆就填重庆，不要填重庆市！</span> 
+</div> 
+</div>
+<div class="panel-heading" style="border-bottom: 1px dotted #DDD;margin-bottom:20px;">房产频道</div>
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">Place API</label> 
+<div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="place_key" value="{$set['place_key']}" />
+<span class="help-block"><a target="_blank" href="http://lbsyun.baidu.com/apiconsole/key?application=key" style="color:#ec6c53">点击这里申请</a> 登陆后创建应用，应用名称填你的网站，应用类型选择【服务端】，IP设置：0.0.0.0/0，然后复制分配给你的【访问应用（AK）】</span> 
+</div> 
+</div>
+ <div class="form-group"> 
+<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label> 
+<div class="col-sm-9 col-xs-12"> 
+ <p> <input name="submit" type="submit" value="提交" class="btn btn-primary span3" /> <input type="hidden" name="token" value="{$_W['token']}" /> </p>
+</div> 
+ </div> 
+</div> 
+</form>
+</div>
+{template 'common/footer'}

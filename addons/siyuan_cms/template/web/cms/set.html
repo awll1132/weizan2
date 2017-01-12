@@ -1,0 +1,108 @@
+{template 'common/header'}
+<div class="main"> 
+<form action="" method="post" class="form-horizontal form"> 
+<div class="panel panel-default"> 
+<div class="panel-heading">网站基本设置</div> 
+<div class="panel-body">
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">城市名称</label> 
+<div class="col-sm-6 col-md-2 col-xs-12"> 
+<input type="text" class="form-control" name="city" value="{$set['city']}" />
+
+</div> 
+</div>
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">网站名称</label> 
+<div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="name" value="{$set['name']}" /><span class="help-block">全站通用，显示在页面顶部和底部</span> 
+</div> 
+</div>
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">网站广告词</label> 
+<div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="ad" value="{$set['ad']}" /><span class="help-block">全站通用，不能超过10个中文，主要用于分享和底部引导关注！</span> 
+</div> 
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-3 col-md-2 control-label">全站主题色</label>
+<div class="col-sm-5 col-xs-12">
+ {php echo tpl_form_field_color('color', $set['color'])}
+<div class="help-block">主要用于全站顶部、底部、文字及按钮颜色，推荐颜色代码：#fb9032</div>
+</div>
+</div>
+<div class="form-group">
+<label class="col-xs-12 col-sm-3 col-md-2 control-label">网站LOGO</label>
+<div class="col-sm-5 col-xs-12">
+{php echo tpl_form_field_image('logo', $set['logo'])}
+<span class="help-block">大小200*200 格式为jpg </span>
+</div>
+</div> 
+<div class="form-group">
+<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信公众号二维码</label>
+<div class="col-sm-5 col-xs-12">
+{php echo tpl_form_field_image('qr', $set['qr'])}
+<span class="help-block">大小200*200 格式为jpg，登陆公众号后台下载第一个即可！ </span>
+</div>
+</div>
+<div class="form-group"> 
+ <label class="col-xs-12 col-sm-2 col-md-2 control-label">网站联系电话</label> 
+ <div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="tel" value="{$set['tel']}" /><span class="help-block">推荐格式：01088888888</span> 
+ </div> 
+</div>
+<div class="form-group"> 
+ <label class="col-xs-12 col-sm-2 col-md-2 control-label">客服微信号</label> 
+ <div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="weixin" value="{$set['weixin']}" /> 
+ </div> 
+</div>
+<div class="form-group"> 
+<label class="col-xs-12 col-sm-2 col-md-2 control-label">Video++ APPKey:</label> 
+<div class="col-sm-6 col-md-8 col-xs-12"> 
+<input type="text" class="form-control" name="video" value="{$set['video']}" />
+<span class="help-block"><a style="color:red;" href="http://videojj.com" target="_blank">点击注册Video++</a>登录Video++后台，终端管理——添加终端(选择WEB和设置好域名)——复制APPKey，最后有一个中划线“-”一起复制。</span>
+</div> 
+</div>
+<div class="panel-heading">
+七牛配置信息
+ </div> 
+ <div class="panel-body"> 
+<div class="form-group"> 
+ <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"><span style="color:red">*</span>密钥AK</label> 
+ <div class="col-sm-8 col-xs-12"> 
+<input type="text" class="form-control" placeholder="" name="qnak" value="{$set['qnak']}" /> 
+<span class="help-block">AccessKey <a href="https://portal.qiniu.com/setting/key" target="_blank">进入七牛查看</a></span> 
+ </div> 
+</div> 
+<div class="form-group"> 
+ <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"><span style="color:red">*</span>密钥SK</label> 
+ <div class="col-sm-8 col-xs-12"> 
+<input type="text" class="form-control" name="qnsk" value="{$set['qnsk']}" /> 
+<span class="help-block">SecretKey</span> 
+ </div> 
+</div> 
+<div class="form-group"> 
+ <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"><span style="color:red">*</span>空间名称</label> 
+ <div class="col-sm-8 col-xs-12"> 
+<input type="text" class="form-control" placeholder="" name="qnscode" value="{$set['qnscode']}" /> 
+<span class="help-block">七牛空间名称</span> 
+ </div> 
+</div> 
+<div class="form-group"> 
+ <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label"><span style="color:red">*</span>7牛域名</label> 
+ <div class="col-sm-8 col-xs-12"> 
+<input type="text" class="form-control" placeholder="" name="qnym" value="{$set['qnym']}" /> 
+<span class="help-block">七牛的访问域名，不用加http://</span> 
+ </div> 
+</div> 
+ </div>
+ <div class="form-group"> 
+<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label> 
+<div class="col-sm-9 col-xs-12"> 
+ <p> <input name="submit" type="submit" value="提交" class="btn btn-primary span3" /> <input type="hidden" name="token" value="{$_W['token']}" /> </p>
+</div> 
+ </div> 
+</div> 
+</form>
+</div>
+{template 'common/footer'}
