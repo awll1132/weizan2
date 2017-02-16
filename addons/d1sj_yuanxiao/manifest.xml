@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://bbs.bcb5.com" versionCode="0.8">
+	<application setting="true">
+		<name><![CDATA[元宵猜灯谜]]></name>
+		<identifie><![CDATA[d1sj_yuanxiao]]></identifie>
+		<version><![CDATA[0.1]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[元宵猜灯谜]]></ability>
+		<description><![CDATA[元宵猜灯谜]]></description>
+		<author><![CDATA[不错吧]]></author>
+		<url><![CDATA[http://bbs.bcb5.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+
+		<menu >
+			<entry title="灯谜列表" do="dm" state="" direct="false" />
+			<entry title="活动列表" do="hd" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao`;
+CREATE TABLE `ims_d1sj_yuanxiao` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `rid` int(10) NOT NULL,
+  `uniacid` int(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `cover` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `starttime` int(10) NOT NULL,
+  `endtime` int(10) NOT NULL,
+  `dengmi` int(10) NOT NULL,
+  `joincredit` varchar(20) NOT NULL,
+  `helpcredit` varchar(20) NOT NULL,
+  `followjoin` tinyint(1) NOT NULL DEFAULT '0',
+  `followhelp` tinyint(1) NOT NULL,
+  `followurl` varchar(255) NOT NULL,
+  `sharetitle` varchar(255) NOT NULL,
+  `shareimage` varchar(255) NOT NULL,
+  `sharedesc` varchar(255) NOT NULL,
+  `sharelink` varchar(255) NOT NULL,
+  `join` int(10) NOT NULL DEFAULT '0',
+  `help` int(10) NOT NULL DEFAULT '0',
+  `createtime` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_correct`;
+CREATE TABLE `ims_d1sj_yuanxiao_correct` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ti_id` int(11) DEFAULT NULL COMMENT '正确答题ID',
+  `openid` varchar(100) DEFAULT NULL COMMENT '用户openid',
+  `eid` int(11) DEFAULT NULL,
+  `time` varchar(32) DEFAULT NULL,
+  `order_no` varchar(100) DEFAULT NULL COMMENT '订单号',
+  `status` int(11) DEFAULT '1' COMMENT '答题状态1是未发红包2是已发放',
+  `only` varchar(32) DEFAULT NULL COMMENT '分享的唯一标识',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_dekaron`;
+CREATE TABLE `ims_d1sj_yuanxiao_dekaron` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `share_openid` varchar(100) DEFAULT NULL COMMENT '分享人的openid',
+  `too_openid` varchar(100) DEFAULT NULL COMMENT '接受PX人的openid',
+  `eid` int(11) DEFAULT NULL,
+  `create_time` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_dm`;
+CREATE TABLE `ims_d1sj_yuanxiao_dm` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `question` varchar(100) NOT NULL,
+  `answer` varchar(100) NOT NULL,
+  `correct` varchar(20) NOT NULL,
+  `createtime` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_member`;
+CREATE TABLE `ims_d1sj_yuanxiao_member` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `openid` varchar(100) DEFAULT NULL,
+  `nickname` varchar(100) DEFAULT NULL,
+  `headimgurl` varchar(200) DEFAULT NULL,
+  `frequency` varchar(32) DEFAULT NULL COMMENT '用户抽奖数',
+  `balance` decimal(10,2) DEFAULT NULL COMMENT '用户余额',
+  `eid` int(11) DEFAULT NULL,
+  `city` varchar(32) DEFAULT NULL,
+  `sex` int(11) DEFAULT NULL,
+  `dati_shu` varchar(32) DEFAULT NULL COMMENT '答题次数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_px`;
+CREATE TABLE `ims_d1sj_yuanxiao_px` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `pks_openid` varchar(200) DEFAULT NULL,
+  `too_openid` varchar(200) DEFAULT NULL,
+  `eid` int(111) DEFAULT NULL,
+  `time` varchar(32) DEFAULT NULL,
+  `only` varchar(32) DEFAULT NULL COMMENT '分享的唯一标识',
+  `status` int(11) DEFAULT '1' COMMENT '1是未答题2是一答题',
+  `pks_status` tinyint(1) DEFAULT '1' COMMENT '1分享者没答完2已经打完',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_record`;
+CREATE TABLE `ims_d1sj_yuanxiao_record` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `yid` int(10) NOT NULL,
+  `openid` varchar(64) NOT NULL,
+  `nickname` varchar(255) NOT NULL,
+  `avatar` varchar(255) NOT NULL,
+  `number` int(10) NOT NULL,
+  `share` tinyint(1) NOT NULL DEFAULT '0',
+  `ip` varchar(20) NOT NULL,
+  `createtime` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_zhongjiang`;
+CREATE TABLE `ims_d1sj_yuanxiao_zhongjiang` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `jine` decimal(32,2) DEFAULT '0.00' COMMENT '中奖金额',
+  `time` varchar(32) DEFAULT NULL COMMENT '中奖时间',
+  `openid` varchar(100) DEFAULT NULL COMMENT '中奖人openid',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+		]]></install>
+	<uninstall><![CDATA[
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_correct`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_dekaron`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_dm`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_member`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_px`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_record`;
+DROP TABLE IF EXISTS  `ims_d1sj_yuanxiao_zhongjiang`;
+		]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../addons/{php echo $this->module['name']}/template/mobile/default/css/index.css"/>
+    <script src="../addons/{php echo $this->module['name']}/template/mobile/default/js/rem.js"></script>
+    <script src="../addons/{php echo $this->module['name']}/template/mobile/default/js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function(){
+            $(".rule").click(function(){
+                $(".rule_mask").show();
+            });
+            $(".know").click(function(){
+                $(".rule_mask").hide();
+            });
+        });
+    </script>
+</head>
+<body style="font-size: 0.28rem;font-family: '黑体';">
+<div class="bg">
+    <div class="rule"></div>
+    <div class="btn">
+        <a href="{php echo $this->createMobileUrl('dati')}" class="me"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/me.png" alt=""/></a>
+        <a href="javascript:void(0)" class="pk"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/pk.png" alt=""/></a>
+    </div>
+</div>
+<div class="rule_mask" style="display:none;">
+    <b class="option"></b>
+    <div class="mask_detail">
+        <p>活动时间：2月10日（正月十四）-2月12日（正月十六）<br/><br/>
+            参与规则： <br/>
+            1、可自己猜题。<br/>
+            2、可与好友PK。<br/>
+            3、与好友PK胜利，可抽取现金红包。<br/>
+            4、每个用户每天最多与好友PK10次。<br/>
+        </p>
+        <a href="#" class="know"></a>
+    </div>
+</div>
+<!--分享给朋友弹窗-->
+<div class="share_mask" style="display:none;">
+    <b class="option"></b>
+    <div class="share"></div>
+</div>
+</body>
+</html>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+
+$('.pk').click(function(){
+    $('.share_mask').show();
+});
+jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+  wx.config({
+    debug: false,
+    appId: jssdkconfig.appId,
+    timestamp: jssdkconfig.timestamp,
+    nonceStr: jssdkconfig.nonceStr,
+    signature: jssdkconfig.signature,
+    jsApiList: [
+      'onMenuShareAppMessage',//分享给朋友
+      'onMenuShareTimeline',//分享到朋友圈
+      'onMenuShareQQ',//分享个qq好友
+      //'hideOptionMenu',
+    ]
+  });
+  //需要页面加载时就调用接口，卸载ready里，否则不写在ready里
+  wx.ready(function () {
+    wx.onMenuShareAppMessage({
+      title: "{$sharedata['title']} ",
+      desc: "{$sharedata['desc']}",
+      link: "{$sharedata['link']}",
+      imgUrl: "{$sharedata['imgUrl']}",
+      success: function (res) {
+        var url="{php echo $this->createMobileUrl('index')}";
+        var share='share';
+        var only="{$only}";
+        $.ajax({
+                url:url,
+                data:{share:share,only:only},
+                type:'post',
+                dataType:'json',
+                success:function(res){
+
+                  if(res.infos==1){
+  
+                          $('.share_mask').hide();
+                          
+                        window.location.href="{php echo $this->createMobileUrl('px_dati')}"+"&only="+res.only;
+alert('分享成功');
+                    
+                  }else{
+                    alert(res.msg);
+                     window.location.href="{php echo $this->createMobileUrl('index',array('id'=>4))}";
+                  }
+                }
+            });
+        
+        
+      },
+    });
+    wx.onMenuShareTimeline({
+      title: "{$sharedata['title']} ",
+      link: "{$sharedata['link']}",
+      imgUrl: "{$sharedata['imgUrl']}",
+      success: function (res) {  
+        var url="{php echo $this->createMobileUrl('dati')}";
+        var share='share';
+        var only="{$only}";
+
+
+        $.ajax({
+                url:url,
+                type:'post',
+                data:{share:share,only:only},
+                dataType:'json',
+                success:function(res){
+                    if(res.infos==1){
+                        $('.share_mask').hide();alert('分享成功');
+                        window.location.href="{php echo $this->createMobileUrl('px_dati')}"+"&only="+res.only;
+                        
+                    }else{
+                      alert(res.msg);
+                       window.location.href="{php echo $this->createMobileUrl('index',array('id'=>4))}";
+                    }
+                }
+            });
+        
+      },
+    });
+    wx.onMenuShareQQ({
+      title: "{$sharedata['title']} ",
+      desc: "{$sharedata['desc']} ",
+      link: "{$sharedata['link']}",
+      imgUrl: "{$sharedata['imgUrl']}",
+      success: function (res) {;
+        var url="{php echo $this->createMobileUrl('share')}";
+        var only="{$only}";
+        $.ajax({
+                url:url,
+                type:'post',
+                data:{share:share,only:only},
+                dataType:'json',
+                success:function(res){
+                    if(res.infos==1){
+                        $('.share_mask').hide();
+                        alert('分享成功');
+                         window.location.href="{php echo $this->createMobileUrl('px_dati')}"+"&only="+res.only;
+
+                    }else{
+                      alert(res.msg);
+                       window.location.href="{php echo $this->createMobileUrl('index',array('id'=>4))}";
+                    }
+                    
+                }
+            });
+       
+      },
+    });
+  });
+</script>

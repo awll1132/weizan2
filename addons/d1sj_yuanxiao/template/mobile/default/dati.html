@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../addons/{php echo $this->module['name']}/template/mobile/default/css/index.css"/>
+    <script src="../addons/{php echo $this->module['name']}/template/mobile/default/js/rem.js"></script>
+    <script src="../addons/{php echo $this->module['name']}/template/mobile/default/js/jquery-1.11.3.min.js"></script>
+</head>
+<body style="font-size: 0.28rem;font-family: '黑体';">
+<div class="xia_ti">
+    {loop $ti_list $k $v}
+    <div class="top_bg">
+        <div class="score"></div>
+        <div style="color: transparent">1</div>
+        <div class="ti">
+            <?php  
+                $ti=$k+1;
+
+
+            ?>
+            <p class="title">第{$ti}题</p>
+            <span class="ti_detail">{$v['question']}</span>
+        </div>
+        <input type="hidden" name="ti_id" value="{$v['id']}"/>
+        <input type="hidden" name="correct" value="{$v['correct']}"/>
+        <input type="hidden" name="order_no" value="{$order_no}"/>
+        <input type="hidden" name="only" value="{$only}"/>
+    </div>
+    <div class="bottom_bg">
+        <h3 class="check">请选择正确的答案</h3>
+        <ul class="ti_list">
+            {loop $timu_list['answer'] $va}
+            <li class="da_an" arr="{$va['0']}"><span>A.{$va['0']}</span><b></b></li>
+            <li class="da_an" arr="{$va['1']}"><span>B.{$va['1']}</span><b></b></li>
+            <li class="da_an" arr="{$va['2']}"><span>C.{$va['2']}</span><b></b></li>
+
+            {/loop}
+        </ul>
+    </div>
+    {/loop}
+</div>
+<div class="ti_mask" style="display: none">
+    <b class="option"></b>
+    <div class="ti_show">
+        <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/mask_false.png" alt="" class="false_img"/>
+        <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/re_false.png" alt="" class="false_img1"/>
+        <a href="javascript:void(0)"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/re.png" alt="" class="aimg retry"/></a>
+        <a href="javascript:void(0)"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/next1.png" alt="" class="aimg next"/></a>
+    </div>
+</div>
+<div class="ti_mask1" style="display: none">
+    <b class="option"></b>
+    <div class="ti_show">
+        <p class="show_share"> 恭喜您一共猜对15道谜，<br/>
+            提醒好友来接受PK，<br/>
+            获胜的有几率获得红包奖励</p>
+        <a href="javascript:void(0)" ><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/finish.png" alt="" class="aimg wancheng"/></a>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var n=90;
+    var timer='';
+    timer=setInterval(function (){
+        if(n>0){
+             n--;
+            $('.score').html(n);
+            $('.da_an').unbind('click').click(function(){
+                var ti_id=$('input[name="ti_id"]').val();
+                var  da=$(this).attr('arr');
+                var correct=$('input[name="correct"]').val();
+                var order_no=$('input[name="order_no"]').val();
+                var only=$('input[name="only"]').val();
+
+                
+                if(da==correct){
+                            $(this).find("b").removeClass("false").addClass("true");
+                            var url="{php echo $this->createMobileUrl('dati')}";
+                            $.ajax({
+                                url:url,
+                                type:'post',
+                                data:{ti_id:ti_id,order_no:order_no,da:da,only:only},
+                                dataType:'json',
+                                success:function(res){              
+                                    if(res.shuju==1){
+                                      
+                                        $('.xia_ti').html(res.xia);
+                                       
+                        
+                                    }else if(res.shuju==2){
+                                        //alert('已经是最后一题了');
+                                        var ti='恭喜您一共猜对'+res.ti_shuju+'道题';
+                                        $('.show_share').html(ti);
+                                        $('.ti_mask').hide();
+
+                                        $('.ti_mask1').show();
+                                             $('.wancheng').unbind('click').click(function(){
+                                                var order_no=$('input[name="order_no"]').val();
+                                                var url="{php echo $this->createMobileUrl('wancheng',array('openid'=>$_W['openid']))}"+"&order_no="+order_no;
+                                                window.location.href=url;
+                                            
+                                              
+                                            });
+                                    }
+                                    
+                                }
+                            });
+                    }else{
+                            
+                        $(this).find("b").removeClass("true").addClass("false");
+
+                        $('.ti_mask').show();
+                        $('.next').unbind('click').click(function(){
+                            var url="{php echo $this->createMobileUrl('dati')}";
+                            $.ajax({
+                                    url:url,
+                                    type:'post',
+                                    data:{ti_id:ti_id,order_no:order_no,da:da,only:only},
+                                    dataType:'json',
+                                    success:function(res){
+                                        if(res.shuju==1){
+                                            $('.ti_mask').hide();
+                                            $('.xia_ti').html(res.xia);
+                            
+                                        }else if(res.shuju==2){
+                                            $('.ti_mask').hide();
+                                            $('.ti_mask1').show();
+                                           var ti='恭喜您一共猜对'+res.ti_shuju+'道题';
+                                            $('.show_share').html(ti);
+                                            $('.wancheng').unbind('click').click(function(){
+                                                var order_no=$('input[name="order_no"]').val();
+                                                var url="{php echo $this->createMobileUrl('wancheng',array('openid'=>$_W['openid']))}"+"&order_no="+order_no;
+                                                window.location.href=url;
+                                            
+                                              
+                                            });
+                                         
+
+                                        }
+                                        
+                                    }
+                            });
+                            
+                        });
+                    }
+
+                            
+             });
+              
+         }else{
+
+            clearInterval(timer);
+            $('.score').html(n);
+            var order_no=$('input[name="order_no"]').val();
+            var dingshi='dingshi';
+            var openid ="{$_W['openid']}";
+
+
+            timer=null;
+            //console.log('时间到');
+            var url="{php echo $this->createMobileUrl('dati')}";
+            $.ajax({
+                url:url,
+                type:'post',
+                data:{openid:openid,order_no:order_no,dingshi:dingshi},
+                dataType:'json',
+                success:function(res){
+                    
+                        $('.ti_mask').hide();
+                        $('.ti_mask1').show();
+                        var ti='恭喜您一共猜对'+res.ti_shuju+'道题';
+                        $('.show_share').html(ti);
+                        $('.wancheng').unbind('click').click(function(){
+                        var order_no=$('input[name="order_no"]').val();
+                        var url="{php echo $this->createMobileUrl('wancheng',array('openid'=>$_W['openid']))}"+"&order_no="+order_no;
+                        window.location.href=url;
+                          
+                        });
+                }
+                
+            });
+         }
+    },1000)
+    //答题错误
+    $(".retry").click(function(){
+            $(".ti_mask").hide();
+            $(".da_an b").each(function(){
+                if($(this).hasClass("false")){
+                    $(this).removeClass("false");
+                }
+            })
+        })
+
+</script>

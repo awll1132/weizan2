@@ -1,0 +1,187 @@
+<script type="text/javascript">
+  var i18n = {php echo json_encode($i18n);} || {};
+  require(["jquery", "util"], function ($, util) {
+    $(function(){
+      //表单提交
+      $("#reply-form").on("submit", function(){
+        var _ = $(this);
+        //标题不可为空
+        if(_.find("[name=title]").val() == ""){
+          util.message(i18n.yuanxiao_title_empty,'','error');
+          return false;
+        }
+        //封面
+        if(_.find("[name=cover]").val() == ""){
+          util.message(i18n.yuanxiao_cover_empty,'','error');
+          return false;
+        }
+        //详情
+        if(_.find("[name=content]").val() == ""){
+          util.message(i18n.yuanxiao_content_empty,'','error');
+          return false;
+        }
+        //灯谜
+        if(_.find("[name=dengmi]").val() < 1 || _.find("[name=dengmi]").val() == ""){
+          util.message(i18n.yuanxiao_dengmi_min_one,'','error');
+          return false;
+        }
+      });
+    });
+  });
+</script>
+<input name="token" type="hidden" value="{$_W['token']}"/>
+<input name="id" type="hidden" value="{$yuanxiao['id']}"/>
+<div>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a href="#basic" aria-controls="basic" role="tab" data-toggle="tab">基础信息</a>
+    </li>
+    <li role="presentation">
+      <a href="#event" aria-controls="event" role="tab" data-toggle="tab">活动设置</a>
+    </li>
+    <li role="presentation">
+      <a href="#share" aria-controls="share" role="tab" data-toggle="tab">分享设置</a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="basic">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              <span class="text-danger">*</span>
+              活动标题
+            </label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <input type="text" name="title" class="form-control" value="{$yuanxiao['title']}"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              <span class="text-danger">*</span>
+              活动封面
+            </label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              {php echo tpl_form_field_image('cover', $yuanxiao['cover']);}
+              <div class="text-warning">建议上传660px*440px的图片，显示效果最佳。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              <span class="text-danger">*</span>
+              活动详情
+            </label>
+            <div class="col-sm-6 col-md-8 col-xs-12">{php echo tpl_ueditor("content", $yuanxiao['content']); }</div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              <span class="text-danger">*</span>
+              活动时间
+            </label>
+            <div class="col-sm-4 col-md-5">
+              {php echo tpl_form_field_daterange("time", array("start"=>$yuanxiao["starttime"], "end"=>$yuanxiao["endtime"]), true);}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="event">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              <span class="text-danger">*</span>
+              灯谜
+            </label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <div class="input-group">
+                <input type="text" class="form-control" name="dengmi" value="{$yuanxiao['dengmi']}" />
+                <span class="input-group-addon">题</span>
+              </div>
+              <div class="text-warning">系统会从灯谜题库中读取X*2道灯谜，再随机挑选X道灯谜，每位用户猜的灯谜不一致。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">参与积分</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <div class="input-group">
+                <input type="text" class="form-control" name="joincredit" value="{$yuanxiao['joincredit']}" />
+                <span class="input-group-addon">分</span>
+              </div>
+              <div class="text-warning">填写大于0的数可增加积分，填写小于0的数需减少积分，填写0积分不改变。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">助力积分</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <div class="input-group">
+                <input type="text" class="form-control" name="helpcredit" value="{$yuanxiao['helpcredit']}" />
+                <span class="input-group-addon">分</span>
+              </div>
+              <div class="text-warning">填写大于0的数可增加积分，填写小于0的数需减少积分，填写0积分不改变。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">参与关注</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <label class="radio-inline">
+                <input type="radio" name="followjoin" value="0"{if $yuanxiao['followjoin'] == 0} checked="" {/if}>不强制</label>
+              <label class="radio-inline">
+                <input type="radio" name="followjoin" value="1"{if $yuanxiao['followjoin'] == 1} checked="" {/if}>强制</label>
+              <div class="text-warning">该选项对订阅号无效。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">助力关注</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <label class="radio-inline">
+                <input type="radio" name="followhelp" value="0"{if $yuanxiao['followhelp'] == 0} checked="" {/if}>不强制</label>
+              <label class="radio-inline">
+                <input type="radio" name="followhelp" value="1"{if $yuanxiao['followhelp'] == 1} checked="" {/if}>强制</label>
+              <div class="text-warning">该选项对订阅号无效。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">关注链接</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <input type="text" name="followurl" class="form-control" value="{$yuanxiao['followurl']}"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="share">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">分享标题</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <input type="text" name="sharetitle" class="form-control" value="{$yuanxiao['sharetitle']}"/>
+              <div class="text-warning">可在标题在中嵌入“#粉丝昵称#”（代表粉丝的昵称），系统会自动将以上关键词替换成真实数据。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">分享图片</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              {php echo tpl_form_field_image('shareimage', $yuanxiao['shareimage']);}
+              <div class="text-warning">建议上传100像素*100像素的图片，显示效果最佳。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">分享描述</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <textarea name="sharedesc" class="form-control" rows="4">{$yuanxiao['sharedesc']}</textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">分享链接</label>
+            <div class="col-sm-6 col-md-8 col-xs-12">
+              <input type="text" name="sharelink" class="form-control" value="{$yuanxiao['sharelink']}"/>
+              <div class="text-warning">例如：{php echo murl('entry//px', array('id'=>                $yuanxiao['id'], 'm'=>'d1sj_yuanxiao'), true, true);}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

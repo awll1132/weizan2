@@ -1,0 +1,181 @@
+{template "common/header"}
+<script type="text/javascript">
+  require(['bootstrap'], function($) {
+    $('.btn').hover(function() {
+      $(this).tooltip('show');
+    }, function() {
+      $(this).tooltip('hide');
+    });
+  });
+</script>
+<ul class="nav nav-tabs">
+	<li {if $op == 'list'}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('dm', array('op'=>'list'));}">灯谜列表</a>
+	</li>
+	<li {if $op == 'post' && empty($_GPC['id'])}class="active"{/if}>
+		<a href="{php echo $this->createWebUrl('dm', array('op'=>'post'));}">添加灯谜</a>
+	</li>
+	{if $op == 'post' && !empty($_GPC['id'])}
+	<li class="active">
+		<a href="{php echo $this->createWebUrl('dm', array('op'=>'post', 'id'=>intval($_GPC['id'])));}">编辑灯谜
+		</a>
+	</li>
+	{/if}
+</ul>
+{if $op == "list"}
+<div class="main">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="" method="get" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-sm-2 col-md-2 control-label">灯谜</label>
+					<div class="col-sm-10 col-md-10">
+						<input class="form-control" name="question" value="{$_GPC['question']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-10 col-md-10 col-sm-offset-2 col-md-offset-2">
+						<input type="hidden" name="c" value="site">
+						<input type="hidden" name="a" value="entry">
+						<input type="hidden" name="do" value="dm">
+						<input type="hidden" name="m" value="d1sj_yuanxiao">
+						<input type="hidden" name="token" value="{$_W['token']}" />
+						<button type="submit" class="btn btn-default"> <i class="fa fa-search"></i>
+							搜索
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">灯谜列表</div>
+		<div class="panel-body table-responsive">
+			<table class="table table-hover" style="table-layout: auto;">
+				<thead>
+					<tr>
+						<th class="text-center">#</th>
+						<th class="text-center" width="100">灯谜</th>
+						<th class="text-left">可选项</th>
+						<th class="text-center">答案</th>
+						<th class="text-right">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $key $dengmi}
+					<tr>
+						<td class="text-center" width="50">{php echo ++$key;}</td>
+						<td class="text-center">{$dengmi["question"]}</td>
+						<td class="text-left">[{php echo implode(json_decode($dengmi["answer"]), ',');}]</td>
+						<td class="text-center">{$dengmi["correct"]}</td>
+						<td class="text-right">
+							<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('dm', array('op'=>'post', 'id'=>$dengmi['id']));}" data-toggle="tooltip" data-placement="top" data-original-title="编辑"> <i class="fa fa-edit"></i>
+							</a>
+							<a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('dm', array('op'=>'del', 'id'=>$dengmi['id']));}" data-toggle="tooltip" data-placement="top" data-original-title="删除" onclick="if(!confirm('删除后将不可恢复,确定删除吗?')) return false;">
+								<i class="fa fa-remove"></i>
+							</a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	{$pager}
+</div>
+{elseif $op == "post"}
+<form action="" method="post" class="form-horizontal form" id="form1">
+	<div class="main">
+		<div class="panel panel-default">
+			<div class="panel-heading">灯谜</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-sm-2 col-md-2 control-label">
+						<span class="text-danger">*</span>
+						灯谜
+					</label>
+					<div class="col-sm-4 col-md-4">
+						<input type="text" name="question" class="form-control" value="{$dengmi['question']}" placeholder="例如：点点成金"  />
+						<div class="text-warning"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 col-md-2 control-label">
+						<span class="text-danger">*</span>
+						可选项
+					</label>
+					<div class="col-sm-4 col-md-10">
+						<div class="clearfix">
+							{loop $dengmi['answer'] $value}
+							<input type="text" name="answer[]" class="form-control pull-left text-center" value="{$value}" style="width: 200px; margin-right: 5px;"  />
+							{/loop}
+						</div>
+						<div class="text-warning"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 col-md-2 control-label">
+						<span class="text-danger">*</span>
+						正确答案
+					</label>
+					<div class="col-sm-4 col-md-4">
+						<input type="text" name="correct" class="form-control" value="{$dengmi['correct']}"  />
+						<div class="text-warning">请选择可选项中任意一个。</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-4 col-md-4 col-sm-offset-2 col-md-offset-2">
+						<button name="submit_password" type="submit" class="btn btn-primary" value="1">提交</button>
+						<input type="hidden" name="id" value="{$dengmi['id']}"/>
+						<input type="hidden" name="token" value="{$_W['token']}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+	require(["jquery", "util"], function($, u){
+		$(function(){
+			//表单提交
+			$("#form1").on("submit", function(){
+				var _ = $(this);
+				//灯谜不可为空
+				if(_.find("[name=question]").val() == ""){
+					util.message("温馨提示：灯谜不可为空！", '', 'error');
+					return false;
+				}
+				//可选项
+				var flag = 0;
+				// $("[name^=answer]").each(function(key, ele){
+				// 	if($(ele).val() == ""){
+				// 		util.message("温馨提示：第"+(key+1)+"个可选项不可为空！", '', 'error');
+				// 		flag = 1;
+				// 	}
+				// });
+				if(flag == 1){
+					return false;
+				}
+				//正确答案
+				if(_.find("[name=correct]").val() == ""){
+					util.message("温馨提示：正确答案不可为空！", '', 'error');
+					return false;
+				}
+				//
+				flag = 1;
+				$("[name^=answer]").each(function(key, ele){
+					if($(ele).val() == _.find("[name=correct]").val()){
+						flag = 0;
+					}
+				});
+				if(flag == 1){
+					util.message("温馨提示：正确答案不在可选项中！", '', 'error');
+					return false;
+				}
+			});
+		});
+	});
+</script>
+{/if}
+{template "common/footer"}

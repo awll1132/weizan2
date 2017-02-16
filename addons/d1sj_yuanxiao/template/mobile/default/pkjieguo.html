@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="../addons/{php echo $this->module['name']}/template/mobile/default/css/index.css"/>
+    <script src="../addons/{php echo $this->module['name']}/template/mobile/default/js/rem.js"></script>
+    <script src="../addons/{php echo $this->module['name']}/template/mobile/default/js/jquery-1.11.3.min.js"></script>
+    <script>
+        $(function(){
+            $(".finishs").click(function(){
+                $(".zhongjiang_mask").hide();
+            })
+        })
+    </script>
+</head>
+<body style="font-size: 0.28rem;font-family: '黑体';">
+<div class="pkfinish_bg">
+    <div class="pk_detail">
+        <div class="pk_list">
+           
+             <div class="list1">
+                <p class="yings">
+                    {if $pks_shus > $share_shus}
+                    <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/ying.png" alt="" class="ying"/>
+                    {else if $pks_shus < $share_shus}
+                    <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/bai.png" alt="" class="bai"/>
+                    {else}
+                    {/if}
+                </p>
+                <p class="touxiang"><img src="{$pks_list['headimgurl']}" alt=""/></p>
+                <span class="pk_name">{$pks_list['nickname']}</span>
+            </div>
+          
+
+            <div class="list2"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/pk_img.png" alt=""/></div>
+         
+            <div class="list3">
+                <p class="yings">
+                    {if  $share_shus > $pks_shus}
+                     <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/ying.png" alt="" class="ying"/>
+                    {else if $share_shus < $pks_shus}
+                    <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/bai.png" alt="" class="bai"/>
+                    {else}
+                    {/if}
+                </p>
+                <p class="touxiang"><img src="{$share_list['headimgurl']}" alt=""/></p>
+                <span class="pk_name">{$share_list['nickname']}</span>
+            </div>
+          
+        </div>
+        {if  $share_shus > $pks_shus}
+        <!--立即抽奖-->
+        <a href="javascript:void(0)" class="re_agin chou" style="display: block"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/sword.png" alt="" /></a>
+       
+
+        {else}
+        <!--再来一次-->
+        <a href="{php echo $this->createMobileUrl('index',array('id'=>4))}" class="re_agin" style="display: block"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/re_agin.png" alt="" /></a>
+
+        {/if}
+      
+ 
+    </div>
+    <input type="hidden" name="share_openid" value="{$share_list['openid']}">
+    <input type="hidden" name="only" value="{$only}">
+</div>
+<div class="pkfinish_bgbom"></div>
+
+<div class="zhongjiang_mask" style="display: none">
+    <b class="option"></b>
+    <div class="ti_show">
+        <!--中奖时显示-->
+        <div class="zj" style="display: none">
+            <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/hongbao.png" alt="" class="hb"/>
+            <p class="zj_span">恭喜抽到红包啦，<br/>
+                请注意查收！</p>
+            <a href="javascript:void(0)" class="zhong"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/finish.png" alt="" class="aimg finishs"/></a>
+        </div>
+        <!--末中奖时显示-->
+        <div class="wzj" style="display:none">
+            <img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/no.png" alt="" class="no_sword"/>
+            <p class="zj_span">没抽到红包，<br/>
+                再去玩一次吧！</p>
+            <a href="javascript:void(0)" class="wei"><img src="../addons/{php echo $this->module['name']}/template/mobile/default/img/finish.png" alt="" class="aimg finishs"/></a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+    $('.chou').click(function(){
+        var share_openid=$('input[name="share_openid"]').val(); 
+        
+        var only=$('input[name="only"]').val(); 
+
+        var url="{php echo $this->createMobileUrl('pkjieguo')}";
+
+        $.ajax({
+                url:url,
+                type:'post',
+                data:{share_openid:share_openid,only:only},
+                dataType:'json',
+                success:function(res){ 
+                    
+                    if(res.infos==1){
+                        $('.zhongjiang_mask').show();
+                        $('.zj').show();
+                        $('.zhong').click(function(){
+                            var url="{php echo $this->createMobileUrl('index',array('id'=>4))}";
+                            window.location.href=url;
+                        });
+
+                    }else if(res.infos==5){
+                        alert('您已经抽过奖了哦');
+                        var url="{php echo $this->createMobileUrl('index',array('id'=>4))}";
+                        window.location.href=url;
+
+                    }else{
+                        $('.zhongjiang_mask').show();
+                        $('.wzj').show();
+                        $('.wei').click(function(){
+                            var url="{php echo $this->createMobileUrl('index',array('id'=>4))}";
+                            window.location.href=url;
+                        })
+                    }
+
+                }  
+
+        });
+    });
+</script>
