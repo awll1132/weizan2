@@ -3,7 +3,7 @@
 
     require.config({
         urlArgs: "_v=0.13",
-        baseUrl: './../addons/testing/template/mobile/js',
+        baseUrl: './../addons/qiyue_testing/template/mobile/js',
         paths: {
             'zepto': 'zepto.min',
         }
