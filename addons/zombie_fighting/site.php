@@ -544,7 +544,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
                 $update = array(
                     'lastcredit' => $_GPC['lastcredit'],
                 );
-                pdo_update('amouse_fighting', $update, array('id' => $id,'fid'=>$fid));
+                pdo_update('fighting', $update, array('id' => $id,'fid'=>$fid));
 
                 message('修改成功！', $this->createWebUrl('questions', array('op' => 'rankList', 'rid' => $fid, 'name' => 'zombie_fighting')), 'success');
             }
