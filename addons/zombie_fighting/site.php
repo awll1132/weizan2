@@ -153,6 +153,9 @@ class Zombie_fightingModuleSite extends WeModuleSite
         } else {
             $percent = round((($total - $theone['PM']) / $total) * 100, 2);
         }
+        if($percent<0){
+            $percent = 0;
+        }
  
         if ((time() > $flight_setting['end']) || ($flight_setting['status_fighting'] == 2)) { //活动已结束时回复语
 			include $this->template('ranking');
@@ -340,6 +343,9 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $percent = round((($theone['PM']) / $total) * 100, 2);
         } else {
             $percent = round((($total - $theone['PM']) / $total) * 100, 2);
+        }
+        if($percent<0){
+            $percent = 0;
         }
 
         if ((time() > $flight_setting['end']) || ($flight_setting['status'] == 2)) { //活动已结束时回复语
