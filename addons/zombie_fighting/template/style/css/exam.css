@@ -67,9 +67,11 @@
 .loading-mask .content {
     position: absolute;
     text-align: center;
-    width: 80%;
     top: 70px;
-    margin-left: 10%;
+    /*margin-left: 10%;*/
+    /*width: 80%;*/
+
+    width: 100%;
 }
 
 .loading-mask .text {
