@@ -7,6 +7,59 @@ class Zombie_fightingModuleSite extends WeModuleSite
 {
     public $tablename = 'fighting_setting';
 
+    public $_appid = '';
+    public $_appsecret = '';
+    public $_accountlevel = '';
+    public $_account = '';
+
+    public $_weid = '';
+    public $_fromuser = '';
+    public $_nickname = '';
+    public $_headimgurl = '';
+    public $_activeid = 0;
+
+    public $_auth2_openid = '';
+    public $_auth2_nickname = '';
+    public $_auth2_headimgurl = '';
+
+    function __construct()
+    {
+        global $_W, $_GPC;
+        $this->_weid = $_W['uniacid'];
+        $this->_fromuser = $_W['fans']['from_user']; //debug
+        if ($_SERVER['HTTP_HOST'] == '127.0.0.1' || $_SERVER['HTTP_HOST'] == '192.168.1.102:8888') {
+            $this->_fromuser = 'debug';
+        }
+
+        $this->_auth2_openid = 'auth2_openid_' . $_W['uniacid'];
+        $this->_auth2_nickname = 'auth2_nickname_' . $_W['uniacid'];
+        $this->_auth2_headimgurl = 'auth2_headimgurl_' . $_W['uniacid'];
+
+        $this->_appid = '';
+        $this->_appsecret = '';
+        $this->_accountlevel = $_W['account']['level']; //是否为高级号
+
+//        if (!empty($_SESSION['oauth_openid'])) {
+//            $this->_fromuser = $_SESSION['oauth_openid'];
+//        }
+        if (isset($_COOKIE[$this->_auth2_openid])) {
+            $this->_fromuser = $_COOKIE[$this->_auth2_openid];
+        }
+
+        if ($this->_accountlevel < 4) {
+            $setting = uni_setting($this->_weid);
+            $oauth = $setting['oauth'];
+            if (!empty($oauth) && !empty($oauth['account'])) {
+                $this->_account = account_fetch($oauth['account']);
+                $this->_appid = $this->_account['key'];
+                $this->_appsecret = $this->_account['secret'];
+            }
+        } else {
+            $this->_appid = $_W['account']['key'];
+            $this->_appsecret = $_W['account']['secret'];
+        }
+    }
+
     //
     public function doMobileIndex()
     {
@@ -15,6 +68,34 @@ class Zombie_fightingModuleSite extends WeModuleSite
         // $this->doCheckedParam();
         $id = intval($_GPC['id']);
         $weid = $_W['uniacid'];
+
+
+        $method = 'index';
+        $authurl = $_W['siteroot'] . 'app/' . $this->createMobileUrl($method, array('id' => $id), true) . '&authkey=1';
+        $url = $_W['siteroot'] . 'app/' . $this->createMobileUrl($method, array('id' => $id), true);
+        if (isset($_COOKIE[$this->_auth2_openid])) {
+            $from_user = $_COOKIE[$this->_auth2_openid];
+            $nickname = $_COOKIE[$this->_auth2_nickname];
+            $headimgurl = $_COOKIE[$this->_auth2_headimgurl];
+        } else {
+            if (isset($_GPC['code'])) {
+                $userinfo = $this->oauth2($authurl);
+                if (!empty($userinfo)) {
+                    $from_user = $userinfo["openid"];
+                    $nickname = $userinfo["nickname"];
+                    $headimgurl = $userinfo["headimgurl"];
+                } else {
+                    message('授权失败!');
+                }
+            } else {
+                if (!empty($this->_appsecret)) {
+                    $this->getCode($url);
+                }
+            }
+        }
+
+
+
 
         $flight_setting = pdo_fetch("SELECT * FROM " . tablename('fighting_setting') . " WHERE rid = '$id' LIMIT 1");
         if (empty($flight_setting)) {
@@ -39,10 +120,14 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $followurl = $flight_setting['followurl'];
             header("location:$followurl");
         }
+
         $openid = $_W['openid'];
         $user = fans_search($openid, array('nickname', 'mobile'));
+
+        $fighting_user = pdo_fetch("SELECT * FROM " . tablename('fighting_user') . "");
+
         $userinfo = 1;
-        if (empty($user['nickname']) || empty($user['mobile'])) { //注册
+        if (empty($user['nickname']) || empty($user['mobile']) || empty($fighting_user['nickname']) || empty($fighting_user['mobile'])) { //注册
             $userinfo = 0;
         }
         $starturl = $_W['siteroot'] . "app/" . substr($this->createMobileUrl('start', array('id' => $id, 'openid' => $openid), true), 2);
@@ -122,9 +207,6 @@ class Zombie_fightingModuleSite extends WeModuleSite
         if (empty($flight_setting)) {
             message('非法访问，请重新发送消息进入一战到底页面！');
         }
-
-
-        
         $openid = $_GPC['openid'];
         load()->model('account');
         $_W['account'] = account_fetch($_W['uniacid']);
@@ -138,11 +220,6 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $followurl = $flight_setting['followurl'];
             header("location:$followurl");
         }
-
-
-
-
-
 
         $fighting = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE `from_user`=:from_user AND `fid`=" . $flight_setting['id'] . " ORDER BY id DESC LIMIT 1", array(':from_user' => $openid));
         if (empty($fighting)) {
@@ -160,7 +237,8 @@ class Zombie_fightingModuleSite extends WeModuleSite
         $sql_fighting = "SELECT  B.lastcredit ,(SELECT COUNT(1) +1 FROM `ims_fighting` A WHERE A.lastcredit > B.lastcredit )PM FROM `ims_fighting` B WHERE  B.fid ='$flight_setting[id]' and B.weid =$weid  AND B.from_user='{$openid}' ORDER BY PM ,B.lastcredit ";
         $theone = pdo_fetch($sql_fighting);
         $total = pdo_fetchcolumn('SELECT count(id) as total FROM ' . tablename('fighting') . ' WHERE fid= :fid group by `fid` desc ', array(':fid' => $flight_setting['id']));
-        if ($theone['PM'] == 1 && $total == 1) {
+//        if ($theone['PM'] == 1 && $total == 1) {
+        if ($theone['PM'] == "1" && $total == "1") {
             $percent = round((($theone['PM']) / $total) * 100, 2);
         } else {
             $percent = round((($total - $theone['PM']) / $total) * 100, 2);
@@ -174,13 +252,13 @@ class Zombie_fightingModuleSite extends WeModuleSite
             exit;
         }
 //        if ($fighting['answerNum'] == $flight_setting['qnum']) {
-        if ($fighting['answerNum'] >= $flight_setting['qnum']) {
+        if ($fighting['answerNum'] >= $flight_setting['qnum']) {  // 答满题目
             include $this->template('ranking');
             exit;
         }
 
 
-        if ($fighting['lasttime'] >= $start) { // 答题超时
+        if ($fighting['lasttime'] >= $start) { // 答题超时   //TODO WKL 今天不能答题
             if ($flight_setting['is_shared'] == '1') { //是否开启分享 如果已经分享了 则直接到 排名页面
                 include $this->template('shareing');
                 exit;
@@ -235,7 +313,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
                 $add = pdo_insert('fighting', $insert1);
                 $flightid = pdo_insertid();
                 $awn = $insert1['$answerNum'];
-                if ($awn >= $flight_setting['qnum']) {
+                if ($awn >= $flight_setting['qnum']) {  //TODO WKL 答满题目 今天不能答题
                     $updateData = array(
                         'lasttime' => time(),
                         'answerNum' => 0,
@@ -279,7 +357,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
                 $addworng = pdo_insert('fighting', $insert1);
                 $flightid = pdo_insertid();
                 $awn = $insert1['answerNum'];
-                if ($awn >= $flight_setting['qnum']) {
+                if ($awn >= $flight_setting['qnum']) {   //TODO WKL 答完题目
                     $updateData = array(
                         'lasttime' => time(),
                         'answerNum' => 0,
@@ -695,4 +773,97 @@ class Zombie_fightingModuleSite extends WeModuleSite
     }
 
 
+
+
+
+
+
+
+    public function oauth2($url)
+    {
+        global $_GPC, $_W;
+        load()->func('communication');
+        $code = $_GPC['code'];
+        if (empty($code)) {
+            message('code获取失败.');
+        }
+        $token = $this->getAuthorizationCode($code);
+        $from_user = $token['openid'];
+        $userinfo = $this->getUserInfo($from_user);
+        $sub = 1;
+        if ($userinfo['subscribe'] == 0) {
+            //未关注用户通过网页授权access_token
+            $sub = 0;
+            $authkey = intval($_GPC['authkey']);
+            if ($authkey == 0) {
+                $oauth2_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->_appid . "&redirect_uri=" . urlencode($url) . "&response_type=code&scope=snsapi_userinfo&state=0#wechat_redirect";
+                header("location:$oauth2_code");
+            }
+            $userinfo = $this->getUserInfo($from_user, $token['access_token']);
+        }
+
+        if (empty($userinfo) || !is_array($userinfo) || empty($userinfo['openid']) || empty($userinfo['nickname'])) {
+            echo '<h1>获取微信公众号授权失败[无法取得userinfo], 请稍后重试！ 公众平台返回原始数据为: <br />' . $sub . $userinfo['meta'] . '<h1>';
+            exit;
+        }
+
+        //设置cookie信息
+        setcookie($this->_auth2_headimgurl, $userinfo['headimgurl'], time() + 3600 * 24);
+        setcookie($this->_auth2_nickname, $userinfo['nickname'], time() + 3600 * 24);
+        setcookie($this->_auth2_openid, $from_user, time() + 3600 * 24);
+        setcookie($this->_auth2_sex, $userinfo['sex'], time() + 3600 * 24);
+        return $userinfo;
+    }
+
+    public function getUserInfo($from_user, $ACCESS_TOKEN = '')
+    {
+        if ($ACCESS_TOKEN == '') {
+            $ACCESS_TOKEN = $this->getAccessToken();
+            $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={$ACCESS_TOKEN}&openid={$from_user}&lang=zh_CN";
+        } else {
+            $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$ACCESS_TOKEN}&openid={$from_user}&lang=zh_CN";
+        }
+
+        $json = ihttp_get($url);
+        $userInfo = @json_decode($json['content'], true);
+        return $userInfo;
+    }
+
+    public function getAuthorizationCode($code)
+    {
+        $oauth2_code = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={$this->_appid}&secret={$this->_appsecret}&code={$code}&grant_type=authorization_code";
+        $content = ihttp_get($oauth2_code);
+        $token = @json_decode($content['content'], true);
+        if (empty($token) || !is_array($token) || empty($token['access_token']) || empty($token['openid'])) {
+            $id = $this->_activeid;
+            $oauth2_code = $this->createMobileUrl('index', array('id' => $id), true);
+            header("location:$oauth2_code");
+//            echo '微信授权失败, 请稍后重试! 公众平台返回原始数据为: <br />' . $content['meta'] . '<h1>';
+            exit;
+        }
+        return $token;
+    }
+
+    public function getAccessToken()
+    {
+        global $_W;
+        $account = $_W['account'];
+        if($this->_accountlevel < 4){
+            if (!empty($this->_account)) {
+                $account = $this->_account;
+            }
+        }
+        load()->classs('weixin.account');
+        $accObj= WeixinAccount::create($account['acid']);
+        $access_token = $accObj->fetch_token();
+        return $access_token;
+    }
+
+    public function getCode($url)
+    {
+        global $_W;
+        $url = urlencode($url);
+        $oauth2_code = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$this->_appid}&redirect_uri={$url}&response_type=code&scope=snsapi_base&state=0#wechat_redirect";
+        header("location:$oauth2_code");
+    }
 }

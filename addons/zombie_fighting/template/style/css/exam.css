@@ -1,5 +1,6 @@
 .wrapper {
-    width: 320px;
+    /*width: 320px;*/
+    width: 100%;
     position: relative;
     margin: 0 auto;
     max-width: 500px;
@@ -8,6 +9,14 @@
 .wrapper {
     text-align: center;
     min-height: 100%;
+}
+
+.wrapper_inner {
+    width: 320px;
+    /*width: 100%;*/
+    /*position: relative;*/
+    margin: 0 auto;
+    /*max-width: 500px;*/
 }
 
 .bg {
