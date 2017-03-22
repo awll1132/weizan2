@@ -122,6 +122,9 @@ class Zombie_fightingModuleSite extends WeModuleSite
         if (empty($flight_setting)) {
             message('非法访问，请重新发送消息进入一战到底页面！');
         }
+
+
+        
         $openid = $_GPC['openid'];
         load()->model('account');
         $_W['account'] = account_fetch($_W['uniacid']);
@@ -135,6 +138,11 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $followurl = $flight_setting['followurl'];
             header("location:$followurl");
         }
+
+
+
+
+
 
         $fighting = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE `from_user`=:from_user AND `fid`=" . $flight_setting['id'] . " ORDER BY id DESC LIMIT 1", array(':from_user' => $openid));
         if (empty($fighting)) {
