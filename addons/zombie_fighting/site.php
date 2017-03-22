@@ -2,48 +2,50 @@
 /**
  */
 defined('IN_IA') or exit ('Access Denied');
+
 class Zombie_fightingModuleSite extends WeModuleSite
 {
     public $tablename = 'fighting_setting';
 
     //
-    public function doMobileIndex()  {
+    public function doMobileIndex()
+    {
         global $_GPC, $_W;
         //   $this->doCheckedMobile();
         // $this->doCheckedParam();
         $id = intval($_GPC['id']);
         $weid = $_W['uniacid'];
-		
-        $flight_setting=pdo_fetch("SELECT * FROM " . tablename('fighting_setting') . " WHERE rid = '$id' LIMIT 1");
+
+        $flight_setting = pdo_fetch("SELECT * FROM " . tablename('fighting_setting') . " WHERE rid = '$id' LIMIT 1");
         if (empty($flight_setting)) {
             message('非法访问，请重新发送消息进入一战到底页面！');
         }
 
         if (time() < $flight_setting['start']) {//未开始
-            message($flight_setting['title'].'活动还未开始，请关注其他活动吧。');
+            message($flight_setting['title'] . '活动还未开始，请关注其他活动吧。');
         } elseif ((time() > $flight_setting['end']) || ($flight_setting['status'] == 2)) {//活动已结束时回复语
-            message($flight_setting['title'].'活动活动已结束，请关注其他活动吧。');
+            message($flight_setting['title'] . '活动活动已结束，请关注其他活动吧。');
         } elseif ($flight_setting['status'] == 1) {//暂停
-            message($flight_setting['title'].'活动活动已暂停，请关注其他活动吧。');
+            message($flight_setting['title'] . '活动活动已暂停，请关注其他活动吧。');
         }
-		load()->model('account');
+        load()->model('account');
         $_W['account'] = account_fetch($_W['uniacid']);
-		$followed = !empty($_W['openid']);
+        $followed = !empty($_W['openid']);
         if ($followed) {
             $mf = pdo_fetch("select follow from " . tablename('mc_mapping_fans') . " where openid=:openid limit 1", array(":openid" => $_W['openid']));
             $followed = $mf['follow'] == 1;
-        } 
-        if(!$followed){
-			 $followurl = $flight_setting['followurl']; 
+        }
+        if (!$followed) {
+            $followurl = $flight_setting['followurl'];
             header("location:$followurl");
-		}
+        }
         $openid = $_W['openid'];
         $user = fans_search($openid, array('nickname', 'mobile'));
-        $userinfo=1;
+        $userinfo = 1;
         if (empty($user['nickname']) || empty($user['mobile'])) { //注册
             $userinfo = 0;
         }
-        $starturl= $_W['siteroot']."app/".substr($this->createMobileUrl('start',array('id' => $id,'openid'=>$openid),true), 2);
+        $starturl = $_W['siteroot'] . "app/" . substr($this->createMobileUrl('start', array('id' => $id, 'openid' => $openid), true), 2);
         //$worngurl= $_W['siteroot']."app/".substr($this->createMobileUrl('worng',array('id' => $id,'openid'=>$openid),true), 2);
         /*$fighting = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE `from_user`=:from_user AND `fid`=" . $flight_setting['id'] . " ORDER BY id DESC LIMIT 1", array (':from_user' => $fromuser ));
         $updateData = array (
@@ -55,7 +57,8 @@ class Zombie_fightingModuleSite extends WeModuleSite
     }
 
     //注册
-    public function doMobileMregister()  {
+    public function doMobileMregister()
+    {
         global $_GPC, $_W;
         $fid = intval($_GPC['fid']);
         $flight_setting = pdo_fetch("SELECT * FROM " . tablename('fighting_setting') . " WHERE rid = '$fid' LIMIT 1");
@@ -69,7 +72,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
 
         $data = array(
             'nickname' => $_GPC['nickname'],
-            'mobile' => $_GPC['mobile'], 
+            'mobile' => $_GPC['mobile'],
         );
 
         if (empty($data['nickname'])) {
@@ -82,33 +85,34 @@ class Zombie_fightingModuleSite extends WeModuleSite
         }
 
         fans_update($fromuser, array('nickname' => $_GPC['nickname'], 'mobile' => $_GPC['mobile']));
-        $p = pdo_fetch("SELECT * FROM ".tablename('fighting_user')." WHERE openid='".$fromuser."' AND fid=".$fid);
-		$insert1 = array(
+        $p = pdo_fetch("SELECT * FROM " . tablename('fighting_user') . " WHERE openid='" . $fromuser . "' AND fid=" . $fid);
+        $insert1 = array(
             'weid' => $_W['uniacid'],
             'fid' => $fid,
             'openid' => $fromuser,
-            'nickname' =>$_GPC['nickname'],
+            'nickname' => $_GPC['nickname'],
             'mobile' => $_GPC['mobile'],
         );
-		if(!empty($p['id'])){
-			$insert1['id'] = $p['id'];
-            pdo_update('fighting_user',$insert1,array('id'=>$p['id']));
-		}else{ 
-			$add = pdo_insert('fighting_user', $insert1);  
-		}
-		return $this->fightJson(1, '');
-		exit;
-		
+        if (!empty($p['id'])) {
+            $insert1['id'] = $p['id'];
+            pdo_update('fighting_user', $insert1, array('id' => $p['id']));
+        } else {
+            $add = pdo_insert('fighting_user', $insert1);
+        }
+        return $this->fightJson(1, '');
+        exit;
+
     }
- 
+
     //开始答题
-    public function doMobileStart(){
-		//
+    public function doMobileStart()
+    {
+        //
         global $_GPC, $_W;
         //  $this->doCheckedMobile();
         // $this->doCheckedParam();
         $weid = $_W['uniacid'];
-		
+
         $year = ((int)date('Y', time())); //取得年份
         $month = ((int)date('m', time())); //取得月份
         $day = ((int)date('d', time())); //取得几号
@@ -118,55 +122,57 @@ class Zombie_fightingModuleSite extends WeModuleSite
         if (empty($flight_setting)) {
             message('非法访问，请重新发送消息进入一战到底页面！');
         }
-         $openid = $_GPC['openid'];
-		load()->model('account');
+        $openid = $_GPC['openid'];
+        load()->model('account');
         $_W['account'] = account_fetch($_W['uniacid']);
-			
-		$followed = !empty($_GPC['openid']);
+
+        $followed = !empty($_GPC['openid']);
         if ($followed) {
             $mf = pdo_fetch("select follow from " . tablename('mc_mapping_fans') . " where openid=:openid limit 1", array(":openid" => $_GPC['openid']));
             $followed = $mf['follow'] == 1;
-        } 
-        if(!$followed){
-			$followurl = $flight_setting['followurl'];
+        }
+        if (!$followed) {
+            $followurl = $flight_setting['followurl'];
             header("location:$followurl");
-		}
-          
-        $fighting=pdo_fetch("SELECT * FROM ".tablename('fighting')." WHERE `from_user`=:from_user AND `fid`=" . $flight_setting['id'] . " ORDER BY id DESC LIMIT 1", array(':from_user' => $openid));
-        if(empty($fighting)){
-			$answerNum=0;
-		}else{
-			$answerNum=$fighting['answerNum'];
-		} 
+        }
 
-		$linkUrl = $_W['siteroot'].'app/'.$this->createMobileUrl('start', array('id'=>$id,'wid'=>$openid),true);
+        $fighting = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE `from_user`=:from_user AND `fid`=" . $flight_setting['id'] . " ORDER BY id DESC LIMIT 1", array(':from_user' => $openid));
+        if (empty($fighting)) {
+            $answerNum = 0;
+        } else {
+            $answerNum = $fighting['answerNum'];
+        }
+
+        $linkUrl = $_W['siteroot'] . 'app/' . $this->createMobileUrl('start', array('id' => $id, 'wid' => $openid), true);
 
         $question = pdo_fetch("SELECT * FROM ims_fighting_question_bank where  weid='{$weid}'  AND sid =" . $flight_setting['id'] . " ORDER BY RAND() LIMIT 1");//调用题目
         $an_arr = $question['answer'];//正确答案
         //是否已经答题
-		$ds=pdo_fetchall("SELECT *  FROM `ims_fighting` WHERE weid =$weid AND fid =$flight_setting[id] ORDER BY lastcredit DESC  LIMIT 0 , 10");
-		$sql_fighting = "SELECT  B.lastcredit ,(SELECT COUNT(1) +1 FROM `ims_fighting` A WHERE A.lastcredit > B.lastcredit )PM FROM `ims_fighting` B WHERE  B.fid ='$flight_setting[id]' and B.weid =$weid  AND B.from_user='{$openid}' ORDER BY PM ,B.lastcredit ";
+        $ds = pdo_fetchall("SELECT *  FROM `ims_fighting` WHERE weid =$weid AND fid =$flight_setting[id] ORDER BY lastcredit DESC  LIMIT 0 , 10");
+        $sql_fighting = "SELECT  B.lastcredit ,(SELECT COUNT(1) +1 FROM `ims_fighting` A WHERE A.lastcredit > B.lastcredit )PM FROM `ims_fighting` B WHERE  B.fid ='$flight_setting[id]' and B.weid =$weid  AND B.from_user='{$openid}' ORDER BY PM ,B.lastcredit ";
         $theone = pdo_fetch($sql_fighting);
-        $total = pdo_fetchcolumn('SELECT count(id) as total FROM '.tablename('fighting').' WHERE fid= :fid group by `fid` desc ',array(':fid' => $flight_setting['id']));
+        $total = pdo_fetchcolumn('SELECT count(id) as total FROM ' . tablename('fighting') . ' WHERE fid= :fid group by `fid` desc ', array(':fid' => $flight_setting['id']));
         if ($theone['PM'] == 1 && $total == 1) {
             $percent = round((($theone['PM']) / $total) * 100, 2);
         } else {
             $percent = round((($total - $theone['PM']) / $total) * 100, 2);
         }
-        if($percent<0){
+        if ($percent < 0) {
             $percent = 0;
         }
- 
+
         if ((time() > $flight_setting['end']) || ($flight_setting['status_fighting'] == 2)) { //活动已结束时回复语
-			include $this->template('ranking');
+            include $this->template('ranking');
             exit;
         }
-        if ($fighting['answerNum'] == $flight_setting['qnum']) {
-			include $this->template('ranking');
-			exit;
+//        if ($fighting['answerNum'] == $flight_setting['qnum']) {
+        if ($fighting['answerNum'] >= $flight_setting['qnum']) {
+            include $this->template('ranking');
+            exit;
         }
 
-        if ($fighting['lasttime'] >= $start) {
+
+        if ($fighting['lasttime'] >= $start) { // 答题超时
             if ($flight_setting['is_shared'] == '1') { //是否开启分享 如果已经分享了 则直接到 排名页面
                 include $this->template('shareing');
                 exit;
@@ -175,12 +181,15 @@ class Zombie_fightingModuleSite extends WeModuleSite
                 exit;
             }
         }
+
+
         include $this->template('exam');
         exit;
     }
 
-     //获取
-    public function doMobileGetAnswer(){
+    //获取
+    public function doMobileGetAnswer()
+    {
         global $_GPC, $_W;
         $fid = intval($_GPC['fid']);
         $weid = $_W['uniacid'];
@@ -192,33 +201,33 @@ class Zombie_fightingModuleSite extends WeModuleSite
         load()->model('mc');
         load()->func('compat.biz');
         $openid = $_W['openid'];
-        $user = fans_search($openid, array('nickname', 'mobile','credit1'));
+        $user = fans_search($openid, array('nickname', 'mobile', 'credit1'));
         if (!empty($user)) {
             $credit = $user['credit1'];
         }
         $qid = intval($_GPC['qestionid']);
         $answer = $_GPC['answer'];
-        $answerNum =$_GPC['answerNum'];
+        $answerNum = $_GPC['answerNum'];
         $sql_fighting = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE `from_user`=:from_user AND `fid`=:fid ORDER BY id DESC LIMIT 1", array(':from_user' => $fromuser, ':fid' => $fid));
-        $question = pdo_fetch("SELECT * FROM ".tablename('fighting_question_bank')." WHERE id = '$qid'");
+        $question = pdo_fetch("SELECT * FROM " . tablename('fighting_question_bank') . " WHERE id = '$qid'");
 
-        $isupdate = pdo_fetch("SELECT * FROM ".tablename('fighting')." WHERE fid = ".$fid." and from_user='".$openid."'");
+        $isupdate = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE fid = " . $fid . " and from_user='" . $openid . "'");
 
         if ($answer == $question['answer']) { //正确答案
             $figure = intval($question['figure']);
-            if($isupdate == false) {
+            if ($isupdate == false) {
                 $insert1 = array(
-                    'weid' =>$weid,
+                    'weid' => $weid,
                     'fid' => $fid,
-                    'answerNum' => $answerNum+1,
+                    'answerNum' => $answerNum + 1,
                     'from_user' => $openid,
                     'nickname' => $user['nickname'],
                     'lastcredit' => $figure,
                 );
                 $add = pdo_insert('fighting', $insert1);
                 $flightid = pdo_insertid();
-                $awn=$insert1['$answerNum'];
-                if ($awn>=$flight_setting['qnum']) {
+                $awn = $insert1['$answerNum'];
+                if ($awn >= $flight_setting['qnum']) {
                     $updateData = array(
                         'lasttime' => time(),
                         'answerNum' => 0,
@@ -234,34 +243,34 @@ class Zombie_fightingModuleSite extends WeModuleSite
                 );
                 pdo_update('fighting', $updateData, array('id' => $isupdate['id']));
 
-                $awn=$updateData['answerNum'];
-                if ($awn>=$flight_setting['qnum']) {
+                $awn = $updateData['answerNum'];
+                if ($awn >= $flight_setting['qnum']) {  //TODO WKL 答完题目
                     $updateData = array(
                         'lasttime' => time(),
                         'lastcredit' => $isupdate['lastcredit'] + $figure,
                         'answerNum' => 0,
                     );
                     pdo_update('fighting', $updateData, array('id' => $isupdate['id']));
-                    return $this->fightJson(1,$answerNum);
+                    return $this->fightJson(1, $answerNum);
                     exit;
                 }
             }
-            pdo_update('mc_members', array("credit1" => $credit + $figure), array('uid' => $uid,'uniacid'=>$weid));
+            pdo_update('mc_members', array("credit1" => $credit + $figure), array('uid' => $uid, 'uniacid' => $weid));
             return $this->fightJson(1, '');
             exit;
-        } else {
+        } else {  // 错误答案
             if ($isupdate == false) {
                 $insert1 = array(
-                    'weid' =>$weid,
+                    'weid' => $weid,
                     'fid' => $fid,
-                    'answerNum' => $answerNum+1,
+                    'answerNum' => $answerNum + 1,
                     'from_user' => $openid,
                     'nickname' => $user['nickname'],
                     'lastcredit' => 0,
                 );
                 $addworng = pdo_insert('fighting', $insert1);
                 $flightid = pdo_insertid();
-                $awn=$insert1['answerNum'];
+                $awn = $insert1['answerNum'];
                 if ($awn >= $flight_setting['qnum']) {
                     $updateData = array(
                         'lasttime' => time(),
@@ -270,24 +279,24 @@ class Zombie_fightingModuleSite extends WeModuleSite
                     pdo_update('fighting', $updateData, array('id' => $flightid));
                     return $this->fightJson(3, '答题满了');
                     exit;
-                }else{
+                } else {
                     return $this->fightJson(2, $question[answer]);
                     exit;
                 }
             } else {
-                $updateData = array('answerNum' => $isupdate['answerNum']+1);
-                pdo_update('fighting', $updateData, array('id'=>$isupdate['id']));
+                $updateData = array('answerNum' => $isupdate['answerNum'] + 1);
+                pdo_update('fighting', $updateData, array('id' => $isupdate['id']));
 
-                $awn=$updateData['answerNum'];
+                $awn = $updateData['answerNum'];
                 if ($awn >= $flight_setting['qnum']) {
                     $updateData2 = array(
                         'lasttime' => time(),
                         'answerNum' => 0,
                     );
-                    pdo_update('fighting', $updateData2, array('id'=>$isupdate['id']));
+                    pdo_update('fighting', $updateData2, array('id' => $isupdate['id']));
                     return $this->fightJson(3, '答题满了');
                     exit;
-                }else{
+                } else {
                     return $this->fightJson(2, $question[answer]);
                     exit;
                 }
@@ -314,7 +323,8 @@ class Zombie_fightingModuleSite extends WeModuleSite
 
 
     //排行页面
-    public function doMobileRank(){
+    public function doMobileRank()
+    {
         global $_GPC, $_W;
         $id = intval($_GPC['id']);
         $year = ((int)date('Y', time())); //取得年份
@@ -326,14 +336,14 @@ class Zombie_fightingModuleSite extends WeModuleSite
             message('非法访问，请重新发送消息进入一战到底页面！');
         }
         $fromuser = $_W['fans']['from_user'];
-		if($fromuser){
-			$fromuser=$_W['openid'];
-		}
+        if ($fromuser) {
+            $fromuser = $_W['openid'];
+        }
 
         $fighting = pdo_fetch("SELECT * FROM " . tablename('fighting') . " WHERE `from_user`=:from_user AND `fid`=" . $flight_setting['id'] . " ORDER BY id DESC LIMIT 1", array(':from_user' => $fromuser));
 
-        $ds = pdo_fetchall("SELECT B.nickname,B.from_user, B.lastcredit , ( SELECT COUNT( 1 ) +1 FROM ".tablename('fighting').
-            " A WHERE A.lastcredit > B.lastcredit )PM FROM" . tablename('fighting')." B  WHERE  B.fid ='$flight_setting[id]'  ORDER BY PM ,B.nickname,B.from_user LIMIT 10");
+        $ds = pdo_fetchall("SELECT B.nickname,B.from_user, B.lastcredit , ( SELECT COUNT( 1 ) +1 FROM " . tablename('fighting') .
+            " A WHERE A.lastcredit > B.lastcredit )PM FROM" . tablename('fighting') . " B  WHERE  B.fid ='$flight_setting[id]'  ORDER BY PM ,B.nickname,B.from_user LIMIT 10");
 
         $sql_fighting = "SELECT  B.lastcredit , ( SELECT COUNT( 1 ) +1 FROM `ims_fighting` A WHERE A.lastcredit > B.lastcredit )PM FROM `ims_fighting` B WHERE  B.fid ='$flight_setting[id]'  AND B.from_user='{$fromuser}' ORDER BY PM ,B.lastcredit ";
         $theone = pdo_fetch($sql_fighting);
@@ -344,7 +354,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
         } else {
             $percent = round((($total - $theone['PM']) / $total) * 100, 2);
         }
-        if($percent<0){
+        if ($percent < 0) {
             $percent = 0;
         }
 
@@ -375,7 +385,8 @@ class Zombie_fightingModuleSite extends WeModuleSite
     }
 
     //错误答题
-    public function doMobileWorng() {
+    public function doMobileWorng()
+    {
         global $_GPC, $_W;
         $id = intval($_GPC['id']);
         $flight_setting = pdo_fetch("SELECT * FROM " . tablename('fighting_setting') . " WHERE rid = '$id' LIMIT 1");
@@ -396,7 +407,8 @@ class Zombie_fightingModuleSite extends WeModuleSite
     }
 
 
-    public function fightJson($resultCode, $resultMsg) {
+    public function fightJson($resultCode, $resultMsg)
+    {
         $jsonArray = array(
             'resultCode' => $resultCode,
             'resultMsg' => $resultMsg
@@ -405,7 +417,8 @@ class Zombie_fightingModuleSite extends WeModuleSite
         return $jsonStr;
     }
 
-    public function doCheckedMobile() {
+    public function doCheckedMobile()
+    {
         global $_GPC, $_W;
         $servername = $_SERVER['SERVER_NAME'];
         $useragent = addslashes($_SERVER['HTTP_USER_AGENT']);
@@ -431,7 +444,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
         //checklogin();
         $op = $_GPC['op'] ? $_GPC['op'] : 'display';
         $weid = $_W['uniacid'];
-        $select_question =pdo_fetchall("SELECT * FROM ".tablename('fighting_setting')." WHERE `weid` = :weid ", array(':weid' => $weid));
+        $select_question = pdo_fetchall("SELECT * FROM " . tablename('fighting_setting') . " WHERE `weid` = :weid ", array(':weid' => $weid));
         if ($op == 'display') {
             $pindex = max(1, intval($_GPC['page']));
             $psize = 15;
@@ -485,7 +498,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
             } else {
                 message('删除题库成功！', $this->createWebUrl('questions', array('op' => 'display', 'name' => 'zombie_fighting')), 'success');
             }
-        }elseif ($op == 'delActivity') {
+        } elseif ($op == 'delActivity') {
             //删除
             $id = intval($_GPC['id']);
             $temp = pdo_delete("fighting_setting", array("weid" => $weid, 'id' => $id));
@@ -498,7 +511,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
 
                 message('删除活动成功！', $this->createWebUrl('questions', array('op' => 'list', 'name' => 'zombie_fighting')), 'success');
             }
-        }elseif ($op == 'list') { //活动列表
+        } elseif ($op == 'list') { //活动列表
             $id = intval($_GPC['id']);
             if (checksubmit('delete') && !empty ($_GPC['select'])) {
                 pdo_delete('fighting_setting', " id  IN  ('" . implode("','", $_GPC['select']) . "')");
@@ -519,23 +532,24 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $pindex = max(1, intval($_GPC['page']));
             $psize = 20;
             //TODO WKL
-//            $sql="SELECT a.id,a.fid,b.nickname,b.mobile,a.lasttime,a.lastcredit FROM ".tablename('fighting_user')." AS b LEFT JOIN ".tablename('fighting')." AS a ON a.from_user = b.openid WHERE a.fid = '$rid' ORDER BY a.lastcredit DESC LIMIT ".($pindex -1) * $psize.",{$psize}";
-            $sql="SELECT a.id,a.fid,b.nickname,b.mobile,a.lasttime,a.lastcredit FROM ".tablename('fighting_user')." AS b RIGHT JOIN ".tablename('fighting')." AS a ON a.from_user = b.openid WHERE a.fid = '$rid' ORDER BY a.lastcredit DESC LIMIT ".($pindex -1) * $psize.",{$psize}";
-            $list=pdo_fetchall($sql);
-            $series =pdo_fetchall("SELECT * FROM ".tablename('fighting_setting')." WHERE `rid` = :rid ", array(':rid' => $rid));
+            $sql="SELECT a.id,a.fid,b.nickname,b.mobile,a.lasttime,a.lastcredit FROM ".tablename('fighting_user')." AS b LEFT JOIN ".tablename('fighting')." AS a ON a.from_user = b.openid WHERE a.fid = '$rid' ORDER BY a.lastcredit DESC LIMIT ".($pindex -1) * $psize.",{$psize}";
+//            $sql = "SELECT a.id,a.fid,b.nickname,b.mobile,a.lasttime,a.lastcredit FROM " . tablename('fighting_user') . " AS b RIGHT JOIN " . tablename('fighting') . " AS a ON a.from_user = b.openid WHERE a.fid = '$rid' ORDER BY a.lastcredit DESC LIMIT " . ($pindex - 1) * $psize . ",{$psize}";
+
+            $list = pdo_fetchall($sql);
+            $series = pdo_fetchall("SELECT * FROM " . tablename('fighting_setting') . " WHERE `rid` = :rid ", array(':rid' => $rid));
             $seriesArr = array();
             foreach ($series as $v) {
                 $seriesArr[$v['id']] = $v['title'];
             }
 
             if (!empty ($list)) {
-                $total=pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('fighting')." AS a LEFT JOIN ".tablename('fighting_user')." AS b ON a.from_user = b.openid WHERE a.fid = '$rid' ");
-                $pager=pagination($total, $pindex, $psize);
+                $total = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename('fighting') . " AS a LEFT JOIN " . tablename('fighting_user') . " AS b ON a.from_user = b.openid WHERE a.fid = '$rid' ");
+                $pager = pagination($total, $pindex, $psize);
             }
 
-            if(isset($_GPC['delete'])) {
-                $ids= implode(",", $_GPC['delete']);
-                $sqls= "delete from  ".tablename('fighting')."  where id in(".$ids.")";
+            if (isset($_GPC['delete'])) {
+                $ids = implode(",", $_GPC['delete']);
+                $sqls = "delete from  " . tablename('fighting') . "  where id in(" . $ids . ")";
                 pdo_query($sqls);
 
                 message('删除成功！', referer(), 'success');
@@ -545,14 +559,14 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $id = intval($_GPC['id']);
             $fid = intval($_GPC['fid']);
             if ($id > 0) {
-                $rank = pdo_fetch('SELECT a.id,b.nickname,a.lastcredit,b.id,b.mobile FROM ' . tablename('fighting').
+                $rank = pdo_fetch('SELECT a.id,b.nickname,a.lastcredit,b.id,b.mobile FROM ' . tablename('fighting') .
                     "AS a LEFT JOIN " . tablename('fighting_user') . " AS b ON a.from_user = b.openid WHERE a.weid=:weid AND a.id=:id", array(':weid' => $weid, ':id' => $id));
             }
             if (checksubmit('submit')) {
                 $update = array(
                     'lastcredit' => $_GPC['lastcredit'],
                 );
-                pdo_update('fighting', $update, array('id' => $id,'fid'=>$fid));
+                pdo_update('fighting', $update, array('id' => $id, 'fid' => $fid));
 
                 message('修改成功！', $this->createWebUrl('questions', array('op' => 'rankList', 'rid' => $fid, 'name' => 'zombie_fighting')), 'success');
             }
@@ -575,11 +589,12 @@ class Zombie_fightingModuleSite extends WeModuleSite
 
         include $this->template('question_list');
     }
-  
+
 
     //题库管理
-    public function doWebLists(){
-        global $_GPC, $_W; 
+    public function doWebLists()
+    {
+        global $_GPC, $_W;
         $op = $_GPC['op'] ? $_GPC['op'] : 'list';
         $weid = $_W['uniacid'];
         if ($op == 'list') { //活动列表
@@ -595,7 +610,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
             if (!empty ($list)) {
                 $total = pdo_fetchcolumn('SELECT COUNT(*) FROM ' . tablename('fighting_setting') . " WHERE weid = '{$_W['uniacid']}' ");
                 $pager = pagination($total, $pindex, $psize);
-            } 
+            }
         }
         include $this->template('question_list');
     }
@@ -634,19 +649,20 @@ class Zombie_fightingModuleSite extends WeModuleSite
     }
 
 
-    public function  doWebDownload() {
+    public function  doWebDownload()
+    {
         if (PHP_SAPI == 'cli')
             die('This example should only be run from a Web Browser');
 
-        global $_GPC,$_W;
+        global $_GPC, $_W;
 
         $id = intval($_GPC['id']);
         echo $id;
-        $sql = "SELECT a.id,a.fid,b.nickname,b.mobile,a.lasttime,a.lastcredit FROM ".tablename('fighting').
-            "AS a LEFT JOIN " . tablename('fighting_user') . " AS b ON a.from_user = b.openid WHERE a.fid = '$id' LIMIT 50000" ;
+        $sql = "SELECT a.id,a.fid,b.nickname,b.mobile,a.lasttime,a.lastcredit FROM " . tablename('fighting') .
+            "AS a LEFT JOIN " . tablename('fighting_user') . " AS b ON a.from_user = b.openid WHERE a.fid = '$id' LIMIT 50000";
         $list = pdo_fetchall($sql);
 
-        $tableheader = array('排名',  '昵称', '手机号','最后得分','最后时间');
+        $tableheader = array('排名', '昵称', '手机号', '最后得分', '最后时间');
         $html = "\xEF\xBB\xBF";
         foreach ($tableheader as $value) {
             $html .= $value . "\t ,";
@@ -658,19 +674,17 @@ class Zombie_fightingModuleSite extends WeModuleSite
             $html .= $value['nickname'] . "\t ,";
             $html .= $value['mobile'] . "\t ,";
             $html .= $value['lastcredit'] . "\t ,";
-            $html .= date('Y年m月d日 H:i:s',$value['lasttime']) . "\t ,";
+            $html .= date('Y年m月d日 H:i:s', $value['lasttime']) . "\t ,";
             $html .= "\n";
         }
-        $filename = '一站到底排名_'.$id.'_'.$now;
+        $filename = '一站到底排名_' . $id . '_' . $now;
 
         header("Content-type:text/csv");
-        header("Content-Disposition:attachment; filename=".$filename.".csv");
+        header("Content-Disposition:attachment; filename=" . $filename . ".csv");
 
         echo $html;
         exit();
     }
-	
-	
 
 
 }
