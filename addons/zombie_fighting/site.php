@@ -234,7 +234,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
         $an_arr = $question['answer'];//正确答案
         //是否已经答题
         $ds = pdo_fetchall("SELECT *  FROM `ims_fighting` WHERE weid =$weid AND fid =$flight_setting[id] ORDER BY lastcredit DESC  LIMIT 0 , 10");
-        $sql_fighting = "SELECT  B.lastcredit ,(SELECT COUNT(1) +1 FROM `ims_fighting` A WHERE A.lastcredit > B.lastcredit )PM FROM `ims_fighting` B WHERE  B.fid ='$flight_setting[id]' and B.weid =$weid  AND B.from_user='{$openid}' ORDER BY PM ,B.lastcredit ";
+        $sql_fighting = "SELECT  B.lastcredit ,(SELECT COUNT(1) +1 FROM `ims_fighting` A WHERE A.lastcredit > B.lastcredit  AND A.fid= {$flight_setting['id']} )PM FROM `ims_fighting` B WHERE  B.fid ='$flight_setting[id]' AND B.weid =$weid  AND B.from_user='{$openid}'  ORDER BY PM ,B.lastcredit ";
         $theone = pdo_fetch($sql_fighting);
         $total = pdo_fetchcolumn('SELECT count(id) as total FROM ' . tablename('fighting') . ' WHERE fid= :fid group by `fid` desc ', array(':fid' => $flight_setting['id']));
 //        if ($theone['PM'] == 1 && $total == 1) {
@@ -436,7 +436,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
         $theone = pdo_fetch($sql_fighting);
 
         $total = pdo_fetchcolumn('SELECT count(id) as total FROM ' . tablename('fighting') . ' WHERE fid= :fid group by `fid` desc ', array(':fid' => $flight_setting['id']));
-        if ($theone['PM'] == 1 && $total == 1) {
+        if ($theone['PM'] == "1" && $total == "1") {
             $percent = round((($theone['PM']) / $total) * 100, 2);
         } else {
             $percent = round((($total - $theone['PM']) / $total) * 100, 2);

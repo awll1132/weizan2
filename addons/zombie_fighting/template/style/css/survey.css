@@ -61,9 +61,9 @@ html, body {
 }
 
 .question .title {
-    font-size: 24px;
+    font-size: 20px;
     text-align: center;
-    max-height: 77px;
+    /*max-height: 77px;*/
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0;
