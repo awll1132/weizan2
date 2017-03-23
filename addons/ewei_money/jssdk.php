@@ -12,6 +12,8 @@ class JSSDK
     private $appId;
     private $appSecret;
 
+    private $logfile = 'access_ticket_log.txt'; // 日志文件
+
     public function __construct($appId, $appSecret)
     {
         $this->appId = $appId;
@@ -91,6 +93,10 @@ class JSSDK
                 fwrite($fp, json_encode($data));
                 fclose($fp);
 
+
+                $content = date("Y-m-d H:i", time()) . " 新的jsapi_ticket " . $ticket . "    \n";
+                if ($f = file_put_contents($this->logfile, $content, FILE_APPEND)) {}
+
             }
         } else {
             $ticket = $data->jsapi_ticket;  // access_token 未过期
@@ -135,6 +141,9 @@ class JSSDK
                 $fp = fopen("access_token.json", "w");
                 fwrite($fp, json_encode($data));
                 fclose($fp);
+
+                $content = date("Y-m-d H:i", time()) . " 新的access_token " . $access_token . "    \n";
+                if ($f = file_put_contents($this->logfile, $content, FILE_APPEND)) {}
             }
         } else {
             $access_token = $data['access_token'];
@@ -158,13 +167,6 @@ class JSSDK
 
     public function get_curl($url)
     {
-
-        $file = 'access_ticket_log.txt';
-
-        $content = date("Y-m-d H:i", time()) . " jsapi_ticket 过期 get_curl   " . time() . "    \n";
-        if ($f = file_put_contents($file, $content, FILE_APPEND)) {
-        }
-
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
