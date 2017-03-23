@@ -8,22 +8,27 @@
  */
 defined('IN_IA') or exit('Access Denied');
 require 'jssdk.php';
-class Ewei_moneyModuleSite extends WeModuleSite {
+
+class Ewei_moneyModuleSite extends WeModuleSite
+{
 
     public $tablename = 'ewei_money_reply';
     public $tablefans = 'ewei_money_fans';
 
-    public function doWebdd() {
-    	$rid = intval($_GPC['rid']);
+    public function doWebdd()
+    {
+        $rid = intval($_GPC['rid']);
         require_once 'dd.php';
     }
 
-    public function doWebdda() {
-    	$rid = intval($_GPC['rid']);
+    public function doWebdda()
+    {
+        $rid = intval($_GPC['rid']);
         require_once 'dda.php';
     }
 
-    public function doWebSetshow() {
+    public function doWebSetshow()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['rid']);
         $isshow = intval($_GPC['isshow']);
@@ -35,7 +40,8 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         message('状态设置成功！', $this->createWebUrl('manage'), 'success');
     }
 
-    public function doWebSetstatus() {
+    public function doWebSetstatus()
+    {
         global $_GPC, $_W;
         $id = intval($_GPC['id']);
         $status = intval($_GPC['status']);
@@ -56,7 +62,8 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         }
     }
 
-    public function doWebDelete() {
+    public function doWebDelete()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['rid']);
         $rule = pdo_fetch("SELECT id, module FROM " . tablename('rule') . " WHERE id = :id and uniacid=:weid", array(':id' => $rid, ':weid' => $_W['uniacid']));
@@ -72,12 +79,13 @@ class Ewei_moneyModuleSite extends WeModuleSite {
             $module = WeUtility::createModule($rule['module']);
             $module->ruleDeleted($rid);
         }
-        message('规则操作成功！',$this->createWebUrl('manage'), 'success');
+        message('规则操作成功！', $this->createWebUrl('manage'), 'success');
     }
 
-    public function doWebDeleteAll() {
+    public function doWebDeleteAll()
+    {
         global $_GPC, $_W;
-        
+
         foreach ($_GPC['idArr'] as $k => $rid) {
             $rid = intval($rid);
             if ($rid == 0)
@@ -101,9 +109,10 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         $this->message('规则操作成功！', '', 0);
     }
 
-    public function doWebManage() {
+    public function doWebManage()
+    {
         global $_GPC, $_W;
-       
+
         load()->model('reply');
         $pindex = max(1, intval($_GPC['page']));
         $psize = 20;
@@ -149,10 +158,11 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         }
         include $this->template('manage');
     }
-    
-  public function doWebSysset() {
+
+    public function doWebSysset()
+    {
         global $_W, $_GPC;
-        $set = pdo_fetch("select * from ".tablename('ewei_money_sysset')." where weid=:weid limit 1",array(":weid"=>$_W['uniacid']));
+        $set = pdo_fetch("select * from " . tablename('ewei_money_sysset') . " where weid=:weid limit 1", array(":weid" => $_W['uniacid']));
         if (checksubmit('submit')) {
             $data = array(
                 'weid' => $_W['uniacid'],
@@ -171,17 +181,19 @@ class Ewei_moneyModuleSite extends WeModuleSite {
 
         include $this->template('sysset');
     }
-    
-      /**
+
+    /**
      * 获取设置
      * @return boolean
      */
-    public function get_sysset() {
+    public function get_sysset()
+    {
         global $_W;
-        return pdo_fetch("SELECT * FROM " . tablename('ewei_money_sysset') . " WHERE weid = :weid limit 1", array(':weid' =>$_W['uniacid']));
+        return pdo_fetch("SELECT * FROM " . tablename('ewei_money_sysset') . " WHERE weid = :weid limit 1", array(':weid' => $_W['uniacid']));
     }
-  
-    private function get_code($id, $appid) {
+
+    private function get_code($id, $appid)
+    {
 
         global $_W;
         $url = $_W['siteroot'] . "app/index.php?i=" . $_W['uniacid'] . "&c=entry&m=ewei_money&do=index&id={$id}";
@@ -190,7 +202,8 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         exit();
     }
 
-    public function get_openid($id, $code, $appid, $appsecret) {
+    public function get_openid($id, $code, $appid, $appsecret)
+    {
         global $_GPC, $_W;
         load()->func('communication');
         $oauth2_code = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $appid . "&secret=" . $appsecret . "&code=" . $code . "&grant_type=authorization_code";
@@ -205,32 +218,33 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         }
         return $token['openid'];
     }
-    
-    public function doMobileIndex() {
+
+    public function doMobileIndex()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['id']);
         if (empty($rid)) {
             message('参数错误!');
         }
         $reply = pdo_fetch("SELECT * FROM " . tablename($this->tablename) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
-        if(empty($reply)){
+        if (empty($reply)) {
             message('未找到游戏!');
-        } 
-        $openid =$_W['openid'];
-        
+        }
+        $openid = $_W['openid'];
+
         //是否关注
         $followed = !empty($openid);
         if ($followed) {
             $f = pdo_fetch("select follow from " . tablename('mc_mapping_fans') . " where openid=:openid limit 1", array(":openid" => $openid));
             $followed = !empty($f['follow']);
         }
-       
+
         load()->model('account');
         $account = account_fetch($_W['uniacid']);
-        $appId =$appIdShare = $account['key'];
-        $appSecret =$appSecretShare = $account['secret'];
- 
-        if( empty($reply['isfollow']) && empty($openid)){  //任意可玩，并且未关注
+        $appId = $appIdShare = $account['key'];
+        $appSecret = $appSecretShare = $account['secret'];
+
+        if (empty($reply['isfollow']) && empty($openid)) {  //任意可玩，并且未关注
             //OAuth2授权获取 openid
             $cookieid = '__cookie_ewei_money_20150206_' . $rid;
             if ($_W['account']['level'] != 4) {
@@ -239,19 +253,19 @@ class Ewei_moneyModuleSite extends WeModuleSite {
                 if (!empty($set['appid']) && !empty($set['appsecret'])) {
                     $appId = $set['appid'];
                     $appSecret = $set['appsecret'];
-                }  else{
+                } else {
                     //如果没有借用，判断是否认证服务号
                     message('请使用认证服务号进行活动，或借用其他认证服务号权限!');
-                 }
-                 if (!empty($set['appid_share']) && !empty($set['appsecret_share'])) {
+                }
+                if (!empty($set['appid_share']) && !empty($set['appsecret_share'])) {
                     $appIdShare = $set['appid_share'];
                     $appSecretShare = $set['appsecret_share'];
                 }
             }
-           if (empty($appId) || empty($appSecret)) {
-               message('请到管理后台设置完整的 AppID 和AppSecret !');
-           }
- 
+            if (empty($appId) || empty($appSecret)) {
+                message('请到管理后台设置完整的 AppID 和AppSecret !');
+            }
+
             $cookie = json_decode(base64_decode($_COOKIE[$cookieid]));
             if (!is_array($cookie) || $cookie['appid'] != $appId || $cookie['appsecret'] != $appSecret) {
                 //无缓存或更新了appid或appsecret
@@ -266,29 +280,30 @@ class Ewei_moneyModuleSite extends WeModuleSite {
             } else {
                 $openid = $cookie['openid'];
             }
-    }
-            if(empty($openid)){
-                message("未获取 openid 请重新进入游戏!");
-            }
-            
-            $jssdk = new JSSDK($appIdShare,$appSecretShare);
-            $signPackage = $jssdk->GetSignPackage();
-            
+        }
+        if (empty($openid)) {
+            message("未获取 openid 请重新进入游戏!");
+        }
+
+        $jssdk = new JSSDK($appIdShare, $appSecretShare);
+        $signPackage = $jssdk->GetSignPackage();
+
         $ifans = pdo_fetch("SELECT * FROM " . tablename($this->tablefans) . " WHERE rid = :rid and from_user = :from_user ", array(':from_user' => $openid, ':rid' => $rid));
- 
-        $reply['daytimes'] = !empty($ifans)? $ifans['daytimes'] : $reply['daytimes'];
-        $reply['alltimes'] = !empty($ifans)?$ifans['alltimes'] : $reply['alltimes'];
+
+        $reply['daytimes'] = !empty($ifans) ? $ifans['daytimes'] : $reply['daytimes'];
+        $reply['alltimes'] = !empty($ifans) ? $ifans['alltimes'] : $reply['alltimes'];
         pdo_query("update " . tablename($this->tablename) . " set view_times=view_times+1 where rid=" . $rid . "");
         include $this->template('index');
     }
 
-    public function doMobileRule() {
+    public function doMobileRule()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['id']);
         if (empty($rid)) {
             message('参数错误!');
         }
-        $uid =intval($_GPC['uid']);
+        $uid = intval($_GPC['uid']);
         $reply = pdo_fetch("SELECT * FROM " . tablename($this->tablename) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
         $ifans = pdo_fetch("SELECT * FROM " . tablename($this->tablefans) . " WHERE rid = :rid and id = :id ", array(':id' => $uid, ':rid' => $rid));
         $data = array();
@@ -302,7 +317,7 @@ class Ewei_moneyModuleSite extends WeModuleSite {
                 "usedDayTimes" => $ifans['daytimes'],
                 "allTimes" => $reply['alltimes'],
                 "dayTimes" => $reply['daytimes'],
-                "expires" => date("Y-m-d H:i", $reply['starttime']) . " ～ " . date("Y-m-d H:i", $reply['endtime']) ,
+                "expires" => date("Y-m-d H:i", $reply['starttime']) . " ～ " . date("Y-m-d H:i", $reply['endtime']),
                 'exchange' => $reply['description'],
                 "rule" => $reply['rule'],
             );
@@ -313,7 +328,7 @@ class Ewei_moneyModuleSite extends WeModuleSite {
                 "usedDayTimes" => $reply['daytimes'],
                 "allTimes" => $reply['alltimes'],
                 "dayTimes" => $reply['daytimes'],
-               "expires" => date("Y年m月d日  H:i", $reply['starttime']) . " ～ " . date("Y年m月d日  H:i", $reply['endtime']) ,
+                "expires" => date("Y年m月d日  H:i", $reply['starttime']) . " ～ " . date("Y年m月d日  H:i", $reply['endtime']),
                 'exchange' => $reply['description'],
                 "rule" => $reply['rule'],
             );
@@ -321,10 +336,11 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         echo json_encode($data);
     }
 
-    public function doMobileTicket() {
+    public function doMobileTicket()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['id']);
-        $uid =intval($_GPC['uid']);
+        $uid = intval($_GPC['uid']);
         $return = array();
         $reply = pdo_fetch("SELECT * FROM " . tablename($this->tablename) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
         $ifans = pdo_fetch("select * from " . tablename('ewei_money_fans') . " where rid=:rid AND id=:id ORDER BY max_score DESC", array(':rid' => $rid, ':id' => $uid));
@@ -354,12 +370,13 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         echo json_encode($return);
     }
 
-    public function doMobileRank() {
+    public function doMobileRank()
+    {
         global $_GPC, $_W;
         $return = array();
         $rid = intval($_GPC['id']);
         $pindex = max(1, intval($_GPC['page']));
-        $uid  = intval($_GPC['uid']);
+        $uid = intval($_GPC['uid']);
         $psize = 10;
         $fans = pdo_fetch("select max_score from " . tablename('ewei_money_fans') . " where rid=:rid AND id=:id", array(':rid' => $rid, ':id' => $uid));
         //if($fans['max_score']>0){
@@ -386,7 +403,7 @@ class Ewei_moneyModuleSite extends WeModuleSite {
                     'name' => $row['nickname'],
                     'sum' => $row['max_score'],
                 );
-                $count+=1;
+                $count += 1;
             }
         }
         $return['page'] = $pindex;
@@ -394,22 +411,23 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         echo json_encode($return);
     }
 
-    public function doMobileUser() {
+    public function doMobileUser()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['id']);
         $return = array();
         $openid = $_GPC['openid'];
         $uid = intval($_GPC['uid']);
-        if(!empty($uid)){
-            $fans = pdo_fetch("SELECT * FROM " . tablename($this->tablefans) . " WHERE rid = :rid and id = :id ", array(':id' => $uid, ':rid' => $rid));    
+        if (!empty($uid)) {
+            $fans = pdo_fetch("SELECT * FROM " . tablename($this->tablefans) . " WHERE rid = :rid and id = :id ", array(':id' => $uid, ':rid' => $rid));
         }
-        
-        if(empty($uid) || empty($fans)){
-             $reply = pdo_fetch("SELECT * FROM " . tablename($this->tablename) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
-              
-             $insert = array(
+
+        if (empty($uid) || empty($fans)) {
+            $reply = pdo_fetch("SELECT * FROM " . tablename($this->tablename) . " WHERE rid = :rid ORDER BY `id` DESC", array(':rid' => $rid));
+
+            $insert = array(
                 'rid' => $rid,
-                'weid'=>$_W['uniacid'],
+                'weid' => $_W['uniacid'],
                 'daytimes' => $reply['daytimes'],
                 'alltimes' => $reply['alltimes'],
                 'remain' => $reply['remain'],
@@ -417,29 +435,28 @@ class Ewei_moneyModuleSite extends WeModuleSite {
                 'nickname' => $_GPC['nick'],
                 'mobile' => $_GPC['mobile'],
             );
-             pdo_insert('ewei_money_fans', $insert);
-             $uid = pdo_insertid();
-            
+            pdo_insert('ewei_money_fans', $insert);
+            $uid = pdo_insertid();
+
             //游戏次数
             pdo_query("update " . tablename($this->tablename) . " set play_times=play_times+1 where rid=" . $rid . "");
-            
-             echo json_encode(array(
-            "success"=>'true',
-            "uid"=>$uid
-           ));
+
+            echo json_encode(array(
+                "success" => 'true',
+                "uid" => $uid
+            ));
+        } else {
+            echo json_encode(array(
+                "success" => 'true',
+                "uid" => 0
+            ));
         }
-        else{
-             echo json_encode(array(
-              "success"=>'true',
-               "uid"=>0
-             ));
-        }
-     
-       
-       
+
+
     }
 
-    public function doMobileExchange() {
+    public function doMobileExchange()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['id']);
         $data = array();
@@ -463,8 +480,9 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         echo json_encode($return);
     }
 
-    public function doMobileScore() {
-     
+    public function doMobileScore()
+    {
+
         global $_GPC, $_W;
         //会员是否存在
         $rid = intval($_GPC['id']);
@@ -475,99 +493,100 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         if (empty($reply)) {
             message('参数错误');
         }
-        
-        $ifans = pdo_fetch("select * from " . tablename('ewei_money_fans') . " where rid=:rid AND id=:id ORDER BY max_score DESC", array(':rid' => $rid, ':id' =>$uid));
+
+        $ifans = pdo_fetch("select * from " . tablename('ewei_money_fans') . " where rid=:rid AND id=:id ORDER BY max_score DESC", array(':rid' => $rid, ':id' => $uid));
         $today = mktime(0, 0, 0);
         if ($ifans['lasttime'] < $today) {
-               $sql = "update " . tablename($this->tablefans) . " set daytimes = '" . $reply['daytimes'] . "' where rid='" . $rid . "' and from_user = '" . $_W['fans']['from_user'] . "'";
-               pdo_query($sql);
-               $ifans['daytimes'] = $reply['daytimes'];
-         }
-         
-            
-                if ($_GPC['_scoreFirst'] == 'true' || ($_GPC['_scoreFirst'] == 'false' && $ifans['max_score'] == 0)) {
-                    //记录分数
-                    if ($score > $ifans['max_score']) {
-                        $ifans['max_score'] = $score;
-                    }
-                    $today = mktime(0, 0, 0);
-                    if ($score > 0) {
-                        if ($ifans['daytimes'] > 0 && $ifans['alltimes'] > 0) {
-                            $ifans['alltimes'] = $ifans['alltimes'] - 1;
-                            if ($ifans['lasttime'] < $today) {
-                                $ifans['daytimes'] = $reply['daytimes'] - 1;
-                            } else {
-                                $ifans['daytimes'] = $ifans['daytimes'] - 1;
-                            }
-                        }
-                        $ifans['sum']+=$score;
-                        $ifans['lasttime'] = time();
-                        //保存积分
-                        pdo_update('ewei_money_fans', $ifans, array('id' => $ifans['id']));
+            $sql = "update " . tablename($this->tablefans) . " set daytimes = '" . $reply['daytimes'] . "' where rid='" . $rid . "' and from_user = '" . $_W['fans']['from_user'] . "'";
+            pdo_query($sql);
+            $ifans['daytimes'] = $reply['daytimes'];
+        }
+
+
+        if ($_GPC['_scoreFirst'] == 'true' || ($_GPC['_scoreFirst'] == 'false' && $ifans['max_score'] == 0)) {
+            //记录分数
+            if ($score > $ifans['max_score']) {
+                $ifans['max_score'] = $score;
+            }
+            $today = mktime(0, 0, 0);
+            if ($score > 0) {
+                if ($ifans['daytimes'] > 0 && $ifans['alltimes'] > 0) {
+                    $ifans['alltimes'] = $ifans['alltimes'] - 1;
+                    if ($ifans['lasttime'] < $today) {
+                        $ifans['daytimes'] = $reply['daytimes'] - 1;
+                    } else {
+                        $ifans['daytimes'] = $ifans['daytimes'] - 1;
                     }
                 }
-                $m = $ifans['max_score'] + 0.01;
-                $ranking = pdo_fetchcolumn("select count(id) from " . tablename('ewei_money_fans') . " where rid=:rid AND max_score >" . $m . "", array(':rid' => $rid));
-                $ifans['ranking'] = $ranking + 1;
-                //兑奖
-                if ($_GPC['_scoreFirst'] == 'true' || ($_GPC['_scoreFirst'] == 'false' && $ifans['max_score'] == 0)) {
-                    //现金劵
-                    if ($reply['min_sum'] < $score) {
-                        //查询fans的现金劵数是否大于0
-                        if ($ifans['remain'] > 0) {
-                            //用户获得现金劵
-                            $sn = random(16);
-                            if ($score > $reply['max_sum']) {
-                                $ifans['max_sum'] = $reply['max_sum'];
-                            } else {
-                                $ifans['max_sum'] = $score;
-                            }
-                            $data = array(
-                                'sum' => $ifans['max_sum'],
-                                "name" => $reply['remain_name'],
-                                "award_sn" => $sn,
-                                "createtime" => time(),
-                                "status" => 0,
-                                "rid" => $ifans['rid'],
-                                "uid" => $ifans['id'],
-                                "from_user" => $ifans['from_user'],
-                            );
-                            pdo_insert('ewei_money_award', $data);
-                            $data1['remain'] = $ifans['remain'] - 1;
-                            pdo_update('ewei_money_fans', $data1, array('id' => $ifans['id']));
-                        }
+                $ifans['sum'] += $score;
+                $ifans['lasttime'] = time();
+                //保存积分
+                pdo_update('ewei_money_fans', $ifans, array('id' => $ifans['id']));
+            }
+        }
+        $m = $ifans['max_score'] + 0.01;
+        $ranking = pdo_fetchcolumn("select count(id) from " . tablename('ewei_money_fans') . " where rid=:rid AND max_score >" . $m . "", array(':rid' => $rid));
+        $ifans['ranking'] = $ranking + 1;
+        //兑奖
+        if ($_GPC['_scoreFirst'] == 'true' || ($_GPC['_scoreFirst'] == 'false' && $ifans['max_score'] == 0)) {
+            //现金劵
+            if ($reply['min_sum'] < $score) {
+                //查询fans的现金劵数是否大于0
+                if ($ifans['remain'] > 0) {
+                    //用户获得现金劵
+                    $sn = random(16);
+                    if ($score > $reply['max_sum']) {
+                        $ifans['max_sum'] = $reply['max_sum'];
+                    } else {
+                        $ifans['max_sum'] = $score;
                     }
+                    $data = array(
+                        'sum' => $ifans['max_sum'],
+                        "name" => $reply['remain_name'],
+                        "award_sn" => $sn,
+                        "createtime" => time(),
+                        "status" => 0,
+                        "rid" => $ifans['rid'],
+                        "uid" => $ifans['id'],
+                        "from_user" => $ifans['from_user'],
+                    );
+                    pdo_insert('ewei_money_award', $data);
+                    $data1['remain'] = $ifans['remain'] - 1;
+                    pdo_update('ewei_money_fans', $data1, array('id' => $ifans['id']));
                 }
-                $total_remain = pdo_fetchcolumn("select count(id) from " . tablename('ewei_money_award') . "", array());
-                $ifans['total_remain'] = $reply['total_remain'] - $total_remain;
-                $ifans['min_sum'] = $reply['min_sum'];
-    
-            //total_remain现金卷总数,个人现金卷remain,max最佳成绩
-            $return = array(
-                'success' => 'true',
-                'rank' => $ifans['ranking'],
-                'max' => $ifans['max_score'],
-                'total_remain' => $ifans['total_remain'],
-                'remain' => $ifans['remain'],
-                'remainAllTimes' => $ifans['alltimes'],
-                'remainDayTimes' => $ifans['daytimes'],
-                'max_sum' => $reply['max_sum'],
-                'min_sum' => $ifans['min_sum'],
-                'uid' => intval($_GPC['uid']),
-                'timeout' => empty($reply['game_time']) ? 10 : $reply['game_time'],
-                'customer' => $ifans['nickname'],
-                '_t' => time(),
-                'end' => ($reply['endtime'] > time() ? false : true),
-            );
-            $return['result'] = array(
-                'exchange' => 'false',
-                'useable' => 'false',
-            );
-           
+            }
+        }
+        $total_remain = pdo_fetchcolumn("select count(id) from " . tablename('ewei_money_award') . "", array());
+        $ifans['total_remain'] = $reply['total_remain'] - $total_remain;
+        $ifans['min_sum'] = $reply['min_sum'];
+
+        //total_remain现金卷总数,个人现金卷remain,max最佳成绩
+        $return = array(
+            'success' => 'true',
+            'rank' => $ifans['ranking'],
+            'max' => $ifans['max_score'],
+            'total_remain' => $ifans['total_remain'],
+            'remain' => $ifans['remain'],
+            'remainAllTimes' => $ifans['alltimes'],
+            'remainDayTimes' => $ifans['daytimes'],
+            'max_sum' => $reply['max_sum'],
+            'min_sum' => $ifans['min_sum'],
+            'uid' => intval($_GPC['uid']),
+            'timeout' => empty($reply['game_time']) ? 10 : $reply['game_time'],
+            'customer' => $ifans['nickname'],
+            '_t' => time(),
+            'end' => ($reply['endtime'] > time() ? false : true),
+        );
+        $return['result'] = array(
+            'exchange' => 'false',
+            'useable' => 'false',
+        );
+
         echo json_encode($return);
     }
 
-    public function doWebRank() {
+    public function doWebRank()
+    {
         //这个操作被定义用来呈现 规则列表
         global $_GPC, $_W;
         $rid = intval($_GPC['id']);
@@ -585,7 +604,8 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         include $this->template('rank');
     }
 
-    public function doWebawardlist() {
+    public function doWebawardlist()
+    {
         global $_GPC, $_W;
         $rid = intval($_GPC['rid']);
         if (empty($rid)) {
@@ -594,14 +614,14 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         $where = '';
         $params = array(':rid' => $rid);
         if (!empty($_GPC['status'])) {
-            $where.=' and a.status=:status';
+            $where .= ' and a.status=:status';
             $params[':status'] = intval($_GPC['status']);
             if ($params[':status'] == 2) {
                 $params[':status'] = 0;
             }
         }
         if (!empty($_GPC['keywords'])) {
-            $where.=' and (a.award_sn like :award_sn or f.mobile like :mobile)';
+            $where .= ' and (a.award_sn like :award_sn or f.mobile like :mobile)';
             $params[':award_sn'] = "%{$_GPC['keywords']}%";
             $params[':mobile'] = "%{$_GPC['keywords']}%";
         }
@@ -620,7 +640,8 @@ class Ewei_moneyModuleSite extends WeModuleSite {
         include $this->template('awardlist');
     }
 
-    public function web_message($error, $url = '', $errno = -1) {
+    public function web_message($error, $url = '', $errno = -1)
+    {
         $data = array();
         $data['errno'] = $errno;
         if (!empty($url)) {
