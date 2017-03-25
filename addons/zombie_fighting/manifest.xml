@@ -3,12 +3,12 @@
 	<application setting="false">
 		<name><![CDATA[一战到底]]></name>
 		<identifie><![CDATA[zombie_fighting]]></identifie>
-		<version><![CDATA[2.8.2]]></version>
+		<version><![CDATA[3.0.0]]></version>
 		<type><![CDATA[wdlgame]]></type>
 		<ability><![CDATA[爱答题是一档形式新颖，趣味十足，在挑战中挖掘个性，又充满悬念的全新益智攻擂游戏。]]></ability>
 		<description><![CDATA[爱答题是一档形式新颖，趣味十足，在挑战中挖掘个性，又充满悬念的全新益智攻擂游戏。]]></description>
-		<author><![CDATA[柒柒源码]]></author>
-		<url><![CDATA[code.h770.com]]></url>
+		<author><![CDATA[小康源码]]></author>
+		<url><![CDATA[wp.9side.com]]></url>
 	</application>
 	<platform>
 		<subscribes>

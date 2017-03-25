@@ -227,6 +227,7 @@ class Zombie_fightingModuleSite extends WeModuleSite
         } else {
             $answerNum = $fighting['answerNum'];
         }
+        $answertime = $flight_setting['answertime'];
 
         $linkUrl = $_W['siteroot'] . 'app/' . $this->createMobileUrl('start', array('id' => $id, 'wid' => $openid), true);
 
