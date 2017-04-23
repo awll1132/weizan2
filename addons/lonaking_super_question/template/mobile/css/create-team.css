@@ -1,0 +1,45 @@
+.content{
+    font-size: 120%;
+    padding: 0px;
+}
+
+.content .input{
+    margin: 0px;
+}
+.team-logo-list{
+    margin: 0px 20px 0px 20px;
+}
+.team-logo-list .item-logo a{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.submit-button .create-team{
+    margin-top: 20px;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    margin-bottom: 30px;
+    background-color: #6db888;
+    border-color: #FFFFff;
+    border-radius: inherit;
+}

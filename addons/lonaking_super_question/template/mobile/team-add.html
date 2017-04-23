@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-send-result-url="{$teamAddApi}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>创建团队</title>
+
+    <link href="font/iconfont.css" rel="stylesheet">
+    <script type="text/javascript" src="resource/js/lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="resource/js/lib/bootstrap.min.js"></script>
+    <!-- input -->
+    <link rel="stylesheet" type="text/css" href="../addons/lonaking_super_question/template/mobile/css/input/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="../addons/lonaking_super_question/template/mobile/css/input/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="../addons/lonaking_super_question/template/mobile/css/input/css/component.css" />
+    <!--自定义-->
+    <link rel="stylesheet" href="../addons/lonaking_super_question/template/mobile/css/create-team.css?v=1.21.1">
+</head>
+<body>
+<div class="container">
+    <section class="content">
+        <span class="input input--hoshi">
+            <input id="team-name" class="input__field input__field--hoshi" type="text"/>
+            <label class="input__label input__label--hoshi input__label--hoshi-color-1">
+                <span class="input__label-content input__label-content--hoshi">战队名</span>
+            </label>
+        </span>
+        <input style="display: none;" id="team-logo" class="input__field input__field--hoshi" name="data[logo]" value="{$user['tag']['avatar']}" type="text" disabled/>
+    </section>
+    <div class="submit-button">
+        <button id="create-team" class="create-team">创建团队</button>
+    </div>
+</div><!-- /container -->
+
+</body>
+<script src="../addons/lonaking_super_question/template/mobile/css/input/js/classie.js"></script>
+<script>
+    (function() {
+
+        //提交
+        $("#create-team").on("click", function (e) {
+            e.stopPropagation();
+            var name = $("#team-name").val();
+            var logo = $("#team-logo").val();
+            var url = $("html").data("send-result-url");
+            var data = {
+                name : name,
+                logo : logo
+            };
+            if(name == null || name == ""){
+                alert("战队名称不能为空");
+                //
+            }
+            $.post(url, data, function (res) {
+                var json = JSON.parse(e);
+                if(json.status == 200){
+
+                }else{
+
+                }
+            });
+        });
+
+        if (!String.prototype.trim) {
+            (function() {
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function() {
+                    return this.replace(rtrim, '');
+                };
+            })();
+        }
+
+        [].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
+            if( inputEl.value.trim() !== '' ) {
+                classie.add( inputEl.parentNode, 'input--filled' );
+            }
+
+            // events:
+            inputEl.addEventListener( 'focus', onInputFocus );
+            inputEl.addEventListener( 'blur', onInputBlur );
+        } );
+
+        function onInputFocus( ev ) {
+            classie.add( ev.target.parentNode, 'input--filled' );
+        }
+
+        function onInputBlur( ev ) {
+            if( ev.target.value.trim() === '' ) {
+                classie.remove( ev.target.parentNode, 'input--filled' );
+            }
+        }
+    })();
+</script>
+</html>
