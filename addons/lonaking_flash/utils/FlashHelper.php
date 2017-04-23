@@ -1,46 +1,7 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: leon
- * Date: 15/10/17
- * Time: 下午2:29
- */
-class FlashHelper
-{
-    /**
-     *
-     */
-    public static function fetchModelArrayIds($arr,$columns_name = 'id'){
-        $result = array();
-        foreach($arr as $a){
-            $result[] = $a[$columns_name];
-        }
-        return $result;
-    }
-    public static function fetchColumnArray($arr,$columns_name ,$kill_null = false, $kill_repeat = false){
-        $result = array();
-        foreach($arr as $a){
-            if($kill_null){
-                if(!empty($a[$columns_name])){
-                    $result[] = $a[$columns_name];
-                }
-            }else{
-                $result[] = $a[$columns_name];
-            }
-        }
-        if($kill_repeat){
-            return array_unique($result);
-        }else{
-            return $result;
-        }
-    }
-
-    public static function array2Map($arr, $key = 'id'){
-        $result[] = array();
-        foreach($arr as $data){
-            $result[$data[$key]] = $data;
-        }
-        return $result;
-    }
-}
+/*
+ __________________________________________________
+|  Encode by BajieTeam on we7                      |
+|__________________________________________________|
+*/
+ class FlashHelper { public static function fetchModelArrayIds($arr, $columns_name = "\x69\144") { goto zwgfI; zwgfI: $result = array(); goto HaJEa; nhjc6: wCQUT: goto ya0F3; HaJEa: foreach ($arr as $a) { $result[] = $a[$columns_name]; AlAFb: } goto nhjc6; ya0F3: return $result; goto Gt4Kn; Gt4Kn: } public static function fetchColumnArray($arr, $columns_name, $kill_null = false, $kill_repeat = false) { goto O37QE; FOgQz: jUfj3: goto RSag1; qP1rp: QtXCa: goto ar9sK; cB7d4: ROBez: goto I9fwb; jz2nd: return $result; goto qjWwt; I9fwb: if ($kill_repeat) { goto jUfj3; } goto jz2nd; dP_2C: foreach ($arr as $a) { goto MhNc1; ggTu0: $result[] = $a[$columns_name]; goto ZRdM5; PToI2: pEP0b: goto nzScm; MhNc1: if ($kill_null) { goto M9tXu; } goto ggTu0; REYSU: $result[] = $a[$columns_name]; goto kooBY; xxrTI: if (empty($a[$columns_name])) { goto zEaYO; } goto REYSU; Ri1ck: M9tXu: goto xxrTI; kooBY: zEaYO: goto uFSzD; ZRdM5: goto hujZE; goto Ri1ck; uFSzD: hujZE: goto PToI2; nzScm: } goto cB7d4; qjWwt: goto QtXCa; goto FOgQz; RSag1: return array_unique($result); goto qP1rp; O37QE: $result = array(); goto dP_2C; ar9sK: } public static function array2Map($arr, $key = "\x69\x64") { goto McNR0; xgIHx: return $result; goto scjsU; Se4Dt: SCjZ2: goto xgIHx; McNR0: $result[] = array(); goto Qs5UL; Qs5UL: foreach ($arr as $data) { $result[$data[$key]] = $data; dKenG: } goto Se4Dt; scjsU: } }

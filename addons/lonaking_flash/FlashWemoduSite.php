@@ -1,64 +1,7 @@
 <?php
-class FlashWemoduSite extends WeModuleSite
-{
-    protected function pay($params = array())
-    {
-        global $_W;
-        if (!$this->inMobile) {
-            message('支付功能只能在手机上使用');
-        }
-        if (empty($_W['member']['uid'])) {
-            checkauth();
-        }
-        $params['module'] = $this->module['name'];
-        $pars             = array();
-        $pars[':uniacid'] = $_W['uniacid'];
-        $pars[':module']  = $params['module'];
-        $pars[':tid']     = $params['tid'];
-        if ($params['fee'] <= 0) {
-            $pars['from']   = 'return';
-            $pars['result'] = 'success';
-            $pars['type']   = 'alipay';
-            $pars['tid']    = $params['tid'];
-            $site           = WeUtility::createModuleSite($pars[':module']);
-            $method         = 'payResult';
-            if (method_exists($site, $method)) {
-                exit($site->$method($pars));
-            }
-        }
-        $sql = 'SELECT * FROM ' . tablename('core_paylog') . ' WHERE `uniacid`=:uniacid AND `module`=:module AND `tid`=:tid';
-        $log = pdo_fetch($sql, $pars);
-        if (!empty($log) && $log['status'] == '1') {
-            message('这个订单已经支付成功, 不需要重复支付.');
-        }
-        $setting = uni_setting($_W['uniacid'], array(
-            'payment',
-            'creditbehaviors'
-        ));
-        if (!is_array($setting['payment'])) {
-            message('没有有效的支付方式, 请联系网站管理员.');
-        }
-        $pay = $setting['payment'];
-        if (!empty($pay['credit']['switch'])) {
-            $credtis = mc_credit_fetch($_W['member']['uid']);
-        }
-        include $this->template('common/paycenter');
-    }
-    public function payResult($ret)
-    {
-        global $_W;
-        if ($ret['from'] == 'return') {
-            if ($ret['type'] == 'credit2') {
-                message('已经成功支付', url('mobile/channel', array(
-                    'name' => 'index',
-                    'weid' => $_W['weid']
-                )));
-            } else {
-                message('已经成功支付', '../../' . url('mobile/channel', array(
-                    'name' => 'index',
-                    'weid' => $_W['weid']
-                )));
-            }
-        }
-    }
-}
+/*
+ __________________________________________________
+|  Encode by BajieTeam on we7                      |
+|__________________________________________________|
+*/
+ class FlashWemoduSite extends WeModuleSite { protected function pay($params = array()) { goto LIE20; fIUKI: $setting = uni_setting($_W["\165\156\x69\x61\x63\x69\144"], array("\x70\141\171\155\x65\x6e\x74", "\143\162\x65\144\151\164\x62\x65\150\141\166\151\x6f\162\163")); goto LGw6p; r1e7q: if (!($params["\146\145\x65"] <= 0)) { goto UZXWz; } goto HpVhU; ldqBD: $sql = "\x53\105\114\105\103\124\x20\x2a\x20\x46\x52\117\x4d\40" . tablename("\143\x6f\162\x65\x5f\x70\141\x79\154\x6f\147") . "\x20\127\x48\x45\122\105\x20\x60\165\156\x69\141\x63\x69\144\140\x3d\72\x75\156\x69\141\143\x69\x64\x20\x41\116\x44\x20\x60\155\x6f\144\165\x6c\145\x60\x3d\x3a\155\157\144\165\154\145\40\101\116\104\40\140\x74\x69\144\140\x3d\x3a\164\x69\144"; goto j4CBN; RpL1j: message("\346\x94\257\xe4\273\230\345\x8a\x9f\350\203\xbd\xe5\x8f\252\xe8\x83\275\xe5\x9c\250\xe6\x89\x8b\xe6\234\272\xe4\xb8\x8a\344\275\277\347\224\250"); goto dxQP7; zO_pE: gVPSI: goto dCJr6; XL6U_: if (!empty($_W["\155\x65\155\142\145\x72"]["\165\151\144"])) { goto nHB50; } goto mB7VB; sVJVm: if (!(!empty($log) && $log["\163\164\141\164\x75\x73"] == "\61")) { goto VzI7J; } goto tKh7A; chNZB: $pars["\162\x65\x73\x75\154\x74"] = "\x73\x75\x63\x63\145\163\x73"; goto zFrv1; tHNxO: nHB50: goto Z3Pao; uQxGJ: VzI7J: goto fIUKI; LGw6p: if (is_array($setting["\160\x61\x79\155\x65\156\x74"])) { goto jgLfd; } goto rVQni; WzRb4: $pars["\x3a\x6d\157\x64\165\154\x65"] = $params["\155\x6f\144\165\x6c\x65"]; goto ZrjWp; QMjC1: die($site->{$method}($pars)); goto zO_pE; mB7VB: checkauth(); goto tHNxO; LIE20: global $_W; goto amL1P; nH5Ec: $pay = $setting["\x70\141\171\x6d\145\156\164"]; goto hgIwd; ZrjWp: $pars["\72\164\x69\144"] = $params["\164\151\144"]; goto r1e7q; d8Oj5: $credtis = mc_credit_fetch($_W["\x6d\145\x6d\142\x65\162"]["\x75\x69\x64"]); goto EoenP; UXLBx: $pars["\164\x69\144"] = $params["\x74\x69\x64"]; goto fs2ze; Z3Pao: $params["\x6d\157\x64\x75\154\x65"] = $this->module["\x6e\x61\x6d\x65"]; goto bshTk; fs2ze: $site = WeUtility::createModuleSite($pars["\72\155\157\x64\x75\x6c\x65"]); goto Lq4DN; rVQni: message("\346\262\241\346\x9c\x89\346\x9c\211\346\x95\x88\xe7\x9a\204\xe6\x94\257\344\273\x98\346\x96\xb9\xe5\xbc\x8f\54\40\350\257\xb7\350\201\224\347\263\273\347\xbd\221\xe7\xab\231\xe7\256\xa1\xe7\x90\206\345\221\230\x2e"); goto rMGas; EoenP: K2Dje: goto NfenE; dxQP7: wBIE7: goto XL6U_; zFrv1: $pars["\x74\x79\160\x65"] = "\x61\154\x69\160\141\171"; goto UXLBx; hV6iX: $pars["\x3a\x75\x6e\x69\x61\143\151\144"] = $_W["\165\x6e\151\x61\x63\x69\x64"]; goto WzRb4; tKh7A: message("\350\277\x99\344\xb8\xaa\350\xae\xa2\345\215\225\xe5\xb7\262\347\xbb\x8f\346\224\xaf\xe4\xbb\x98\xe6\210\x90\xe5\x8a\237\54\40\344\xb8\x8d\xe9\x9c\x80\350\246\201\351\x87\215\345\244\x8d\xe6\224\257\xe4\273\x98\x2e"); goto uQxGJ; dCJr6: UZXWz: goto ldqBD; j4CBN: $log = pdo_fetch($sql, $pars); goto sVJVm; Lq4DN: $method = "\x70\x61\x79\x52\145\x73\165\x6c\x74"; goto QaA_v; HpVhU: $pars["\146\162\x6f\x6d"] = "\162\145\x74\165\162\156"; goto chNZB; amL1P: if ($this->inMobile) { goto wBIE7; } goto RpL1j; hgIwd: if (empty($pay["\143\162\145\x64\151\164"]["\163\x77\x69\x74\x63\x68"])) { goto K2Dje; } goto d8Oj5; bshTk: $pars = array(); goto hV6iX; QaA_v: if (!method_exists($site, $method)) { goto gVPSI; } goto QMjC1; rMGas: jgLfd: goto nH5Ec; NfenE: include $this->template("\x63\157\x6d\155\157\156\57\160\141\x79\x63\145\156\164\145\162"); goto Cdlp_; Cdlp_: } public function payResult($ret) { goto SItJI; SItJI: global $_W; goto t011u; rvpz2: MvtEZ: goto mRtrr; B400s: message("\xe5\xb7\xb2\xe7\xbb\217\xe6\x88\220\xe5\x8a\237\346\224\xaf\344\xbb\230", "\56\56\57\56\56\x2f" . url("\155\x6f\x62\x69\154\x65\x2f\143\x68\141\x6e\156\x65\x6c", array("\156\x61\x6d\x65" => "\151\156\x64\x65\x78", "\x77\145\x69\x64" => $_W["\x77\145\x69\x64"]))); goto E7MqU; E7MqU: goto xDzER; goto xQhwW; t011u: if (!($ret["\x66\162\x6f\x6d"] == "\162\145\x74\165\x72\x6e")) { goto MvtEZ; } goto e1zX4; e1zX4: if ($ret["\x74\x79\160\145"] == "\x63\162\x65\x64\x69\x74\62") { goto OOCzk; } goto B400s; iik7j: message("\345\267\262\xe7\273\217\xe6\x88\x90\345\x8a\x9f\xe6\x94\xaf\xe4\xbb\230", url("\155\157\142\151\x6c\145\x2f\143\x68\x61\156\156\x65\154", array("\x6e\141\155\x65" => "\x69\156\x64\x65\170", "\167\145\x69\144" => $_W["\167\x65\151\x64"]))); goto oE3O2; oE3O2: xDzER: goto rvpz2; xQhwW: OOCzk: goto iik7j; mRtrr: } }

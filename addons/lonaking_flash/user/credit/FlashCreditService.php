@@ -1,35 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: leon
- * Date: 15/11/16
- * Time: ÏÂÎç12:57
- */
-require_once dirname(__FILE__) ."/../../FlashCommonService.php";
-require_once dirname(__FILE__) ."/../../FlashUserService.php";
-class FlashCreditService extends FlashCommonService
-{
-
-    private $flashUserService;
-
-    /**
-     * CreditUtils constructor.
-     */
-    public function __construct()
-    {
-        $this->table_name = "mc_credits_record";
-        $this->columns = "*";
-        $this->plugin_name = "lonaking_flash";
-        $this->flashUserService = new FlashUserService();
-    }
-
-    public function fetchUserCreditRecordPage($openid,$pageIndex = "", $pageSize = "",$creditType = "credit1"){
-        $pageIndex = max(1, $pageIndex);
-        $pageSize = $pageSize >= 10 ? $pageSize : 10;
-        $uid = $this->flashUserService->fetchUid($openid);
-        $page = $this->selectPageOrderBy("AND uid={$uid} AND credittype='{$creditType}'","createtime DESC,",$pageIndex,$pageSize);
-        return $page;
-    }
-
-}
-?>
+/*
+ __________________________________________________
+|  Encode by BajieTeam on we7                      |
+|__________________________________________________|
+*/
+ goto hIfQI; hIfQI: require_once dirname(__FILE__) . "\57\x2e\56\x2f\56\x2e\57\106\154\x61\x73\150\103\x6f\155\155\157\156\x53\x65\162\x76\x69\143\x65\x2e\x70\x68\160"; goto c0CvT; c0CvT: require_once dirname(__FILE__) . "\57\x2e\x2e\x2f\56\56\x2f\x46\x6c\141\163\x68\x55\163\x65\x72\x53\x65\x72\x76\151\x63\x65\56\160\x68\160"; goto eTRIs; eTRIs: class FlashCreditService extends FlashCommonService { private $flashUserService; public function __construct() { goto NNPM9; NNPM9: $this->table_name = "\x6d\x63\137\143\162\x65\x64\x69\164\x73\137\162\x65\143\157\162\x64"; goto a7qz9; a7qz9: $this->columns = "\52"; goto bCOSm; bCOSm: $this->plugin_name = "\x6c\157\x6e\141\153\x69\x6e\x67\137\146\x6c\141\x73\150"; goto Z29V0; Z29V0: $this->flashUserService = new FlashUserService(); goto xZQLr; xZQLr: } public function fetchUserCreditRecordPage($openid, $pageIndex = '', $pageSize = '', $creditType = "\143\x72\x65\144\x69\x74\x31") { goto d6BrN; sh4ot: return $page; goto vnVOD; cDsD8: $pageSize = $pageSize >= 10 ? $pageSize : 10; goto XaOeD; d6BrN: $pageIndex = max(1, $pageIndex); goto cDsD8; XaOeD: $uid = $this->flashUserService->fetchUid($openid); goto DDhEc; DDhEc: $page = $this->selectPageOrderBy("\101\116\104\40\x75\x69\x64\x3d{$uid}\40\101\x4e\104\x20\x63\x72\145\x64\151\164\164\171\x70\145\x3d\47{$creditType}\x27", "\x63\162\x65\x61\164\145\x74\x69\155\x65\40\104\105\123\x43\x2c", $pageIndex, $pageSize); goto sh4ot; vnVOD: } }

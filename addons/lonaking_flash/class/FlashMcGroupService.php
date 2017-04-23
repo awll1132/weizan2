@@ -1,32 +1,7 @@
 <?php
-require_once dirname(__FILE__) . '/../FlashCommonService.php';
-class FlashMcGroupService extends FlashCommonService
-{
-    public function __construct()
-    {
-        $this->table_name  = "mc_groups";
-        $this->columns     = "groupid,uniacid,title,orderlist,isdefault,credit";
-        $this->plugin_name = "lonaking_flash";
-    }
-    public function selectByIds($groupIds)
-    {
-        if (!is_array($groupIds)) {
-            throw new Exception('查询参数异常', 404);
-        }
-        if (sizeof($groupIds) <= 0) {
-            throw new Exception('参数为空', 404);
-        }
-        $ids       = array_unique($groupIds);
-        $idsStr    = implode(",", $groupIds);
-        $in        = "(" . $idsStr . ")";
-        $data_list = pdo_fetchall("SELECT " . $this->columns . " FROM " . tablename($this->table_name) . " WHERE groupid in {$in}");
-        return $data_list;
-    }
-    public function getUserMcGroupByUid($uid)
-    {
-        $member  = pdo_fetch("select * from " . tablename('mc_members') . " where uid='{$uid}'");
-        $groupID = $member['groupid'];
-        $data    = pdo_fetch("SELECT " . $this->columns . " FROM " . tablename($this->table_name) . " WHERE groupid='{$groupID}'");
-        return $data;
-    }
-}
+/*
+ __________________________________________________
+|  Encode by BajieTeam on we7                      |
+|__________________________________________________|
+*/
+ require_once dirname(__FILE__) . "\57\x2e\56\x2f\x46\154\141\x73\x68\x43\x6f\x6d\155\157\x6e\123\145\x72\x76\x69\x63\145\x2e\160\150\x70"; class FlashMcGroupService extends FlashCommonService { public function __construct() { goto wteg0; wteg0: $this->table_name = "\x6d\143\137\x67\162\157\165\x70\x73"; goto Un4nW; xhUcI: $this->plugin_name = "\x6c\x6f\x6e\x61\153\151\x6e\147\137\x66\154\141\x73\150"; goto OpLvR; Un4nW: $this->columns = "\52"; goto xhUcI; OpLvR: } public function selectByIds($groupIds) { goto v9Xl0; xasOd: if (!(sizeof($groupIds) <= 0)) { goto f0QgI; } goto kILB4; Il2IB: $in = "\50" . $idsStr . "\x29"; goto lIomS; v0KIh: uP1V7: goto xasOd; lIomS: $data_list = pdo_fetchall("\123\105\114\105\103\x54\x20" . $this->columns . "\x20\106\x52\117\115\40" . tablename($this->table_name) . "\40\x57\110\105\122\105\x20\x67\162\157\165\x70\x69\x64\40\x69\x6e\40{$in}"); goto DqNpb; hYYM_: throw new Exception("\346\x9f\245\xe8\257\xa2\xe5\217\202\xe6\225\xb0\345\xbc\x82\345\xb8\xb8", 404); goto v0KIh; SzXUt: $idsStr = implode("\x2c", $groupIds); goto Il2IB; kILB4: throw new Exception("\345\x8f\202\xe6\225\xb0\344\xb8\272\xe7\xa9\xba", 404); goto ia7Sv; j8x5Q: $ids = array_unique($groupIds); goto SzXUt; DqNpb: return $data_list; goto j2snV; ia7Sv: f0QgI: goto j8x5Q; v9Xl0: if (is_array($groupIds)) { goto uP1V7; } goto hYYM_; j2snV: } public function getUserMcGroupByUid($uid) { goto BDjfj; V34Bx: $groupID = $member["\x67\162\157\x75\x70\151\x64"]; goto leIft; leIft: $data = pdo_fetch("\x53\x45\x4c\105\103\124\x20" . $this->columns . "\40\106\x52\117\x4d\40" . tablename($this->table_name) . "\x20\127\110\x45\x52\105\40\x67\162\x6f\165\160\151\x64\x3d\x27{$groupID}\x27"); goto RaCuw; RaCuw: return $data; goto dOQ_I; BDjfj: $member = pdo_fetch("\163\145\154\x65\143\164\x20\x2a\x20\x66\162\157\x6d\40" . tablename("\155\x63\x5f\x6d\145\155\142\145\x72\x73") . "\x20\167\150\x65\162\145\x20\x75\x69\144\x3d\47{$uid}\x27"); goto V34Bx; dOQ_I: } }

@@ -1,39 +1,7 @@
 <?php
-
-/**
- * 断言:该类所有的方法用法都相同,每个方法调用都可以传入一个message和code 当断言出错则抛出相应提示和错误码的异常信息
- * User: leon
- * Date: 15/9/4
- * Time: 上午1:05
- */
-require_once dirname(__FILE__).'/../exception/AssertException.php';
-class FlashAssert
-{
-    public static function not_empty($data, $message='',$code=0){
-        if(empty($data) || is_null($data)){
-            $message = empty($message) ? '数据为空' : $message;
-            throw new AssertException($message, $code);
-        }
-    }
-
-    public static function is_number($data, $message='',$code=0){
-        if(is_numeric($data)){
-            $message = empty($message) ? '不是数字' : $message;
-            throw new AssertException($message,$code);
-        }
-    }
-
-    public static function is_mobile($data, $message='',$code=0){
-        if(!preg_match("/1[3458]{1}\d{9}$/",$data)){
-            $message = empty($message) ? '请输入正确的手机号码' : $message;
-            throw new AssertException($message,$code);
-        }
-    }
-
-    public static function not_null($data, $message = '', $code=0){
-        if($data == null){
-            $message = '内容为空';
-            throw new AssertException($message,$code);
-        }
-    }
-}
+/*
+ __________________________________________________
+|  Encode by BajieTeam on we7                      |
+|__________________________________________________|
+*/
+ require_once dirname(__FILE__) . "\57\56\56\57\145\170\x63\x65\160\164\151\x6f\156\x2f\101\163\x73\145\162\x74\105\170\x63\145\160\x74\151\x6f\156\x2e\160\x68\x70"; class FlashAssert { public static function not_empty($data, $message = '', $code = 0) { goto I9wVb; Vu12F: bO_ow: goto OdqOK; I9wVb: if (!(empty($data) || is_null($data))) { goto bO_ow; } goto ryg17; y2z3t: throw new AssertException($message, $code); goto Vu12F; ryg17: $message = empty($message) ? "\xe6\x95\xb0\xe6\x8d\xae\xe4\xb8\xba\xe7\251\xba" : $message; goto y2z3t; OdqOK: } public static function is_number($data, $message = '', $code = 0) { goto HDO8P; usfcO: t7XO5: goto L2eUK; HDO8P: if (!is_numeric($data)) { goto t7XO5; } goto HepeV; HepeV: $message = empty($message) ? "\344\xb8\215\346\230\257\346\225\260\345\xad\x97" : $message; goto whwtm; whwtm: throw new AssertException($message, $code); goto usfcO; L2eUK: } public static function is_mobile($data, $message = '', $code = 0) { goto cHwC4; VzNxK: lKvTS: goto M34qI; cHwC4: if (preg_match("\x2f\61\133\x33\64\65\70\x5d\173\61\175\134\144\x7b\71\x7d\x24\57", $data)) { goto lKvTS; } goto ryYCJ; ryYCJ: $message = empty($message) ? "\xe8\257\xb7\350\276\223\345\205\245\xe6\255\xa3\347\241\xae\347\232\204\346\211\x8b\xe6\x9c\272\xe5\217\xb7\347\240\201" : $message; goto zzOTU; zzOTU: throw new AssertException($message, $code); goto VzNxK; M34qI: } public static function not_null($data, $message = '', $code = 0) { goto brd1T; brd1T: if (!($data == null)) { goto gtsvG; } goto SyC4Q; lw09A: throw new AssertException($message, $code); goto FxbG_; SyC4Q: $message = "\xe5\206\205\xe5\xae\xb9\xe4\270\272\347\xa9\272"; goto lw09A; FxbG_: gtsvG: goto KTnWp; KTnWp: } }
